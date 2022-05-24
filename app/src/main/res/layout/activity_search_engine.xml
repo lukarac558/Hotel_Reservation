@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchEngineActivity">
+
+    <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+        android:id="@+id/countrySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+        android:id="@+id/citySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/countrySpinner" />
+
+    <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+        android:id="@+id/foodSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/citySpinner" />
+
+
+    <NumberPicker
+        android:id="@+id/peopleCountNumberPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foodSpinner" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/priceRangeSlider"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:valueFrom="0"
+        android:valueTo="10000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/peopleCountNumberPicker" />
+
+    <RadioGroup
+        android:id="@+id/starsRadioGroup"
+        android:layout_width="93dp"
+        android:layout_height="119dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foodSpinner">
+
+        <RadioButton
+            android:id="@+id/twoStarsRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Od **" />
+
+        <RadioButton
+            android:id="@+id/threeStarsRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Od ***" />
+
+        <RadioButton
+            android:id="@+id/fourStarsRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Od ****" />
+
+        <RadioButton
+            android:id="@+id/fiveStarsRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Od *****" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/startDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Wybierz początek"
+        app:layout_constraintEnd_toStartOf="@+id/endDateTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/priceRangeSlider" />
+
+    <TextView
+        android:id="@+id/endDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Wybierz koniec"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/startDateTextView"
+        app:layout_constraintTop_toBottomOf="@+id/priceRangeSlider" />
+
+    <Button
+        android:id="@+id/filterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="filter"
+        android:text="Filtruj"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.449"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

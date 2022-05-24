@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_booked_offers.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_favourite_offers.xml" value="0.34322916666666664" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_filtered_offers.xml" value="0.2994791666666667" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_login.xml" value="0.29739583333333336" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_offer_details.xml" value="0.26875" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_search_engine.xml" value="0.2911458333333333" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/cart_row_item.xml" value="0.3463541666666667" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/favourite_row_item.xml" value="0.2994791666666667" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/offer_row_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/start_page.xml" value="0.3776041666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
