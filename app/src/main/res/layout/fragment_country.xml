@@ -5,40 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Activity.OfferDetailsActivity">
+    tools:context=".Fragment.CountryFragment">
 
-    <TextView
-        android:id="@+id/offerTextView"
-        android:layout_width="wrap_content"
+
+    <Spinner
+        android:id="@+id/allCountriesSpinner"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:textColor="#F44336"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/favouriteButton"
+        android:id="@+id/addCountryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:onClick="addToFavourites"
-        android:text="Dodaj do ulubionych"
+        android:layout_marginTop="24dp"
+        android:onClick="addCountry"
+        android:text="Dodaj wybrane państwo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/allCountriesSpinner" />
 
     <Button
-        android:id="@+id/bookButton"
+        android:id="@+id/deleteCountryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:onClick="bookOffer"
-        android:text="Rezerwuj"
+        android:text="Usuń wybrane państwo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favouriteButton" />
+        app:layout_constraintTop_toBottomOf="@+id/addCountryButton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

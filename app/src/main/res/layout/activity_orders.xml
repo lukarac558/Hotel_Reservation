@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Activity.FilteredOffersActivity">
+    tools:context=".Activity.OrdersActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/filteredOffersRecyclerView"
+        android:id="@+id/bookedRecyclerView"
         android:layout_width="409dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

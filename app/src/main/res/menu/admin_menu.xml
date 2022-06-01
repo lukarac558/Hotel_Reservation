@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/showHotels"
+        android:icon="@drawable/ic_baseline_hotel_32"
+        android:title="Hotels"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/showOffers"
+        android:icon="@drawable/ic_baseline_local_offer_32"
+        android:title="Offers"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/aShowOrders"
+        android:icon="@drawable/ic_baseline_paid_32"
+        android:title="Orders"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/showConfiguration"
+        android:icon="@drawable/ic_baseline_build_32"
+        android:title="Configuration"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/aLogout"
+        android:icon="@drawable/ic_baseline_logout_32"
+        android:title="Logout"
+        app:showAsAction="always" />
+</menu>
