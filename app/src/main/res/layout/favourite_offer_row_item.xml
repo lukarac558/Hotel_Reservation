@@ -2,12 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -16,52 +17,151 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/fDeleteButton"
+                android:id="@+id/faDeleteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="4dp"
                 android:minWidth="120dp"
                 android:minHeight="40dp"
                 android:text="Usuń"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fDetailsButton" />
-
-            <TextView
-                android:id="@+id/fOfferIdTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/fDetailsButton"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/fCountryNameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:textSize="20sp"
-                android:textStyle="italic"
-                app:layout_constraintEnd_toStartOf="@+id/fDeleteButton"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fOfferIdTextView" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
-                android:id="@+id/fDetailsButton"
+                android:id="@+id/faDetailsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="12dp"
                 android:minWidth="120dp"
                 android:minHeight="40dp"
                 android:text="Rezerwuj"
-                app:layout_constraintBottom_toTopOf="@+id/fDeleteButton"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/faDeleteButton"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageView
+                android:id="@+id/faHotelImageView"
+                android:layout_width="140dp"
+                android:layout_height="124dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/faHotelNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:text="Hotelname"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/faHotelImageView"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
+            <RatingBar
+                android:id="@+id/faStarsRatingBar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="0.1"
+                app:layout_constraintStart_toEndOf="@+id/faHotelNameTextView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/faCountryTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:text="Country,"
+                app:layout_constraintStart_toEndOf="@+id/faHotelImageView"
+                app:layout_constraintTop_toBottomOf="@+id/faHotelNameTextView" />
+
+            <TextView
+                android:id="@+id/faCityTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="10dp"
+                android:text="City"
+                app:layout_constraintStart_toEndOf="@+id/faCountryTextView"
+                app:layout_constraintTop_toBottomOf="@+id/faHotelNameTextView" />
+
+            <TextView
+                android:id="@+id/faStartDateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:text="2022-07-02"
+                app:layout_constraintStart_toEndOf="@+id/faHotelImageView"
+                app:layout_constraintTop_toBottomOf="@+id/faCountryTextView" />
+
+            <TextView
+                android:id="@+id/faDaysTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="10dp"
+                android:text="(2dni)"
+                app:layout_constraintStart_toEndOf="@+id/faStartDateTextView"
+                app:layout_constraintTop_toBottomOf="@+id/faCityTextView" />
+
+            <ImageView
+                android:id="@+id/imageView14"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toEndOf="@+id/faHotelImageView"
+                app:layout_constraintTop_toBottomOf="@+id/faStartDateTextView"
+                app:srcCompat="@drawable/food_type_icon"
+                tools:srcCompat="@drawable/food_type_icon" />
+
+            <TextView
+                android:id="@+id/faFoodTextView"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="10dp"
+                android:maxLines="2"
+                android:singleLine="false"
+                android:text="HBO"
+                app:layout_constraintStart_toEndOf="@+id/imageView14"
+                app:layout_constraintTop_toBottomOf="@+id/faStartDateTextView" />
+
+            <TextView
+                android:id="@+id/fapriceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2000.00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/faDetailsButton"
+                app:layout_constraintEnd_toStartOf="@+id/textView28" />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="zł/os."
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/fapriceTextView"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

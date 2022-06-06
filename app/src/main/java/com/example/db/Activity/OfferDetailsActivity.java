@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,6 +15,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.NumberPicker;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,21 +35,83 @@ import com.example.db.Database.Database;
 public class OfferDetailsActivity extends AppCompatActivity {
 
     Intent intent;
-    TextView offerTextView;
     Offer offer;
     short peopleCount;
+    double totalPrice;
+    String stringTotalPrice;
+    ImageView dHotelImageView;
+    RatingBar dStarsRatingBar;
+    TextView dHotelNameTextView;
+    TextView dCountryTextView;
+    TextView dCityTextView;
+    TextView dFoodTextView;
+    TextView dPriceTextView;
+    TextView dStartDateTextView;
+    TextView dEndDateTextView;
+    TextView dDescriptionTextView;
+    NumberPicker dPeopleCountNumberPicker;
+    TextView dTotalPriceTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_details);
 
-        offerTextView = findViewById(R.id.offerTextView);
+        dHotelImageView = findViewById(R.id.dHotelImageView);
+        dHotelNameTextView = findViewById(R.id.dHotelNameTextView);
+        dStarsRatingBar = findViewById(R.id.dStarsRatingBar);
+        dCountryTextView = findViewById(R.id.dCountryTextView);
+        dCityTextView = findViewById(R.id.dCityTextView);
+        dFoodTextView = findViewById(R.id.dFoodTextView);
+        dPriceTextView = findViewById(R.id.dPriceTextView);
+        dStartDateTextView = findViewById(R.id.dStartDateTextView);
+        dEndDateTextView = findViewById(R.id.dEndDateTextView);
+        dDescriptionTextView = findViewById(R.id.dDescriptionTextView);
+        dPeopleCountNumberPicker = findViewById(R.id.dPeopleCountNumberPicker);
+        dTotalPriceTextView = findViewById(R.id.dTotalPriceTextView);
+
+        if(Database.userId <= 0)
+            findViewById(R.id.dBookButton).setVisibility(View.INVISIBLE);
 
         offer = (Offer) getIntent().getSerializableExtra("offer");
         peopleCount = (short) getIntent().getSerializableExtra("peopleCount");
 
-        offerTextView.setText("Id: " + offer.getId());
+        dPeopleCountNumberPicker.setMinValue(1);
+
+        if(offer.getPlacesNumber() >= 8)
+            dPeopleCountNumberPicker.setMaxValue(8);
+        else
+            dPeopleCountNumberPicker.setMaxValue(offer.getPlacesNumber());
+
+        Bitmap bitmap = offer.getHotel().getImage().getBitmap();
+        String stringPrice = String.valueOf(offer.getPrice());
+        totalPrice = offer.getPrice() * peopleCount;
+        stringTotalPrice = String.valueOf(totalPrice);
+
+        dHotelImageView.setImageBitmap(bitmap);
+        dHotelNameTextView.setText(offer.getHotel().getName().getName());
+        dStarsRatingBar.setRating(offer.getHotel().getStarCount());
+        dCountryTextView.setText(offer.getHotel().getCountry().getName());
+        dCityTextView.setText(offer.getHotel().getCity().getName());
+        dFoodTextView.setText(offer.getHotel().getFood().getType());
+        dPriceTextView.setText(stringPrice);
+        dStartDateTextView.setText(offer.getStartDate().toString());
+        dEndDateTextView.setText(offer.getEndDate().toString());
+        dDescriptionTextView.setText(offer.getHotel().getDescription());
+        dPeopleCountNumberPicker.setValue(peopleCount);
+        dTotalPriceTextView.setText(stringTotalPrice);
+
+        dPeopleCountNumberPicker.setOnValueChangedListener((numberPicker, i, i1) -> {
+            peopleCount = (short) dPeopleCountNumberPicker.getValue();
+            totalPrice = offer.getPrice() * peopleCount;
+
+            double formattedCost = BigDecimal.valueOf(totalPrice)
+                    .setScale(2, RoundingMode.HALF_UP)
+                    .doubleValue();
+
+            stringTotalPrice = String.valueOf(formattedCost);
+            dTotalPriceTextView.setText(stringTotalPrice);
+        });
     }
 
     public void addToFavourites(View view){
@@ -54,7 +120,7 @@ public class OfferDetailsActivity extends AppCompatActivity {
             int id = offer.getId();
             Database.addOfferToCart(id);
             Toast.makeText(this, "Pomyślnie dodano przedmiot do koszyka", Toast.LENGTH_SHORT).show();
-            Log.d("Ux", "Dodane oferte, userId=" + Database.userId);
+            Log.d("To cart added", "Pomyślnie dodano przedmiot do koszyka");
 
             Intent intent = new Intent(getApplicationContext(), FavouriteOffersActivity.class);
             startActivity(intent);
@@ -67,7 +133,7 @@ public class OfferDetailsActivity extends AppCompatActivity {
             String json = gson.toJson(offer);
             String offerId = "offer" + offer.getId();
             editor.putString(offerId, json);
-            editor.commit();
+            editor.apply();
 
             Intent intent = new Intent(getApplicationContext(), FavouriteOffersActivity.class);
             startActivity(intent);
@@ -79,16 +145,16 @@ public class OfferDetailsActivity extends AppCompatActivity {
 
         if(Database.userId > 0 ) {
 
-            double totalCost = offer.getPrice() * peopleCount;
-            double formattedCost = BigDecimal.valueOf(totalCost)
+            peopleCount = (short) dPeopleCountNumberPicker.getValue();
+            double formattedCost = BigDecimal.valueOf(totalPrice)
                     .setScale(2, RoundingMode.HALF_UP)
                     .doubleValue();
 
             LocalDate dateNow = LocalDate.now();
 
-            int id = offer.getHotel().getId();
-            Database.makeOrder(new Order(offer.getId(), formattedCost, peopleCount, id , dateNow, Database.userId));
-            Toast.makeText(this, "Pomyślnie złożono zamówienie", Toast.LENGTH_SHORT);
+            int id = offer.getId();
+            Database.makeOrder(new Order(0, formattedCost, peopleCount, id , dateNow, Database.userId));
+            Toast.makeText(this, "Pomyślnie złożono zamówienie", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(getApplicationContext(), OrdersActivity.class);
             startActivity(intent);

@@ -39,8 +39,7 @@ public class DeleteHotelFragment extends Fragment {
     }
 
     public static DeleteHotelFragment newInstance() {
-        DeleteHotelFragment fragment = new DeleteHotelFragment();
-        return fragment;
+        return new DeleteHotelFragment();
     }
 
     @Override
@@ -61,13 +60,13 @@ public class DeleteHotelFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(hotelsActivity.getApplicationContext());
         hotelRecyclerView.setLayoutManager(linearLayoutManager);
 
-        hotelsRecyclerViewAdapter = new HotelsRecyclerViewAdapter(hotelsActivity.getApplicationContext(), hotelList);
+        hotelsRecyclerViewAdapter = new HotelsRecyclerViewAdapter(getContext(), hotelList);
         hotelRecyclerView.setAdapter(hotelsRecyclerViewAdapter);
 
         return view;
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
 

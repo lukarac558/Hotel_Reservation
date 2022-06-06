@@ -2,14 +2,19 @@ package com.example.db.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.db.Class.MD5;
 import com.example.db.Database.Database;
 import com.example.db.R;
+
+import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,23 +32,30 @@ public class LoginActivity extends AppCompatActivity {
         errorTextView = findViewById(R.id.errorTextView);
     }
 
+    @SuppressLint("SetTextI18n")
     public void login(View view){
-
-        errorTextView.clearComposingText();
 
         String login = loginEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        if (login.isEmpty())
-            loginEditText.setError("Należy wprowadzić login");
+        if (login.isEmpty()) {
+            errorTextView.setText("Należy wprowadzić login");
+            return;
+        }
 
-        if (password.isEmpty())
-            loginEditText.setError("Należy wprowadzić hasło");
+        if (password.isEmpty()) {
+            errorTextView.setText("Należy wprowadzić hasło");
+            return;
+        }
 
-        Database.login(login, password);
+        try {
+            Database.login(login, MD5.hashPassword(password));
+        } catch (NoSuchAlgorithmException e) {
+            loginEditText.setText("Problem z hashowaniem hasła");
+        }
 
         if (Database.userId == -1)
-            errorTextView.setText("Wprowadzono niepoprawne dane.");
+            errorTextView.setText("Wprowadzono niepoprawne dane");
         else {
             if(Database.permission.equalsIgnoreCase("user")) {
                 Intent intent = new Intent(getApplicationContext(), SearchEngineActivity.class);
@@ -53,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), AdminPanelActivity.class);
                 startActivity(intent);
             }
+
+            Toast.makeText(this, "Zalogowano się pomyślnie.", Toast.LENGTH_SHORT).show();
         }
     }
 

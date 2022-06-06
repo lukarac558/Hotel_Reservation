@@ -1,5 +1,7 @@
 package com.example.db.Class;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -79,6 +81,7 @@ public class User implements Serializable {
         this.permission = permission;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return login;

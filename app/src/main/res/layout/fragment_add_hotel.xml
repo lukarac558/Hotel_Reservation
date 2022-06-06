@@ -7,14 +7,34 @@
     android:background="@drawable/background"
     tools:context=".Fragment.AddHotelFragment">
 
+    <ImageButton
+        android:id="@+id/addCityImageButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_baseline_add_box_32"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/hAllCountriesSpinner"
+        tools:src="@drawable/ic_baseline_add_box_32" />
+
+    <ImageButton
+        android:id="@+id/addFoodImageButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_baseline_add_box_32"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/hAllHotelNamesSpinner"
+        tools:src="@drawable/ic_baseline_add_box_32" />
+
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="6dp"
         android:text="Wybierz liczbę gwiazdek"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hAlLFoodTypesSpinner" />
 
@@ -22,8 +42,9 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
-        android:text="Wybierz typ wyżywienia"
+        android:layout_marginTop="8dp"
+        android:text="Wyżywienie"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +52,7 @@
 
     <Spinner
         android:id="@+id/hAllCountriesSpinner"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:minHeight="48dp"
@@ -45,7 +66,7 @@
         android:id="@+id/hAllCitiesSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="4dp"
         android:minHeight="48dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,12 +75,24 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
 
+    <ImageButton
+        android:id="@+id/addCountryImageButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="2dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_baseline_add_box_32"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_baseline_add_box_32" />
+
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
-        android:text="Wybierz nazwę hotelu"
+        android:layout_marginTop="8dp"
+        android:text="Nazwa hotelu"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +102,7 @@
         android:id="@+id/hAllHotelNamesSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:minHeight="48dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +114,7 @@
         android:id="@+id/hAlLFoodTypesSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:minHeight="48dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,51 +127,51 @@
         android:id="@+id/addHotelButton"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="8dp"
+        android:minWidth="140dp"
+        android:minHeight="60dp"
         android:onClick="addHotel"
         android:text="Dodaj hotel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/configurationButton" />
+        app:layout_constraintTop_toBottomOf="@+id/descriptionEditText" />
 
     <RadioGroup
         android:id="@+id/hStarsRadioGroup"
-        android:layout_width="91dp"
-        android:layout_height="151dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="70dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="230dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
         <RadioButton
             android:id="@+id/hOneStarRadioButton"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:text="*" />
 
         <RadioButton
             android:id="@+id/hTwoStarsRadioButton"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:text="**" />
 
         <RadioButton
             android:id="@+id/hThreeStarsRadioButton"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:text="***" />
 
         <RadioButton
             android:id="@+id/hFourStarsRadioButton"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:text="****" />
 
         <RadioButton
             android:id="@+id/hFiveStarsRadioButton"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:text="*****" />
 
     </RadioGroup>
@@ -148,8 +181,9 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Wybierz państwo"
+        android:layout_marginTop="8dp"
+        android:text="Państwo"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -159,8 +193,9 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Wybierz miasto"
+        android:layout_marginTop="8dp"
+        android:text="Miasto"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -168,46 +203,55 @@
 
     <EditText
         android:id="@+id/descriptionEditText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Wprowadź opis hotelu"
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
+        android:maxLength="200"
+        android:maxLines="4"
+        android:paddingLeft="8dp"
+        android:paddingRight="4dp"
+        android:singleLine="false"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectImageButton" />
 
-    <Button
-        android:id="@+id/configurationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Dodaj inne opcje"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionEditText" />
-
     <ImageView
         android:id="@+id/hotelImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="6dp"
         android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hAlLFoodTypesSpinner"
-        tools:src="@tools:sample/avatars" />
+        app:srcCompat="@drawable/empty_image"
+        tools:src="@drawable/empty_image" />
 
     <Button
         android:id="@+id/selectImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
+        android:layout_marginStart="30dp"
+        android:minWidth="140dp"
+        android:minHeight="40dp"
         android:text="Wybierz zdjęcie"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hotelImageView" />
+
+    <ImageButton
+        android:id="@+id/addHotelNameImageButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_baseline_add_box_32"
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/hAllCitiesSpinner"
+        tools:src="@drawable/ic_baseline_add_box_32" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

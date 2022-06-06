@@ -1,5 +1,7 @@
 package com.example.db.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -47,8 +50,7 @@ public class HotelNameFragment extends Fragment {
     }
 
     public static HotelNameFragment newInstance() {
-        HotelNameFragment fragment = new HotelNameFragment();
-        return fragment;
+        return new HotelNameFragment();
     }
 
     @Override
@@ -74,7 +76,7 @@ public class HotelNameFragment extends Fragment {
 
         hotelNameList = Database.getHotelNames();
 
-        stringHotelNameList = (List<String>) hotelNameList.stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
+        stringHotelNameList = (List<String>) hotelNameList.stream().map(Objects::toString).collect(Collectors.toList());
         Collections.sort(stringHotelNameList);
 
         setHotelNameAdapter();
@@ -86,6 +88,7 @@ public class HotelNameFragment extends Fragment {
 
                 if(!hotelName.isEmpty()) {
                     Database.addHotelName(hotelName);
+                    Toast.makeText(getContext(), "Pomyślnie dodano nazwę hotelu", Toast.LENGTH_SHORT).show();
 
                     if (!stringHotelNameList.contains(hotelName))
                         stringHotelNameList.add(hotelName);
@@ -100,12 +103,29 @@ public class HotelNameFragment extends Fragment {
         deleteHotelNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String selectedHotelName = (String) selectedHotelNameSpinner.getSelectedItem();
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+                alertBuilder.setMessage("Czy na pewno chcesz usunąć wybrany element z bazy wraz z jego powiązaniami?");
+                alertBuilder.setCancelable(true);
+                alertBuilder.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                String selectedHotelName = (String) selectedHotelNameSpinner.getSelectedItem();
 
-                Database.deleteHotelName(selectedHotelName);
-                stringHotelNameList.remove(selectedHotelName);
+                                Database.deleteHotelName(selectedHotelName);
+                                stringHotelNameList.remove(selectedHotelName);
+                                Toast.makeText(getContext(), "Pomyślnie usunięto nazwę hotelu", Toast.LENGTH_SHORT).show();
+                                setHotelNameAdapter();
+                            }
+                        });
+                alertBuilder.setNegativeButton("Anuluj",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
 
-                setHotelNameAdapter();
+                AlertDialog countryAlert = alertBuilder.create();
+                countryAlert.show();
             }
         });
 
@@ -118,7 +138,7 @@ public class HotelNameFragment extends Fragment {
         selectedHotelNameSpinner.setAdapter(hotelNameAdapter);
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
 

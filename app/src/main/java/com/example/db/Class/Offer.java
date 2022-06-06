@@ -1,5 +1,7 @@
 package com.example.db.Class;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -92,5 +94,19 @@ public class Offer implements Serializable {
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "id=" + id +
+                ", placesNumber=" + placesNumber +
+                ", price=" + price +
+                ", startDate=" + startDate.toString() +
+                ", endDate=" + endDate.toString() +
+                ", hotelId=" + hotelId +
+                ", hotel=" + hotel +
+                '}';
     }
 }

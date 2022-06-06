@@ -1,5 +1,7 @@
 package com.example.db.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,12 +21,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import com.example.db.Activity.ConfigurationActivity;
 import com.example.db.Class.City;
 import com.example.db.Class.Country;
@@ -50,8 +50,7 @@ public class CityFragment extends Fragment {
     }
 
     public static CityFragment newInstance() {
-        CityFragment fragment = new CityFragment();
-        return fragment;
+        return new CityFragment();
     }
 
     @Override
@@ -98,6 +97,7 @@ public class CityFragment extends Fragment {
                     City city = new City(0, cityName, countryId);
 
                     Database.addCity(city);
+                    Toast.makeText(getContext(), "Pomyślnie dodano miasto", Toast.LENGTH_SHORT).show();
 
                     if (!cityList.contains(cityName)) {
                         cityList.add(city);
@@ -114,12 +114,30 @@ public class CityFragment extends Fragment {
         deleteCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                City selectedCity = (City) selectedCitiesSpinner.getSelectedItem();
 
-                Database.deleteCity(selectedCity.getName());
-                cityList.remove(selectedCity);
+                AlertDialog.Builder alterBuilder = new AlertDialog.Builder(getContext());
+                alterBuilder.setMessage("Czy na pewno chcesz usunąć wybrany element z bazy wraz z jego powiązaniami?");
+                alterBuilder.setCancelable(true);
+                alterBuilder.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                City selectedCity = (City) selectedCitiesSpinner.getSelectedItem();
 
-                setCityAdapter();
+                                Database.deleteCity(selectedCity.getName());
+                                cityList.remove(selectedCity);
+                                Toast.makeText(getContext(), "Pomyślnie usunięto miasto", Toast.LENGTH_SHORT).show();
+                                setCityAdapter();
+                            }
+                        });
+                alterBuilder.setNegativeButton("Anuluj",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog cityAlert = alterBuilder.create();
+                cityAlert.show();
             }
         });
 
@@ -138,7 +156,7 @@ public class CityFragment extends Fragment {
         selectedCitiesSpinner.setAdapter(cityAdapter);
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
 

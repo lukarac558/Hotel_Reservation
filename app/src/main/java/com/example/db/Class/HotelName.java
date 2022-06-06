@@ -1,5 +1,7 @@
 package com.example.db.Class;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class HotelName implements Serializable, Comparable<HotelName> {
@@ -27,6 +29,7 @@ public class HotelName implements Serializable, Comparable<HotelName> {
         this.name = name;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return name;

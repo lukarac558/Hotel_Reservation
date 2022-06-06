@@ -18,7 +18,7 @@ public class SerializableBitmap implements Serializable{
         return bitmap;
     }
 
-    public SerializableBitmap(){};
+    public SerializableBitmap(){}
 
     public SerializableBitmap(Bitmap b){
         bitmap = b;
@@ -46,18 +46,14 @@ public class SerializableBitmap implements Serializable{
     private void readObject(ObjectInputStream ois){
         try {
             ois.defaultReadObject();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
 
         byte[] image = new byte[0];
         try {
             image = (byte[]) ois.readObject();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
         if(image != null && image.length > 0){

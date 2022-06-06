@@ -16,24 +16,22 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.DatePicker;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidbuts.multispinnerfilter.KeyPairBoolData;
-import com.androidbuts.multispinnerfilter.MultiSpinnerListener;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.example.db.R;
 import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.RangeSlider;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
+import java.util.Objects;
 import com.example.db.Class.City;
 import com.example.db.Class.Country;
 import com.example.db.Class.Food;
@@ -53,7 +51,7 @@ public class SearchEngineActivity extends AppCompatActivity {
     List<Country> selectedCountriesList = new ArrayList<>();
     List<KeyPairBoolData> countryListConverter;
     List<City> cityList;
-    List<City> selectedCitiesList = new ArrayList<>();;
+    List<City> selectedCitiesList = new ArrayList<>();
     List<KeyPairBoolData> cityListConverter;
     List<Food> foodList;
     List<Food> selectedFoodTypesList = new ArrayList<>();
@@ -66,6 +64,7 @@ public class SearchEngineActivity extends AppCompatActivity {
     LocalDate endDate;
     byte starsCount = 1;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,22 +80,15 @@ public class SearchEngineActivity extends AppCompatActivity {
         endDateTextView = findViewById(R.id.endDateTextView);
 
         setCountries();
-        countrySpinner.setItems(countryListConverter, new MultiSpinnerListener() {
-            @Override
-            public void onItemsSelected(List<KeyPairBoolData> items) { }
-        });
+        countrySpinner.setItems(countryListConverter, items -> { });
 
         setCities();
-        citySpinner.setItems(cityListConverter, new MultiSpinnerListener() {
-            @Override
-            public void onItemsSelected(List<KeyPairBoolData> items) { }
-        });
+        citySpinner.setItems(cityListConverter, items -> { });
 
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String countries = (String) adapterView.getSelectedItem();
-                Log.d("cities", "cities:" + countries);
 
                 cityList.clear();
 
@@ -107,13 +99,13 @@ public class SearchEngineActivity extends AppCompatActivity {
 
                    for(String country : citiesArray){
                        short countryId = Database.getCountryIdByName(country);
-                       cityList.addAll(Database.getCitiesByCountryId(countryId));
+                       cityList.addAll(Objects.requireNonNull(Database.getCitiesByCountryId(countryId)));
                    }
                 }
                 else
                 {
                     short countryId = Database.getCountryIdByName(countries);
-                    cityList.addAll(Database.getCitiesByCountryId(countryId));
+                    cityList.addAll(Objects.requireNonNull(Database.getCitiesByCountryId(countryId)));
                 }
 
                 cityListConverter.clear();
@@ -134,10 +126,7 @@ public class SearchEngineActivity extends AppCompatActivity {
         });
 
         setFoodTypes();
-        foodSpinner.setItems(foodListConverter, new MultiSpinnerListener() {
-            @Override
-            public void onItemsSelected(List<KeyPairBoolData> items) { }
-        });
+        foodSpinner.setItems(foodListConverter, items -> { });
 
         peopleCountNumberPicker.setMinValue(1);
         peopleCountNumberPicker.setMaxValue(8);
@@ -146,51 +135,27 @@ public class SearchEngineActivity extends AppCompatActivity {
         priceRangeSlider.setValues(0.0f, 20000.0f);
         priceRangeSlider.setLabelBehavior(LabelFormatter.LABEL_VISIBLE);
 
-        startDateTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showCalendar(startDateSetListener);
-            }
-        });
+        startDateTextView.setOnClickListener(view -> showCalendar(startDateSetListener));
 
-        startDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                setStartDate(startDateTextView, year, month, day);
-            }
-        };
+        startDateSetListener = (datePicker, year, month, day) -> setStartDate(startDateTextView, year, month, day);
 
-        endDateTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showCalendar(endDateSetListener);
-            }
-        });
 
-        endDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                setEndDate(endDateTextView, year, month, day);
-            }
-        };
+        endDateTextView.setOnClickListener(view -> showCalendar(endDateSetListener));
 
-        starsRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if(radioGroup.getCheckedRadioButtonId() == R.id.twoStarsRadioButton){
-                    starsCount = 2;
-                }
-                else if(radioGroup.getCheckedRadioButtonId() == R.id.threeStarsRadioButton){
-                    starsCount = 3;
-                }
-                else if(radioGroup.getCheckedRadioButtonId() == R.id.fourStarsRadioButton){
-                    starsCount = 4;
-                }
-                else if(radioGroup.getCheckedRadioButtonId() == R.id.fiveStarsRadioButton){
-                    starsCount = 5;
-                }
+        endDateSetListener = (datePicker, year, month, day) -> setEndDate(endDateTextView, year, month, day);
+
+        starsRadioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
+            if(radioGroup.getCheckedRadioButtonId() == R.id.twoStarsRadioButton){
+                starsCount = 2;
+            }
+            else if(radioGroup.getCheckedRadioButtonId() == R.id.threeStarsRadioButton){
+                starsCount = 3;
+            }
+            else if(radioGroup.getCheckedRadioButtonId() == R.id.fourStarsRadioButton){
+                starsCount = 4;
+            }
+            else if(radioGroup.getCheckedRadioButtonId() == R.id.fiveStarsRadioButton){
+                starsCount = 5;
             }
         });
     }
@@ -217,22 +182,25 @@ public class SearchEngineActivity extends AppCompatActivity {
             endDate = dateNow.plusYears(2);
 
         if(startDate.isAfter(endDate)) {
+            Toast.makeText(this, "Początek musi mieć mniejszą wartość niż koniec zakresu dat urlopu", Toast.LENGTH_SHORT).show();
             Log.d("Date error", "Początek musi mieć mniejszą wartość niż koniec zakresu dat urlopu");
             return;
         }
 
         List<Offer> offerList = Database.filterOffers(peopleCount,minPrice,maxPrice,startDate, endDate, selectedCountriesList, selectedCitiesList, selectedFoodTypesList, starsCount);
 
-        if(offerList.size() > 0){
-            // przejście do nowej aktywności i serializacja danych
+        if(offerList != null && offerList.size() > 0){
             Intent intent = new Intent(getApplicationContext(), FilteredOffersActivity.class);
             ArrayList<Offer> adapterList = new ArrayList<>(offerList);
             intent.putExtra("offerList", adapterList);
-            intent.putExtra("peopleCount", (short)peopleCount);
+            intent.putExtra("peopleCount", peopleCount);
             startActivity(intent);
         }
         else
-            Log.d("Searching error", "Nie znaleziono żadnych ofert. Zmień kryteria.");
+        {
+            Toast.makeText(this, "Nie znaleziono żadnych ofert. Zmień kryteria.", Toast.LENGTH_SHORT).show();
+            Log.d("Searching error", "Nie znaleziono żadnych ofert. Zmień kryteria.");}
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

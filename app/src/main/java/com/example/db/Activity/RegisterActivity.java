@@ -2,14 +2,17 @@ package com.example.db.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-
+import com.example.db.Class.MD5;
+import com.example.db.Class.Regex;
 import com.example.db.Database.Database;
 import com.example.db.R;
 
@@ -35,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         rErrorTextView = findViewById(R.id.rErrorTextView);
     }
 
+    @SuppressLint("SetTextI18n")
     public void register(View view){
 
         rErrorTextView.clearComposingText();
@@ -52,15 +56,22 @@ public class RegisterActivity extends AppCompatActivity {
             rErrorTextView.setText("Należy wypełnić wszystkie wymagane pola");
         else if(!password.equalsIgnoreCase(password2))
             rErrorTextView.setText("Hasła nie zgadzają się");
+        else if(!Regex.emailValidation(email)){
+            rErrorTextView.setText("Niepoprawny format email");
+        }
         else{
             try {
-                Database.register(login, password, email, phoneNumber);
 
-                Database.login(login,password);
-                Intent intent = new Intent(getApplicationContext(), SearchEngineActivity.class);
+                Database.register(login, MD5.hashPassword(password), email, phoneNumber);
+                Toast.makeText(this, "Pomyślnie utworzono konto.", Toast.LENGTH_SHORT).show();
+
+                Database.login(login,MD5.hashPassword(password));
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
             } catch (SQLException exception) {
-                rErrorTextView.setText("Podany login istnieje już w bazie");
+                rErrorTextView.setText("Podany login bądź email istnieje już w bazie");
+            } catch (NoSuchAlgorithmException e) {
+                rErrorTextView.setText("Problem z hashowaniem hasła");
             }
         }
 

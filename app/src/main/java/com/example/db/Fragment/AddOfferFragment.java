@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +27,7 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,6 +37,7 @@ import java.util.List;
 import com.example.db.Class.Hotel;
 import com.example.db.Class.Offer;
 import com.example.db.Activity.ConfigurationActivity;
+import com.example.db.Class.Regex;
 import com.example.db.Database.Database;
 import com.example.db.Activity.HotelsActivity;
 import com.example.db.Activity.LoginActivity;
@@ -55,15 +59,13 @@ public class AddOfferFragment extends Fragment {
         DatePickerDialog.OnDateSetListener oEndDateSetListener;
         private NumberPicker oPlacesNumberNumberPicker;
         private List hotelList;
-        private ArrayAdapter<Hotel> hotelAdapter;
 
 
     public AddOfferFragment() {
     }
 
     public static AddOfferFragment newInstance() {
-        AddOfferFragment fragment = new AddOfferFragment();
-        return fragment;
+        return new AddOfferFragment();
     }
 
     @Override
@@ -121,6 +123,26 @@ public class AddOfferFragment extends Fragment {
             }
         };
 
+        oPriceEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String str = oPriceEditText.getText().toString();
+                if (str.isEmpty()) return;
+                String str2 = Regex.decimalPrecision(str, 5, 2);
+
+                if (!str2.equals(str)) {
+                    oPriceEditText.setText(str2);
+                    oPriceEditText.setSelection(str2.length());
+                }
+            }
+        });
+
         oAddOfferButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -129,16 +151,20 @@ public class AddOfferFragment extends Fragment {
                 if(oPriceEditText.getText().toString().isEmpty())
                 {
                     Log.d("Price is empty", "Należy wprowadzić cenę za osobę");
+                    Toast.makeText(getContext(), "Należy wprowadzić cenę za osobę", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(oStartDate == null || oEndDate == null){
                     Log.d("Date is empty", "Należy wybrać początek i koniec oferty");
+                    Toast.makeText(getContext(), "Należy wybrać początek i koniec oferty", Toast.LENGTH_SHORT).show();
+
                     return;
                 }
 
                 if(oStartDate.isAfter(oEndDate)) {
                     Log.d("Date error", "Początek musi mieć mniejszą wartość niż koniec zakresu dat urlopu");
+                    Toast.makeText(getContext(), "Początek musi mieć mniejszą wartość niż koniec zakresu dat urlopu", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -146,10 +172,15 @@ public class AddOfferFragment extends Fragment {
                 short placesNumber = (short) oPlacesNumberNumberPicker.getValue();
                 double price = Double.parseDouble(oPriceEditText.getText().toString());
 
-                // short placesNumber, double price, LocalDate startDate, LocalDate endDate, int hotelId
+                if(price > 20000.00){
+                    Toast.makeText(getContext(), "Maksymalna cena za osobę wynosi 20000.00zł", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Offer offer = new Offer(placesNumber, price, oStartDate, oEndDate, hotel.getId());
 
                 Database.addOffer(offer);
+                Toast.makeText(getContext(), "Pomyślnie dodano ofertę", Toast.LENGTH_SHORT).show();
                 backToPanel();
             }
         });
@@ -163,7 +194,7 @@ public class AddOfferFragment extends Fragment {
     }
 
     private void setHotelAdapter(){
-        hotelAdapter= new ArrayAdapter<>(offersActivity.getApplicationContext(), android.R.layout.simple_spinner_item, hotelList);
+        ArrayAdapter<Hotel> hotelAdapter = new ArrayAdapter<>(offersActivity.getApplicationContext(), android.R.layout.simple_spinner_item, hotelList);
         hotelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         oHotelsSpinner.setAdapter(hotelAdapter);
     }
@@ -229,7 +260,7 @@ public class AddOfferFragment extends Fragment {
         textView.setText(stringDate);
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
 

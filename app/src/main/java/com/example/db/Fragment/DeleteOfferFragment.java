@@ -42,8 +42,7 @@ public class DeleteOfferFragment extends Fragment {
     }
 
     public static DeleteOfferFragment newInstance() {
-        DeleteOfferFragment fragment = new DeleteOfferFragment();
-        return fragment;
+        return new DeleteOfferFragment();
     }
 
     @Override
@@ -64,13 +63,13 @@ public class DeleteOfferFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(offersActivity.getApplicationContext());
         offerRecyclerView.setLayoutManager(linearLayoutManager);
 
-        offersRecyclerViewAdapter = new OffersRecyclerViewAdapter(offersActivity.getApplicationContext(), offerList);
+        offersRecyclerViewAdapter = new OffersRecyclerViewAdapter(getContext(), offerList);
         offerRecyclerView.setAdapter(offersRecyclerViewAdapter);
 
         return view;
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
 

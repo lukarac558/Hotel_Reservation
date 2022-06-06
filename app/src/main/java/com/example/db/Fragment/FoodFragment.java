@@ -1,5 +1,7 @@
 package com.example.db.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -48,8 +51,7 @@ public class FoodFragment extends Fragment {
 
 
     public static FoodFragment newInstance() {
-        FoodFragment fragment = new FoodFragment();
-        return fragment;
+        return new FoodFragment();
     }
 
     @Override
@@ -76,7 +78,7 @@ public class FoodFragment extends Fragment {
 
         foodList = Database.getFoodTypes();
 
-        stringFoodList  = (List<String>) foodList.stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
+        stringFoodList  = (List<String>) foodList.stream().map(object -> Objects.toString(object)).collect(Collectors.toList());
 
         Collections.sort(stringFoodList);
 
@@ -89,6 +91,7 @@ public class FoodFragment extends Fragment {
 
                 if(!foodType.isEmpty()) {
                     Database.addFoodType(foodType);
+                    Toast.makeText(getContext(), "Pomyślnie dodano wyżywienie", Toast.LENGTH_SHORT).show();
 
                     if (!stringFoodList.contains(foodType))
                         stringFoodList.add(foodType);
@@ -103,12 +106,29 @@ public class FoodFragment extends Fragment {
         deleteFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String selectedFood = (String) selectedFoodTypesSpinner.getSelectedItem();
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+                alertBuilder.setMessage("Czy na pewno chcesz usunąć wybrany element z bazy wraz z jego powiązaniami?");
+                alertBuilder.setCancelable(true);
+                alertBuilder.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                String selectedFood = (String) selectedFoodTypesSpinner.getSelectedItem();
 
-                Database.deleteFoodType(selectedFood);
-                stringFoodList.remove(selectedFood);
+                                Database.deleteFoodType(selectedFood);
+                                stringFoodList.remove(selectedFood);
+                                Toast.makeText(getContext(), "Pomyślnie usunięto wyżywienie", Toast.LENGTH_SHORT).show();
+                                setFoodAdapter();
+                            }
+                        });
+                alertBuilder.setNegativeButton("Anuluj",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
 
-                setFoodAdapter();
+                AlertDialog foodAlert = alertBuilder.create();
+                foodAlert.show();
             }
         });
 
@@ -121,7 +141,7 @@ public class FoodFragment extends Fragment {
         selectedFoodTypesSpinner.setAdapter(foodAdapter);
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
 

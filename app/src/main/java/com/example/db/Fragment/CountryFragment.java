@@ -1,5 +1,7 @@
 package com.example.db.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -46,8 +49,7 @@ public class CountryFragment extends Fragment {
     }
 
     public static CountryFragment newInstance() {
-        CountryFragment fragment = new CountryFragment();
-        return fragment;
+        return new CountryFragment();
     }
 
     @Override
@@ -89,6 +91,7 @@ public class CountryFragment extends Fragment {
                 else {
                     Database.addCountry(selectedCountry);
                     stringCountryList.add(selectedCountry);
+                    Toast.makeText(getContext(), "Pomyślnie dodano państwo", Toast.LENGTH_SHORT).show();
                 }
 
                 updateUsedCountries();
@@ -99,19 +102,38 @@ public class CountryFragment extends Fragment {
         deleteCountryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String selectedCountry = (String) allCountriesSpinner.getSelectedItem();
-                String country="";
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+                alertBuilder.setMessage("Czy na pewno chcesz usunąć wybrany element z bazy wraz z jego powiązaniami?");
+                alertBuilder.setCancelable(true);
+                alertBuilder.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
 
-                if(!selectedCountry.contains("[DOSTĘPNY W OFERCIE]"))
-                    Log.d("Country not selected", "Państwo nie jest dostępne w ofercie");
-                else {
-                    country = selectedCountry.replace(" [DOSTĘPNY W OFERCIE]", "");
-                    Database.deleteCountry(country);
-                    stringCountryList.remove(country);
-                }
+                                String selectedCountry = (String) allCountriesSpinner.getSelectedItem();
+                                String country="";
 
-                updateUnUsedCountries(country);
-                setAdapter();
+                                if(!selectedCountry.contains("[DOSTĘPNY W OFERCIE]"))
+                                    Log.d("Country not selected", "Państwo nie jest dostępne w ofercie");
+                                else {
+                                    country = selectedCountry.replace(" [DOSTĘPNY W OFERCIE]", "");
+                                    Database.deleteCountry(country);
+                                    stringCountryList.remove(country);
+                                    Toast.makeText(getContext(), "Pomyślnie usunięto państwo", Toast.LENGTH_SHORT).show();
+                                }
+
+                                updateUnUsedCountries(country);
+                                setAdapter();
+                            }
+                        });
+                alertBuilder.setNegativeButton("Anuluj",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog countryAlert = alertBuilder.create();
+                countryAlert.show();
             }
         });
 
@@ -143,7 +165,7 @@ public class CountryFragment extends Fragment {
         }
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
 

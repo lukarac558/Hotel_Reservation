@@ -1,5 +1,7 @@
 package com.example.db.Class;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Country implements Serializable, Comparable<Country> {
@@ -28,6 +30,7 @@ public class Country implements Serializable, Comparable<Country> {
         this.name = name;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return name;

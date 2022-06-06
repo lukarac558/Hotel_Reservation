@@ -10,7 +10,7 @@ public class ConnectionHelper {
 
     public Connection getConnection(){
         ip ="192.168.0.196";
-        database="Trivago";
+        database="TrivagoDB";
         username="sa";
         password="123";
         port="1433";

@@ -1,5 +1,6 @@
 package com.example.db.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,8 +27,8 @@ import com.example.db.Class.Offer;
 public class FilteredOffersRecyclerViewAdapter extends RecyclerView.Adapter<FilteredOffersRecyclerViewAdapter.OfferViewHolder> {
 
     private final ArrayList<Offer> data;
-    private Context context;
-    private short peopleCount;
+    private final Context context;
+    private final short peopleCount;
 
     public FilteredOffersRecyclerViewAdapter(Context context, ArrayList<Offer> data, short peopleCount){
         this.data = data;
@@ -42,6 +43,7 @@ public class FilteredOffersRecyclerViewAdapter extends RecyclerView.Adapter<Filt
         return new OfferViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull OfferViewHolder holder, int position) {
@@ -50,7 +52,6 @@ public class FilteredOffersRecyclerViewAdapter extends RecyclerView.Adapter<Filt
 
         Bitmap bitmap = offer.getHotel().getImage().getBitmap();
         String stringPrice = String.valueOf(offer.getPrice());
-
 
         long days = ChronoUnit.DAYS.between(offer.getStartDate(), offer.getEndDate());
 
@@ -73,9 +74,9 @@ public class FilteredOffersRecyclerViewAdapter extends RecyclerView.Adapter<Filt
     }
 
     public static class OfferViewHolder extends RecyclerView.ViewHolder{
-        private TextView fHotelNameTextView, fCountryTextView, fCityTextView, fStartDateTextView, fDaysTextView, fPriceTextView, fFoodTextView;
-        private ImageView fHotelImageView;
-        RatingBar fRatingBar;
+        private final TextView fHotelNameTextView, fCountryTextView, fCityTextView, fStartDateTextView, fDaysTextView, fPriceTextView, fFoodTextView;
+        private final ImageView fHotelImageView;
+        private final RatingBar fRatingBar;
         private Offer offer;
         private Context context;
         private short peopleCount;
@@ -92,7 +93,7 @@ public class FilteredOffersRecyclerViewAdapter extends RecyclerView.Adapter<Filt
             fHotelImageView = itemView.findViewById(R.id.fHotelImageView);
             fRatingBar = itemView.findViewById(R.id.fRatingBar);
 
-            itemView.findViewById(R.id.fDetailsButton).setOnClickListener(view -> getItem());
+            itemView.findViewById(R.id.faDetailsButton).setOnClickListener(view -> getItem());
         }
 
         private void getItem(){

@@ -1,5 +1,7 @@
 package com.example.db.Class;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Food implements Serializable, Comparable<Food> {
@@ -27,6 +29,7 @@ public class Food implements Serializable, Comparable<Food> {
         this.type = type;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return type;

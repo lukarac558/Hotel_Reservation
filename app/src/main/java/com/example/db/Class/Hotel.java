@@ -1,5 +1,7 @@
 package com.example.db.Class;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Hotel implements Serializable {
@@ -144,6 +146,7 @@ public class Hotel implements Serializable {
         this.name = name;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return name.getName() + '(' + starCount + "*), " + country.getName() + ", " + city.getName() + ", " + food.getType();

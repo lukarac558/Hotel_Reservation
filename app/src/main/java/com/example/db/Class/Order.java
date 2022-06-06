@@ -7,26 +7,26 @@ public class Order implements Serializable {
     private int id;
     private double totalCost;
     private short peopleCount;
-    private int hotelId;
-    private Hotel hotel;
+    private int offerId;
+    private Offer offer;
     private LocalDate orderDate;
     private int userId;
     private User user;
 
-    public Order(int id, double totalCost, short peopleCount, int hotelId, LocalDate orderDate, int userId) {
+    public Order(int id, double totalCost, short peopleCount, int offerId, LocalDate orderDate, int userId) {
         this.id = id;
         this.totalCost = totalCost;
         this.peopleCount = peopleCount;
-        this.hotelId = hotelId;
+        this.offerId = offerId;
         this.orderDate = orderDate;
         this.userId = userId;
     }
 
-    public Order(int id, double totalCost, short peopleCount, Hotel hotel, LocalDate orderDate, User user) {
+    public Order(int id, double totalCost, short peopleCount, Offer offer, LocalDate orderDate, User user) {
         this.id = id;
         this.totalCost = totalCost;
         this.peopleCount = peopleCount;
-        this.hotel = hotel;
+        this.offer = offer;
         this.orderDate = orderDate;
         this.user = user;
     }
@@ -79,17 +79,19 @@ public class Order implements Serializable {
         this.peopleCount = peopleCount;
     }
 
-    public int getHotelId() {
-        return hotelId;
+    public int getOfferId() {
+        return offerId;
     }
 
-    public void setHotelId(int hotelId) {
-        this.hotelId = hotelId;
+    public void setOfferId(int offerId) {
+        this.offerId = offerId;
     }
 
-    public Hotel getHotel() { return hotel; }
+    public Offer getOffer() {
+        return offer;
+    }
 
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
+    public void setOffer(Offer offer) {
+        this.offer = offer;
     }
 }

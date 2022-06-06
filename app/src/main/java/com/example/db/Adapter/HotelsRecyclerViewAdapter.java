@@ -1,12 +1,16 @@
 package com.example.db.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.db.R;
@@ -16,8 +20,8 @@ import com.example.db.Database.Database;
 
 public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecyclerViewAdapter.HotelViewHolder> {
 
-    private ArrayList<Hotel> data;
-    private Context context;
+    private final ArrayList<Hotel> data;
+    private final Context context;
 
     public HotelsRecyclerViewAdapter(Context context, ArrayList<Hotel> data){
         this.context = context;
@@ -36,11 +40,15 @@ public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecycl
         Hotel hotel = data.get(position);
         holder.hotel = data.get(position);
         holder.context = context;
-        int id = hotel.getId();
+
         Bitmap bitmap = hotel.getImage().getBitmap();
-        holder.hotelImageView.setImageBitmap(bitmap);
-        holder.dCountryTextView.setText("Hotel id: " + id);
-        holder.dHotelnameTextView.setText(hotel.getDescription());
+        holder.hrHotelImageView.setImageBitmap(bitmap);
+        holder.hrHotelNameTextView.setText(hotel.getName().getName());
+        holder.hrCountryTextView.setText(hotel.getCountry().getName());
+        holder.hrCityTextView.setText(hotel.getCity().getName());
+        holder.hrFoodTextView.setText(hotel.getFood().getType());
+        holder.hrDescriptionTextView.setText(hotel.getDescription());
+        holder.hrStarsRatingBar.setRating(hotel.getStarCount());
     }
 
     @Override
@@ -49,10 +57,9 @@ public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecycl
     }
 
     public static class HotelViewHolder extends RecyclerView.ViewHolder{
-        private ImageView hotelImageView;
-        private RecyclerView dHotelsRecyclerView;
-        private TextView dCountryTextView;
-        private TextView dHotelnameTextView;
+        private final ImageView hrHotelImageView;
+        private final TextView hrHotelNameTextView, hrCountryTextView, hrCityTextView, hrFoodTextView, hrDescriptionTextView;
+        private final RatingBar hrStarsRatingBar;
         private Context context;
         private Hotel hotel;
         private HotelsRecyclerViewAdapter adapter;
@@ -60,19 +67,32 @@ public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecycl
         public HotelViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            dHotelsRecyclerView = itemView.findViewById(R.id.dHotelsRecyclerView);
-            hotelImageView = itemView.findViewById(R.id.dHotelImageView);
-            dCountryTextView = itemView.findViewById(R.id.dCountryTextView);
-            dHotelnameTextView = itemView.findViewById(R.id.dHotelNameTextView);
+            hrHotelImageView = itemView.findViewById(R.id.hrHotelImageView);
+            hrHotelNameTextView = itemView.findViewById(R.id.hrHotelNameTextView);
+            hrCountryTextView = itemView.findViewById(R.id.hrCountryTextView);
+            hrCityTextView = itemView.findViewById(R.id.hrCityTextView);
+            hrFoodTextView = itemView.findViewById(R.id.hrFoodTextView);
+            hrDescriptionTextView = itemView.findViewById(R.id.hrDescriptionTextView);
+            hrStarsRatingBar = itemView.findViewById(R.id.hrStarsRatingBar);
 
-            itemView.findViewById(R.id.dHotelDelete).setOnClickListener(view -> {
+            itemView.findViewById(R.id.hrDeleteButton).setOnClickListener(view -> {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(itemView.getContext());
+                alertBuilder.setMessage("Czy na pewno chcesz usunąć wybrany element z bazy wraz z jego powiązaniami?");
+                alertBuilder.setCancelable(true);
+                alertBuilder.setPositiveButton("Ok",
+                        (dialog, id) -> {
+                            hotel = adapter.data.get(getAdapterPosition());
 
-                hotel = adapter.data.get(getAdapterPosition());
+                            Database.deleteHotel(hotel.getId());
+                            Toast.makeText(context, "Pomyślnie usunięto hotel", Toast.LENGTH_SHORT).show();
+                            adapter.data.remove(getAdapterPosition());
+                            adapter.notifyItemRemoved(getAdapterPosition());
+                        });
+                alertBuilder.setNegativeButton("Anuluj",
+                        (dialog, id) -> dialog.cancel());
 
-                Database.deleteHotel(hotel.getId());
-
-                adapter.data.remove(getAdapterPosition());
-                adapter.notifyItemRemoved(getAdapterPosition());
+                AlertDialog hotelAlert = alertBuilder.create();
+                hotelAlert.show();
             });
         }
 
@@ -80,6 +100,5 @@ public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecycl
             this.adapter = adapter;
             return this;
         }
-
     }
 }
