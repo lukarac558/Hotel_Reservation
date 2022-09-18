@@ -58,7 +58,7 @@ public class AddOfferFragment extends Fragment {
         DatePickerDialog.OnDateSetListener oStartDateSetListener;
         DatePickerDialog.OnDateSetListener oEndDateSetListener;
         private NumberPicker oPlacesNumberNumberPicker;
-        private List hotelList;
+        private List<Hotel> hotelList;
 
 
     public AddOfferFragment() {

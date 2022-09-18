@@ -29,6 +29,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.example.db.Activity.ConfigurationActivity;
+import com.example.db.Class.Food;
 import com.example.db.Database.Database;
 import com.example.db.Activity.HotelsActivity;
 import com.example.db.Activity.LoginActivity;
@@ -43,7 +44,7 @@ public class FoodFragment extends Fragment {
     Spinner selectedFoodTypesSpinner;
     EditText foodEditText;
     ArrayAdapter<String> foodAdapter;
-    List foodList;
+    List<Food> foodList;
     List<String> stringFoodList;
 
     public FoodFragment() {
@@ -78,7 +79,7 @@ public class FoodFragment extends Fragment {
 
         foodList = Database.getFoodTypes();
 
-        stringFoodList  = (List<String>) foodList.stream().map(object -> Objects.toString(object)).collect(Collectors.toList());
+        stringFoodList  = (List<String>) foodList.stream().map(Objects::toString).collect(Collectors.toList());
 
         Collections.sort(stringFoodList);
 

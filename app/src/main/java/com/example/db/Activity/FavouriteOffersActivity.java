@@ -20,9 +20,11 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Map;
+
 import com.example.db.Adapter.FavouriteOffersRecyclerViewAdapter;
 import com.example.db.Class.Offer;
 import com.example.db.Database.Database;
+
 public class FavouriteOffersActivity extends AppCompatActivity {
 
     Intent intent;
@@ -40,21 +42,22 @@ public class FavouriteOffersActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         favouritesRecyclerView.setLayoutManager(linearLayoutManager);
         createList();
-        FavouriteOffersRecyclerViewAdapter adapter = new FavouriteOffersRecyclerViewAdapter(this, favouritesList);
-        favouritesRecyclerView.setAdapter(adapter);
+        if (favouritesList.size() > 0) {
+            FavouriteOffersRecyclerViewAdapter adapter = new FavouriteOffersRecyclerViewAdapter(this, favouritesList);
+            favouritesRecyclerView.setAdapter(adapter);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createList() {
-        if(Database.userId > 0){
-             favouritesList = (ArrayList<Offer>) Database.getOffersFromCart();
-        }
-        else{
+        if (Database.userId > 0) {
+            favouritesList = (ArrayList<Offer>) Database.getOffersFromCart();
+        } else {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             Map<String, ?> offerMap = sharedPreferences.getAll();
 
             for (Map.Entry<String, ?> entry : offerMap.entrySet()) {
-                if(entry.getKey().contains("offer")){
+                if (entry.getKey().contains("offer")) {
                     Gson gson = new Gson();
                     String json = sharedPreferences.getString(entry.getKey(), "");
                     Offer offer = gson.fromJson(json, Offer.class);
@@ -66,12 +69,11 @@ public class FavouriteOffersActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if(Database.permission.equalsIgnoreCase("user")) {
+        if (Database.permission.equalsIgnoreCase("user")) {
             inflater.inflate(R.menu.user_menu, menu);
             MenuItem login_item = menu.findItem(R.id.login);
             login_item.setVisible(false);
-        }
-        else {
+        } else {
             inflater.inflate(R.menu.user_menu, menu);
             MenuItem logout_item = menu.findItem(R.id.uLogout);
             logout_item.setVisible(false);
@@ -86,27 +88,25 @@ public class FavouriteOffersActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if(Database.permission.equalsIgnoreCase("user")) {
+        if (Database.permission.equalsIgnoreCase("user")) {
 
-            if(id == R.id.showSearchEngine)
+            if (id == R.id.showSearchEngine)
                 intent = new Intent(this, SearchEngineActivity.class);
-            else if(id == R.id.showFavourites)
+            else if (id == R.id.showFavourites)
                 intent = new Intent(this, FavouriteOffersActivity.class);
-            else if(id == R.id.uShowOrders)
+            else if (id == R.id.uShowOrders)
                 intent = new Intent(this, OrdersActivity.class);
-            else if(id == R.id.uLogout)
-            {
+            else if (id == R.id.uLogout) {
                 Database.logOut();
                 intent = new Intent(this, LoginActivity.class);
             }
-        }
-        else {
+        } else {
 
-            if(id == R.id.showSearchEngine)
+            if (id == R.id.showSearchEngine)
                 intent = new Intent(this, SearchEngineActivity.class);
-            else if(id == R.id.showFavourites)
+            else if (id == R.id.showFavourites)
                 intent = new Intent(this, FavouriteOffersActivity.class);
-            else if(id == R.id.login)
+            else if (id == R.id.login)
                 intent = new Intent(this, LoginActivity.class);
         }
 

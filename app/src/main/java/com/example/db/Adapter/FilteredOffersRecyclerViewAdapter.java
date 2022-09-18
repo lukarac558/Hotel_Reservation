@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.db.Activity.OfferDetailsActivity;
+import com.example.db.Database.Database;
 import com.example.db.R;
 
 import java.time.temporal.ChronoUnit;
@@ -26,11 +27,11 @@ import com.example.db.Class.Offer;
 
 public class FilteredOffersRecyclerViewAdapter extends RecyclerView.Adapter<FilteredOffersRecyclerViewAdapter.OfferViewHolder> {
 
-    private final ArrayList<Offer> data;
+    private final ArrayList<Integer> data;
     private final Context context;
     private final short peopleCount;
 
-    public FilteredOffersRecyclerViewAdapter(Context context, ArrayList<Offer> data, short peopleCount){
+    public FilteredOffersRecyclerViewAdapter(Context context, ArrayList<Integer> data, short peopleCount){
         this.data = data;
         this.context = context;
         this.peopleCount = peopleCount;
@@ -47,7 +48,8 @@ public class FilteredOffersRecyclerViewAdapter extends RecyclerView.Adapter<Filt
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull OfferViewHolder holder, int position) {
-        Offer offer = data.get(position);
+        int id = data.get(position);
+        Offer offer = Database.getOfferById(id);
         holder.context = context;
 
         Bitmap bitmap = offer.getHotel().getImage().getBitmap();
@@ -56,7 +58,7 @@ public class FilteredOffersRecyclerViewAdapter extends RecyclerView.Adapter<Filt
         long days = ChronoUnit.DAYS.between(offer.getStartDate(), offer.getEndDate());
 
         holder.peopleCount = peopleCount;
-        holder.offer = offer;
+        holder.offerId = id;
         holder.fHotelNameTextView.setText(offer.getHotel().getName().getName());
         holder.fCountryTextView.setText(offer.getHotel().getCountry().getName()+",");
         holder.fCityTextView.setText(offer.getHotel().getCity().getName());
@@ -77,7 +79,7 @@ public class FilteredOffersRecyclerViewAdapter extends RecyclerView.Adapter<Filt
         private final TextView fHotelNameTextView, fCountryTextView, fCityTextView, fStartDateTextView, fDaysTextView, fPriceTextView, fFoodTextView;
         private final ImageView fHotelImageView;
         private final RatingBar fRatingBar;
-        private Offer offer;
+        private int offerId;
         private Context context;
         private short peopleCount;
 
@@ -98,7 +100,7 @@ public class FilteredOffersRecyclerViewAdapter extends RecyclerView.Adapter<Filt
 
         private void getItem(){
             Intent intent = new Intent(context, OfferDetailsActivity.class);
-            intent.putExtra("offer", offer);
+            intent.putExtra("offer", offerId);
             intent.putExtra("peopleCount", peopleCount);
             context.startActivity(intent);
         }

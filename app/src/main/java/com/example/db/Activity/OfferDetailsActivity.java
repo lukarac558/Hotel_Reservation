@@ -35,6 +35,7 @@ import com.example.db.Database.Database;
 public class OfferDetailsActivity extends AppCompatActivity {
 
     Intent intent;
+    int offerId;
     Offer offer;
     short peopleCount;
     double totalPrice;
@@ -52,6 +53,7 @@ public class OfferDetailsActivity extends AppCompatActivity {
     NumberPicker dPeopleCountNumberPicker;
     TextView dTotalPriceTextView;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +75,8 @@ public class OfferDetailsActivity extends AppCompatActivity {
         if(Database.userId <= 0)
             findViewById(R.id.dBookButton).setVisibility(View.INVISIBLE);
 
-        offer = (Offer) getIntent().getSerializableExtra("offer");
+        offerId = (int) getIntent().getSerializableExtra("offer");
+        offer = Database.getOfferById(offerId);
         peopleCount = (short) getIntent().getSerializableExtra("peopleCount");
 
         dPeopleCountNumberPicker.setMinValue(1);

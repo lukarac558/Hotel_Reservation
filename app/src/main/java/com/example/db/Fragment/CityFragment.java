@@ -44,7 +44,8 @@ public class CityFragment extends Fragment {
     EditText cityEditText;
     ArrayAdapter<Country> countryAdapter;
     ArrayAdapter<City> cityAdapter;
-    List countryList, cityList;
+    List<Country> countryList;
+    List<City> cityList;
 
     public CityFragment() {
     }

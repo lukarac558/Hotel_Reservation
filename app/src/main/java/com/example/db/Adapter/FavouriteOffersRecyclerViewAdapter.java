@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,6 +105,7 @@ public class FavouriteOffersRecyclerViewAdapter extends RecyclerView.Adapter<Fav
 
                 if (Database.userId > 0) {
                     int id = offer.getId();
+                    Log.d("offerId", "offerId:" + id);
                     Database.deleteFromCart(id);
                     Toast.makeText(context, "Pomyślnie usunięto z koszyka", Toast.LENGTH_SHORT).show();
                 } else {
@@ -122,7 +124,7 @@ public class FavouriteOffersRecyclerViewAdapter extends RecyclerView.Adapter<Fav
             itemView.findViewById(R.id.faDetailsButton).setOnClickListener(view -> {
                 if (Database.userId > 0) {
                     Intent intent = new Intent(context, OfferDetailsActivity.class);
-                    intent.putExtra("offer", offer);
+                    intent.putExtra("offer", offer.getId());
                     intent.putExtra("peopleCount", (short)1);
                     context.startActivity(intent);
                 }

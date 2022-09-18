@@ -65,7 +65,6 @@ public class RegisterActivity extends AppCompatActivity {
                 Database.register(login, MD5.hashPassword(password), email, phoneNumber);
                 Toast.makeText(this, "Pomyślnie utworzono konto.", Toast.LENGTH_SHORT).show();
 
-                Database.login(login,MD5.hashPassword(password));
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
             } catch (SQLException exception) {

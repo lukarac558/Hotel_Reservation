@@ -1,6 +1,7 @@
 package com.example.db.Database;
 
 import android.os.StrictMode;
+import android.util.Log;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,11 +24,12 @@ public class ConnectionHelper {
 
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            connectionURL = "jdbc:jtds:sqlserver://" + ip + ":" + port + ";" + "databasename=" + database + ";user=" + username + ";password=" + password + ";";
+            connectionURL = "jdbc:jtds:sqlserver://" + ip + ":" + port + ";" + "databasename=" + database + ";user=" + username +
+                    ";password=" + password + ";";
             connection = DriverManager.getConnection(connectionURL);
         }
         catch (Exception e){
-            e.printStackTrace();
+            Log.d("Connection error", "Problem połączenia z bazą danych: " + e.getMessage());
         }
 
         return connection;

@@ -29,6 +29,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.example.db.Activity.ConfigurationActivity;
+import com.example.db.Class.HotelName;
 import com.example.db.Database.Database;
 import com.example.db.Activity.HotelsActivity;
 import com.example.db.Activity.LoginActivity;
@@ -43,7 +44,7 @@ public class HotelNameFragment extends Fragment {
     Spinner selectedHotelNameSpinner;
     EditText hotelNameEditText;
     ArrayAdapter<String> hotelNameAdapter;
-    List hotelNameList;
+    List<HotelName> hotelNameList;
     List<String> stringHotelNameList;
 
     public HotelNameFragment() {

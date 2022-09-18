@@ -31,9 +31,11 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
 import com.example.db.Class.City;
 import com.example.db.Class.Country;
 import com.example.db.Class.Food;
@@ -60,7 +62,10 @@ public class AddHotelFragment extends Fragment {
     private Bitmap bitmap;
     private Uri imageUrl;
     private short starsCount = 1;
-    private List countryList, cityList, foodList, hotelNameList;
+    private List<Country> countryList;
+    private List<City> cityList;
+    private List<Food> foodList;
+    private List<HotelName> hotelNameList;
 
     public AddHotelFragment() {
     }
@@ -73,7 +78,7 @@ public class AddHotelFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        hotelsActivity = (HotelsActivity)getActivity();
+        hotelsActivity = (HotelsActivity) getActivity();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -112,7 +117,7 @@ public class AddHotelFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Country country = (Country) adapterView.getSelectedItem();
-                cityList = Database.getCitiesByCountryId((short)country.getId());
+                cityList = Database.getCitiesByCountryId((short) country.getId());
                 Collections.sort(cityList);
                 setCityAdapter();
             }
@@ -127,19 +132,16 @@ public class AddHotelFragment extends Fragment {
         hStarsRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if(radioGroup.getCheckedRadioButtonId() == R.id.hOneStarRadioButton){
+                if (radioGroup.getCheckedRadioButtonId() == R.id.hOneStarRadioButton) {
                     starsCount = 1;
                 }
-                if(radioGroup.getCheckedRadioButtonId() == R.id.hTwoStarsRadioButton){
+                if (radioGroup.getCheckedRadioButtonId() == R.id.hTwoStarsRadioButton) {
                     starsCount = 2;
-                }
-                else if(radioGroup.getCheckedRadioButtonId() == R.id.hThreeStarsRadioButton){
+                } else if (radioGroup.getCheckedRadioButtonId() == R.id.hThreeStarsRadioButton) {
                     starsCount = 3;
-                }
-                else if(radioGroup.getCheckedRadioButtonId() == R.id.hFourStarsRadioButton){
+                } else if (radioGroup.getCheckedRadioButtonId() == R.id.hFourStarsRadioButton) {
                     starsCount = 4;
-                }
-                else if(radioGroup.getCheckedRadioButtonId() == R.id.hFiveStarsRadioButton){
+                } else if (radioGroup.getCheckedRadioButtonId() == R.id.hFiveStarsRadioButton) {
                     starsCount = 5;
                 }
             }
@@ -151,7 +153,7 @@ public class AddHotelFragment extends Fragment {
                 Intent gallery = new Intent();
                 gallery.setType("image/*");
                 gallery.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(gallery, "Wybierz zdjęcie"),1);
+                startActivityForResult(Intent.createChooser(gallery, "Wybierz zdjęcie"), 1);
             }
         });
 
@@ -194,7 +196,7 @@ public class AddHotelFragment extends Fragment {
         return view;
     }
 
-    private void goToConfiguration(){
+    private void goToConfiguration() {
         Intent intent = new Intent(hotelsActivity.getApplicationContext(), ConfigurationActivity.class);
         startActivity(intent);
     }
@@ -203,42 +205,41 @@ public class AddHotelFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1 && resultCode == RESULT_OK)
+        if (requestCode == 1 && resultCode == RESULT_OK)
             imageUrl = data.getData();
 
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUrl);
-                hotelImageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUrl);
+            hotelImageView.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void addHotel(){
+    private void addHotel() {
         AsyncTask.execute(() -> {
 
-            if (countryList.size() == 0){
+            if (countryList.size() == 0) {
                 showError("Należy dodać państwa do bazy.", "There is no country");
                 return;
             }
 
-            if (cityList.size() == 0){
+            if (cityList.size() == 0) {
                 showError("Należy dodać najpierw miasta do bazy.", "There is no city");
                 return;
             }
 
-            if (foodList.size() == 0){
+            if (foodList.size() == 0) {
                 showError("Należy dodać najpierw wyżywienie do bazy.", "There is no food");
                 return;
             }
 
-            if (hotelNameList.size() == 0){
+            if (hotelNameList.size() == 0) {
                 showError("Należy dodać najpierw nazwę hotelu do bazy.", "There is no hn");
                 return;
             }
 
-            if(bitmap == null)
-            {
+            if (bitmap == null) {
                 showError("Należy wybrać zdjęcie hotelu", "Bitmap is null");
                 return;
             }
@@ -256,43 +257,42 @@ public class AddHotelFragment extends Fragment {
 
             Hotel hotel = new Hotel(0, countryId, cityId, foodId, starsCount, description, hotelNameId);
             Database.addHotel(hotel, bitmap);
-            Toast.makeText(getContext(), "Pomyślnie dodano hotel", Toast.LENGTH_SHORT).show();
             backToPanel();
         });
     }
 
-    private void showError(String errorDescription, String logTag){
+    private void showError(String errorDescription, String logTag) {
         hotelsActivity.runOnUiThread(() -> {
             Toast.makeText(hotelsActivity.getApplicationContext(), errorDescription, Toast.LENGTH_LONG).show();
             Log.d(logTag, errorDescription);
         });
     }
 
-    private void backToPanel(){
+    private void backToPanel() {
         Intent intent = new Intent(hotelsActivity.getApplicationContext(), HotelsActivity.class);
         startActivity(intent);
     }
 
 
-    private void setCountryAdapter(){
+    private void setCountryAdapter() {
         ArrayAdapter<Country> countryAdapter = new ArrayAdapter<>(hotelsActivity.getApplicationContext(), android.R.layout.simple_spinner_item, countryList);
         countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hAllCountriesSpinner.setAdapter(countryAdapter);
     }
 
-    private void setCityAdapter(){
+    private void setCityAdapter() {
         ArrayAdapter<City> cityAdapter = new ArrayAdapter<>(hotelsActivity.getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
         cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hAllCitiesSpinner.setAdapter(cityAdapter);
     }
 
-    private void setFoodAdapter(){
+    private void setFoodAdapter() {
         ArrayAdapter<Food> foodAdapter = new ArrayAdapter<>(hotelsActivity.getApplicationContext(), android.R.layout.simple_spinner_item, foodList);
         foodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hAlLFoodTypesSpinner.setAdapter(foodAdapter);
     }
 
-    private void setHotelNameAdapter(){
+    private void setHotelNameAdapter() {
         ArrayAdapter<HotelName> hotelNameAdapter = new ArrayAdapter<>(hotelsActivity.getApplicationContext(), android.R.layout.simple_spinner_item, hotelNameList);
         hotelNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hAllHotelNamesSpinner.setAdapter(hotelNameAdapter);
@@ -309,14 +309,13 @@ public class AddHotelFragment extends Fragment {
 
         if (id == R.id.showHotels)
             intent = new Intent(hotelsActivity.getApplicationContext(), HotelsActivity.class);
-        else if(id == R.id.showOffers)
+        else if (id == R.id.showOffers)
             intent = new Intent(hotelsActivity.getApplicationContext(), OffersActivity.class);
-        else if(id == R.id.aShowOrders)
+        else if (id == R.id.aShowOrders)
             intent = new Intent(hotelsActivity.getApplicationContext(), OrdersActivity.class);
-        else if(id == R.id.showConfiguration)
+        else if (id == R.id.showConfiguration)
             intent = new Intent(hotelsActivity.getApplicationContext(), ConfigurationActivity.class);
-        else if(id == R.id.aLogout)
-        {
+        else if (id == R.id.aLogout) {
             Database.logOut();
             intent = new Intent(hotelsActivity.getApplicationContext(), LoginActivity.class);
         }

@@ -28,6 +28,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.example.db.Activity.ConfigurationActivity;
+import com.example.db.Class.Country;
 import com.example.db.Database.Database;
 import com.example.db.Activity.HotelsActivity;
 import com.example.db.Activity.LoginActivity;
@@ -41,8 +42,8 @@ public class CountryFragment extends Fragment {
     Intent intent;
     Spinner allCountriesSpinner;
     ArrayAdapter<String> adapter;
-    List countryList;
-    List allCountriesList;
+    List<Country> countryList;
+    List<String> allCountriesList;
     List<String> stringCountryList;
 
     public CountryFragment() {

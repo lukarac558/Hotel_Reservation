@@ -14,14 +14,13 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 import com.example.db.Adapter.FilteredOffersRecyclerViewAdapter;
-import com.example.db.Class.Offer;
 import com.example.db.Database.Database;
 import com.example.db.R;
 
 public class FilteredOffersActivity extends AppCompatActivity {
 
     Intent intent;
-    ArrayList<Offer> offerList;
+    ArrayList<Integer> offersIdsList;
     RecyclerView offersRecyclerView;
     short peopleCount;
 
@@ -31,13 +30,13 @@ public class FilteredOffersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_filtered_offers);
 
         peopleCount = (short) getIntent().getSerializableExtra("peopleCount");
-        offerList = (ArrayList<Offer>) getIntent().getSerializableExtra("offerList");
+        offersIdsList = (ArrayList<Integer>) getIntent().getSerializableExtra("offerList");
         offersRecyclerView = findViewById(R.id.filteredOffersRecyclerView);
         offersRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         offersRecyclerView.setLayoutManager(linearLayoutManager);
-        FilteredOffersRecyclerViewAdapter adapter = new FilteredOffersRecyclerViewAdapter(this, offerList, peopleCount);
+        FilteredOffersRecyclerViewAdapter adapter = new FilteredOffersRecyclerViewAdapter(this, offersIdsList, peopleCount);
         offersRecyclerView.setAdapter(adapter);
     }
 
