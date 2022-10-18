@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.db.Activity.OfferDetailsActivity;
 import com.example.db.Activity.RegisterActivity;
@@ -48,7 +46,7 @@ public class FavouriteOffersRecyclerViewAdapter extends RecyclerView.Adapter<Fav
     }
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    
     @Override
     public void onBindViewHolder(@NonNull FavouriteOfferViewHolder holder, int position) {
         Offer offer = data.get(position);

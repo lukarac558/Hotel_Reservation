@@ -6,19 +6,23 @@ import java.io.Serializable;
 
 public class Country implements Serializable, Comparable<Country> {
 
-    private int id;
+    private short id;
     private String name;
 
-    public Country(int id, String name) {
+    public Country(String name) {
+        this.name = name;
+    }
+
+    public Country(short id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public short getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(short id) {
         this.id = id;
     }
 

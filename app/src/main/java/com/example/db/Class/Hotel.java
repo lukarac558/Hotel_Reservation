@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class Hotel implements Serializable {
     private int id;
-    private int countryId;
+    private short countryId;
     private Country country;
     private int cityId;
     private City city;
@@ -18,7 +18,7 @@ public class Hotel implements Serializable {
     private HotelName name;
     private SerializableBitmap image;
 
-    public Hotel(int id, int countryId, int cityId, int foodId, short starCount, String description, int nameId, SerializableBitmap image) {
+    public Hotel(int id, short countryId, int cityId, int foodId, short starCount, String description, int nameId, SerializableBitmap image) {
         this.id = id;
         this.countryId = countryId;
         this.cityId = cityId;
@@ -29,7 +29,7 @@ public class Hotel implements Serializable {
         this.image = image;
     }
 
-    public Hotel(int id, int countryId, int cityId, int foodId, short starCount, String description, int nameId) {
+    public Hotel(int id, short countryId, int cityId, int foodId, short starCount, String description, int nameId) {
         this.id = id;
         this.countryId = countryId;
         this.cityId = cityId;
@@ -66,11 +66,11 @@ public class Hotel implements Serializable {
         this.id = id;
     }
 
-    public int getCountryId() {
+    public short getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(int countryId) {
+    public void setCountryId(short countryId) {
         this.countryId = countryId;
     }
 

@@ -19,19 +19,16 @@ import com.example.db.R;
 
 public class FilteredOffersActivity extends AppCompatActivity {
 
-    Intent intent;
-    ArrayList<Integer> offersIdsList;
-    RecyclerView offersRecyclerView;
-    short peopleCount;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtered_offers);
 
-        peopleCount = (short) getIntent().getSerializableExtra("peopleCount");
-        offersIdsList = (ArrayList<Integer>) getIntent().getSerializableExtra("offerList");
-        offersRecyclerView = findViewById(R.id.filteredOffersRecyclerView);
+        short peopleCount = (short) getIntent().getSerializableExtra("peopleCount");
+        ArrayList<Integer> offersIdsList = (ArrayList<Integer>) getIntent().getSerializableExtra("offerList");
+        RecyclerView offersRecyclerView = findViewById(R.id.filteredOffersRecyclerView);
         offersRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

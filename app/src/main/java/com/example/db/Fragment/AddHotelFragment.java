@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -35,6 +33,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import com.example.db.Class.City;
 import com.example.db.Class.Country;
@@ -81,7 +80,7 @@ public class AddHotelFragment extends Fragment {
         hotelsActivity = (HotelsActivity) getActivity();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,7 +101,7 @@ public class AddHotelFragment extends Fragment {
         RadioGroup hStarsRadioGroup = view.findViewById(R.id.hStarsRadioGroup);
 
         countryList = Database.getCountries();
-        foodList = Database.getFoodTypes();
+        foodList =  Database.getFoodTypes();
         hotelNameList = Database.getHotelNames();
 
         Collections.sort(countryList);
@@ -117,7 +116,8 @@ public class AddHotelFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Country country = (Country) adapterView.getSelectedItem();
-                cityList = Database.getCitiesByCountryId((short) country.getId());
+
+                cityList = Database.getCitiesByCountryId(country.getId());
                 Collections.sort(cityList);
                 setCityAdapter();
             }
@@ -206,10 +206,11 @@ public class AddHotelFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1 && resultCode == RESULT_OK)
-            imageUrl = data.getData();
+            imageUrl = Objects.requireNonNull(data).getData();
 
         try {
-            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUrl);
+            //bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUrl);
+            bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUrl);
             hotelImageView.setImageBitmap(bitmap);
         } catch (IOException e) {
             e.printStackTrace();

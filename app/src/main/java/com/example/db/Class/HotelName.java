@@ -8,6 +8,10 @@ public class HotelName implements Serializable, Comparable<HotelName> {
     private int id;
     private String name;
 
+    public HotelName(String name) {
+        this.name = name;
+    }
+
     public HotelName(int id, String name) {
         this.id = id;
         this.name = name;

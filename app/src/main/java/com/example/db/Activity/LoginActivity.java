@@ -18,9 +18,9 @@ import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText loginEditText;
-    EditText passwordEditText;
-    TextView errorTextView;
+    private EditText loginEditText;
+    private EditText passwordEditText;
+    private TextView errorTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

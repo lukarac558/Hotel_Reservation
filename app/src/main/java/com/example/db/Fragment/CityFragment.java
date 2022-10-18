@@ -3,11 +3,9 @@ package com.example.db.Fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -37,15 +35,13 @@ import com.example.db.R;
 
 public class CityFragment extends Fragment {
 
-    ConfigurationActivity configurationActivity;
-    Intent intent;
-    Spinner selectedCountriesSpinner;
-    Spinner selectedCitiesSpinner;
-    EditText cityEditText;
-    ArrayAdapter<Country> countryAdapter;
-    ArrayAdapter<City> cityAdapter;
-    List<Country> countryList;
-    List<City> cityList;
+    private ConfigurationActivity configurationActivity;
+    private Intent intent;
+    private Spinner selectedCountriesSpinner;
+    private Spinner selectedCitiesSpinner;
+    private EditText cityEditText;
+    private List<Country> countryList;
+    private List<City> cityList;
 
     public CityFragment() {
     }
@@ -65,7 +61,7 @@ public class CityFragment extends Fragment {
         configurationActivity.findViewById(R.id.hotelNameImageButton).setVisibility(View.INVISIBLE);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -146,13 +142,13 @@ public class CityFragment extends Fragment {
     }
 
     private void setCountryAdapter(){
-        countryAdapter = new ArrayAdapter<>(configurationActivity.getApplicationContext(), android.R.layout.simple_spinner_item, countryList);
+        ArrayAdapter<Country> countryAdapter = new ArrayAdapter<>(configurationActivity.getApplicationContext(), android.R.layout.simple_spinner_item, countryList);
         countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectedCountriesSpinner.setAdapter(countryAdapter);
     }
 
     private void setCityAdapter(){
-        cityAdapter = new ArrayAdapter<>(configurationActivity.getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
+        ArrayAdapter<City> cityAdapter = new ArrayAdapter<>(configurationActivity.getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
         cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectedCitiesSpinner.setAdapter(cityAdapter);
     }

@@ -10,6 +10,15 @@ public class City implements Serializable, Comparable<City> {
     private short countryId;
     private Country country;
 
+    public City(String name) {
+        this.name = name;
+    }
+
+    public City(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public City(int id, String name, short countryId) {
         this.id = id;
         this.name = name;

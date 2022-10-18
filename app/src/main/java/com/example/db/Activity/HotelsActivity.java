@@ -19,9 +19,7 @@ import com.example.db.R;
 
 public class HotelsActivity extends AppCompatActivity {
 
-    Intent intent;
-    AddHotelFragment addHotelFragment;
-    DeleteHotelFragment deleteHotelFragment;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +30,8 @@ public class HotelsActivity extends AppCompatActivity {
     public void addHotel(View view){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        addHotelFragment = AddHotelFragment.newInstance();
-        fragmentTransaction.replace(R.id.hotelsLinearLayout,addHotelFragment);
+        AddHotelFragment addHotelFragment = AddHotelFragment.newInstance();
+        fragmentTransaction.replace(R.id.hotelsLinearLayout, addHotelFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -41,8 +39,8 @@ public class HotelsActivity extends AppCompatActivity {
     public void deleteHotel(View view){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        deleteHotelFragment = DeleteHotelFragment.newInstance();
-        fragmentTransaction.replace(R.id.hotelsLinearLayout,deleteHotelFragment);
+        DeleteHotelFragment deleteHotelFragment = DeleteHotelFragment.newInstance();
+        fragmentTransaction.replace(R.id.hotelsLinearLayout, deleteHotelFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

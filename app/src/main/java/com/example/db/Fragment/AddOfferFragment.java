@@ -4,11 +4,9 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -48,18 +46,17 @@ import com.example.db.R;
 public class AddOfferFragment extends Fragment {
 
         private OffersActivity offersActivity;
-        Intent intent;
+        private Intent intent;
         private Spinner oHotelsSpinner;
         private EditText oPriceEditText;
         private TextView oStartDateTextView;
         private TextView oEndDateTextView;
         private LocalDate oStartDate;
         private LocalDate oEndDate;
-        DatePickerDialog.OnDateSetListener oStartDateSetListener;
-        DatePickerDialog.OnDateSetListener oEndDateSetListener;
+        private DatePickerDialog.OnDateSetListener oStartDateSetListener;
+        private DatePickerDialog.OnDateSetListener oEndDateSetListener;
         private NumberPicker oPlacesNumberNumberPicker;
         private List<Hotel> hotelList;
-
 
     public AddOfferFragment() {
     }
@@ -101,7 +98,7 @@ public class AddOfferFragment extends Fragment {
         });
 
         oStartDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
+            
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 setStartDate( oStartDateTextView, year, month, day);
@@ -116,7 +113,7 @@ public class AddOfferFragment extends Fragment {
         });
 
         oEndDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
+            
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 setEndDate(oEndDateTextView, year, month, day);
@@ -144,7 +141,7 @@ public class AddOfferFragment extends Fragment {
         });
 
         oAddOfferButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
+            
             @Override
             public void onClick(View view) {
 
@@ -214,7 +211,7 @@ public class AddOfferFragment extends Fragment {
         datePickerDialog.show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    
     private void setStartDate(TextView textView, int year, int month, int day){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         month++;
@@ -237,7 +234,7 @@ public class AddOfferFragment extends Fragment {
         textView.setText(stringDate);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    
     private void setEndDate(TextView textView, int year, int month, int day){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         month++;

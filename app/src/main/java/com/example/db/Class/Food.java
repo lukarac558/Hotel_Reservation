@@ -8,6 +8,10 @@ public class Food implements Serializable, Comparable<Food> {
     private int id;
     private String type;
 
+    public Food(String type) {
+        this.type = type;
+    }
+
     public Food(int id, String type) {
         this.id = id;
         this.type = type;

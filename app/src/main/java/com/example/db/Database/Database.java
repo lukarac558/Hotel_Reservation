@@ -2,10 +2,7 @@ package com.example.db.Database;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.util.Log;
-
-import androidx.annotation.RequiresApi;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
@@ -20,6 +17,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.example.db.Class.City;
@@ -40,23 +38,13 @@ public class Database {
     private Database() {
     }
 
-    private static Database instance;
-
-    public static Database GetInstance() {
-        if (instance == null) {
-            instance = new Database();
-        }
-        return instance;
-    }
-
     public static void register(String login, String password, String email, int phoneNumber) throws SQLException {
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        Connection connection = connectionHelper.getConnection();
-
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "INSERT INTO [user](login,password,email,phone_number) VALUES(?,?,?,?);";
 
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = connection.get().prepareStatement(query);
             ps.setString(1, login);
             ps.setString(2, password);
             ps.setString(3, email);
@@ -67,13 +55,12 @@ public class Database {
     }
 
     public static void login(String login, String password) {
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        Connection connection = connectionHelper.getConnection();
-
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT user_id,login,permission FROM [user] WHERE login=? AND password=?";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, login);
                 ps.setString(2, password);
 
@@ -96,37 +83,34 @@ public class Database {
     }
 
     public static List<String> getAllWorldCountries() {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        List<String> queriedCountries = new ArrayList<>();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT name FROM all_world_countries;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
-
-                List<String> countryList = new ArrayList<>();
 
                 while (rs.next()) {
                     String name = rs.getString("name");
-                    countryList.add(name);
+                    queriedCountries.add(name);
                 }
-
-                return countryList;
 
             } catch (SQLException sqlE) {
                 Log.d("Get all countries error", sqlE.getMessage());
             }
         }
-        return null;
+        return queriedCountries;
     }
 
     public static void addCity(City city) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "INSERT INTO city(name,country_id) VALUES(?,?);";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, city.getName());
                 ps.setShort(2, city.getCountryId());
 
@@ -139,14 +123,13 @@ public class Database {
         }
     }
 
-    // przed wywołaniem tej metody musi wyskoczyć warning, że zostaną usunięte wszystkie rekordy powiązane z tym miastem (wymagane potwierdzenie)
     public static void deleteCity(String cityName) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "DELETE FROM city WHERE name = ?;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, cityName);
 
                 int result = ps.executeUpdate();
@@ -162,75 +145,64 @@ public class Database {
     }
 
     public static List<City> getCities() {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        List<City> queriedCities = new ArrayList<>();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT city_id,name,country_id FROM city;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
-
-                List<City> cityList = new ArrayList<>();
 
                 while (rs.next()) {
                     int cityId = rs.getInt("city_id");
                     String name = rs.getString("name");
                     short countryId = rs.getShort("country_id");
-
-                    cityList.add(new City(cityId, name, countryId));
+                    queriedCities.add(new City(cityId, name, countryId));
                 }
-
-                return cityList;
-
             } catch (SQLException sqlE) {
                 Log.d("Get cities error", sqlE.getMessage());
             }
         }
-        return null;
+        return queriedCities;
     }
 
     public static List<City> getCitiesByCountryId(short countryId) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        List<City> queriedCities = new ArrayList<>();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT city_id,name FROM city WHERE country_id = ?;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setShort(1, countryId);
                 ResultSet rs = ps.executeQuery();
-
-                List<City> cityList = new ArrayList<>();
 
                 while (rs.next()) {
                     int cityId = rs.getInt("city_id");
                     String name = rs.getString("name");
-
-                    cityList.add(new City(cityId, name, countryId));
+                    queriedCities.add(new City(cityId, name, countryId));
                 }
-
-                return cityList;
-
             } catch (SQLException sqlE) {
                 Log.d("Get city by co id error", sqlE.getMessage());
             }
         }
-        return null;
+        return queriedCities;
     }
 
     public static int getCityIdByName(String cityName) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT city_id FROM city WHERE name = ? ";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, cityName);
                 ResultSet rs = ps.executeQuery();
 
-                if (rs.next()) {
-
+                if (rs.next())
                     return rs.getShort("city_id");
-                }
+
             } catch (SQLException sqlE) {
                 Log.d("Get city id error", sqlE.getMessage());
             }
@@ -238,14 +210,13 @@ public class Database {
         return -1;
     }
 
-//    public static String getCityNameById(int cityId)
 //    public static String getCityNameById(int cityId) {
-//        Connection connection = connectionHelper.getConnection();
+//        Optional<Connection> connection = connectionHelper.getConnection();
 //
-//        if (connection != null) {
+//        if (connection.isPresent()) {
 //            String query = "SELECT name FROM city WHERE city_id = ? ";
 //            try {
-//                PreparedStatement ps = connection.prepareStatement(query);
+//                PreparedStatement ps = connection.get().prepareStatement(query);
 //                ps.setInt(1, cityId);
 //                ResultSet rs = ps.executeQuery();
 //
@@ -261,33 +232,30 @@ public class Database {
 //    }
 
     public static void addCountry(String countryName) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "INSERT INTO country(name) VALUES(?);";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, countryName);
-
                 ps.executeUpdate();
                 Log.d("Country added", "Pomyślnie dodano państwo");
 
             } catch (SQLException sqlE) {
-                // Miasto musi być unikatowe
                 Log.d("Add country error", sqlE.getMessage());
             }
         }
     }
 
     public static void deleteCountry(String countryName) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "DELETE FROM country WHERE name = ?;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, countryName);
-
                 int result = ps.executeUpdate();
                 if (result > 0)
                     Log.d("Country deleted", "Pomyślnie usunięto państwo wraz z powiązaniami");
@@ -301,46 +269,40 @@ public class Database {
     }
 
     public static List<Country> getCountries() {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        List<Country> queriedCountries = new ArrayList<>();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT country_id,name FROM country;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
 
-                List<Country> countryList = new ArrayList<>();
-
                 while (rs.next()) {
-                    int countryId = rs.getInt("country_id");
+                    short countryId = rs.getShort("country_id");
                     String name = rs.getString("name");
-
-                    countryList.add(new Country(countryId, name));
+                    queriedCountries.add(new Country(countryId, name));
                 }
-
-                return countryList;
-
             } catch (SQLException sqlE) {
                 Log.d("Get countries error", sqlE.getMessage());
             }
         }
-        return null;
+        return queriedCountries;
     }
 
     public static short getCountryIdByName(String countryName) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT country_id FROM country WHERE name = ? ";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, countryName);
                 ResultSet rs = ps.executeQuery();
 
-                if (rs.next()) {
-
+                if (rs.next())
                     return rs.getShort("country_id");
-                }
+
             } catch (SQLException sqlE) {
                 Log.d("Get country id error", sqlE.getMessage());
             }
@@ -348,14 +310,13 @@ public class Database {
         return -1;
     }
 
-// public static String getCountryNameById(short countryId)
 //    public static String getCountryNameById(short countryId) {
-//        Connection connection = connectionHelper.getConnection();
+//        Optional<Connection> connection = connectionHelper.getConnection();
 //
-//        if (connection != null) {
+//        if (connection.isPresent()) {
 //            String query = "SELECT name FROM country WHERE country_id = ? ";
 //            try {
-//                PreparedStatement ps = connection.prepareStatement(query);
+//                PreparedStatement ps = connection.get().prepareStatement(query);
 //                ps.setShort(1, countryId);
 //                ResultSet rs = ps.executeQuery();
 //
@@ -371,14 +332,13 @@ public class Database {
 //    }
 
     public static void addFoodType(String foodType) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "INSERT INTO food(type) VALUES(?);";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, foodType);
-
                 ps.executeUpdate();
                 Log.d("Food type added", "Pomyślnie dodano typ wyżywienia");
 
@@ -389,14 +349,13 @@ public class Database {
     }
 
     public static void deleteFoodType(String foodType) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "DELETE FROM food WHERE type = ?;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, foodType);
-
                 int result = ps.executeUpdate();
                 if (result > 0)
                     Log.d("Food type deleted", "Pomyślnie usunięto typ wyżywienia wraz z powiązaniami");
@@ -410,46 +369,40 @@ public class Database {
     }
 
     public static List<Food> getFoodTypes() {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        List<Food> queriedFoodTypes = new ArrayList<>();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT food_id,type FROM food;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
-
-                List<Food> foodList = new ArrayList<>();
 
                 while (rs.next()) {
                     int foodId = rs.getInt("food_id");
                     String type = rs.getString("type");
-
-                    foodList.add(new Food(foodId, type));
+                    queriedFoodTypes.add(new Food(foodId, type));
                 }
-
-                return foodList;
-
             } catch (SQLException sqlE) {
                 Log.d("Get food types error", sqlE.getMessage());
             }
         }
-        return null;
+        return queriedFoodTypes;
     }
 
     public static int getFoodIdByType(String foodType) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT food_id FROM food WHERE type = ? ";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, foodType);
                 ResultSet rs = ps.executeQuery();
 
-                if (rs.next()) {
-
+                if (rs.next())
                     return rs.getShort("food_id");
-                }
+
             } catch (SQLException sqlE) {
                 Log.d("Get food id error", sqlE.getMessage());
             }
@@ -457,14 +410,13 @@ public class Database {
         return -1;
     }
 
-// public static String getFoodTypeById(int foodId)
 //    public static String getFoodTypeById(int foodId) {
-//        Connection connection = connectionHelper.getConnection();
+//        Optional<Connection> connection = connectionHelper.getConnection();
 //
-//        if (connection != null) {
+//        if (connection.isPresent()) {
 //            String query = "SELECT type FROM food WHERE food_id = ? ";
 //            try {
-//                PreparedStatement ps = connection.prepareStatement(query);
+//                PreparedStatement ps = connection.get().prepareStatement(query);
 //                ps.setInt(1, foodId);
 //                ResultSet rs = ps.executeQuery();
 //
@@ -480,14 +432,13 @@ public class Database {
 //    }
 
     public static void addHotelName(String hotelName) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "INSERT INTO hotel_name(name) VALUES(?);";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, hotelName);
-
                 ps.executeUpdate();
                 Log.d("Hotel name added", "Pomyślnie dodano nazwę hotelu");
 
@@ -498,14 +449,13 @@ public class Database {
     }
 
     public static void deleteHotelName(String hotelName) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "DELETE FROM hotel_name WHERE name = ?;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, hotelName);
-
                 int result = ps.executeUpdate();
                 if (result > 0)
                     Log.d("Hotel name deleted", "Pomyślnie usunięto nazwę hotelu wraz z powiązaniami");
@@ -519,46 +469,40 @@ public class Database {
     }
 
     public static List<HotelName> getHotelNames() {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        List<HotelName> queriedHotelNames = new ArrayList<>();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT hotel_name_id,name FROM hotel_name;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
-
-                List<HotelName> hotelNameList = new ArrayList<>();
 
                 while (rs.next()) {
                     int hotelNameId = rs.getInt("hotel_name_id");
                     String name = rs.getString("name");
-
-                    hotelNameList.add(new HotelName(hotelNameId, name));
+                    queriedHotelNames.add(new HotelName(hotelNameId, name));
                 }
-
-                return hotelNameList;
-
             } catch (SQLException sqlE) {
                 Log.d("Get hotel name error", sqlE.getMessage());
             }
         }
-        return null;
+        return queriedHotelNames;
     }
 
     public static int getHotelNameIdByType(String hotelName) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT hotel_name_id FROM hotel_name WHERE name = ? ";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, hotelName);
                 ResultSet rs = ps.executeQuery();
 
-                if (rs.next()) {
-
+                if (rs.next())
                     return rs.getShort("hotel_name_id");
-                }
+
             } catch (SQLException sqlE) {
                 Log.d("Get hn id error", sqlE.getMessage());
             }
@@ -566,14 +510,13 @@ public class Database {
         return -1;
     }
 
-// public static String getHotelNameById(int hotelNameId)
 //    public static String getHotelNameById(int hotelNameId) {
-//        Connection connection = connectionHelper.getConnection();
+//        Optional<Connection> connection = connectionHelper.getConnection();
 //
-//        if (connection != null) {
+//        if (connection.isPresent()) {
 //            String query = "SELECT name FROM hotel_name WHERE hotel_name_id = ? ";
 //            try {
-//                PreparedStatement ps = connection.prepareStatement(query);
+//                PreparedStatement ps = connection.get().prepareStatement(query);
 //                ps.setInt(1, hotelNameId);
 //                ResultSet rs = ps.executeQuery();
 //
@@ -589,19 +532,14 @@ public class Database {
 //    }
 
     public static void addHotel(Hotel hotel, Bitmap bitmap) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "INSERT INTO hotel(country_id,city_id,food_id,star_count,description,name_id,image_path) VALUES(?,?,?,?,?,?,?);";
             try {
-                byte[] imageBytes;
-
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, baos);
-                imageBytes = baos.toByteArray();
-
-                PreparedStatement ps = connection.prepareStatement(query);
-                ps.setShort(1, (short) hotel.getCountryId());
+                byte[] imageBytes = bitmapToByteArray(bitmap);
+                PreparedStatement ps = connection.get().prepareStatement(query);
+                ps.setShort(1, hotel.getCountryId());
                 ps.setInt(2, hotel.getCityId());
                 ps.setInt(3, hotel.getFoodId());
                 ps.setShort(4, hotel.getStarCount());
@@ -618,15 +556,20 @@ public class Database {
         }
     }
 
-    public static void deleteHotel(int hotelId) {
-        Connection connection = connectionHelper.getConnection();
+    private static byte[] bitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, baos);
+        return baos.toByteArray();
+    }
 
-        if (connection != null) {
+    public static void deleteHotel(int hotelId) {
+        Optional<Connection> connection = connectionHelper.getConnection();
+
+        if (connection.isPresent()) {
             String query = "DELETE FROM hotel WHERE hotel_id = ?;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setInt(1, hotelId);
-
                 int result = ps.executeUpdate();
                 if (result > 0)
                     Log.d("Hotel deleted", "Pomyślnie usunięto hotel wraz z powiązaniami");
@@ -640,19 +583,16 @@ public class Database {
     }
 
     public static List<Hotel> getAllHotels() {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        List<Hotel> queriedHotels = new ArrayList<>();
 
-        if (connection != null) {
-
+        if (connection.isPresent()) {
             String query = "SELECT hotel_id,star_count,description,co.name AS countryName,c.name AS cityName,f.type AS feedType,hn.name AS hotelName,image_path " +
                     "FROM hotel h INNER JOIN city c ON c.city_id = h.city_id INNER JOIN country co ON co.country_id = h.country_id INNER JOIN food f ON f.food_id=h.food_id " +
                     "INNER JOIN hotel_name hn ON hn.hotel_name_id = h.name_id";
-
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
-
-                List<Hotel> hotelsList = new ArrayList<>();
 
                 while (rs.next()) {
                     int hotelId = rs.getInt("hotel_id");
@@ -666,30 +606,27 @@ public class Database {
 
                     Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                     SerializableBitmap serializableBitmap = new SerializableBitmap(bitmap);
-                    Hotel hotel = new Hotel(hotelId, new Country(0, countryName), new City(0, cityName, (short) 0), new Food(0, foodType), starCount, description, new HotelName(0, hotelName), serializableBitmap);
+                    Hotel hotel = new Hotel(hotelId, new Country(countryName), new City(cityName), new Food(foodType),
+                            starCount, description, new HotelName(hotelName), serializableBitmap);
 
-                    hotelsList.add(hotel);
+                    queriedHotels.add(hotel);
                 }
-
-                return hotelsList;
-
             } catch (SQLException sqlE) {
                 Log.d("Get hotels error", sqlE.getMessage());
             }
         }
-        return null;
+        return queriedHotels;
     }
 
-// public static Hotel getHotelById(int hotelId)
 //    public static Hotel getHotelById(int hotelId) {
-//        Connection connection = connectionHelper.getConnection();
+//        Optional<Connection> connection = connectionHelper.getConnection();
 //
-//        if (connection != null) {
+//        if (connection.isPresent()) {
 //            String query = "SELECT co.name AS countryName,c.name AS cityName,type,hn.name as hotelName,star_count,description,image_path " +
 //                    "FROM hotel h INNER JOIN country co ON h.country_id=co.country_id INNER JOIN city c ON h.city_id=c.city_id" +
 //                    " INNER JOIN food f ON h.food_id=f.food_id INNER JOIN hotel_name hn ON h.name_id=hn.hotel_name_id WHERE hotel_id = ?;";
 //            try {
-//                PreparedStatement ps = connection.prepareStatement(query);
+//                PreparedStatement ps = connection.get().prepareStatement(query);
 //                ps.setInt(1, hotelId);
 //                ResultSet rs = ps.executeQuery();
 //
@@ -705,7 +642,7 @@ public class Database {
 //                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 //                    SerializableBitmap serializableBitmap = new SerializableBitmap(bitmap);
 //
-//                    return new Hotel(hotelId, new Country(0, countryName), new City(0, cityName, (short) 0), new Food(0, foodType), starCount, description, new HotelName(0, hotelName), serializableBitmap);
+//                    return new Hotel(hotelId, new Country(countryName), new City(cityName), new Food(foodType), starCount, description, new HotelName(hotelName), serializableBitmap);
 //                }
 //            } catch (SQLException sqlE) {
 //                Log.d("Get hotel error", sqlE.getMessage());
@@ -714,60 +651,57 @@ public class Database {
 //        return null;
 //    }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void makeOrder(Order order) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "INSERT INTO [order](total_cost,offer_id,people_count,user_id,order_date) VALUES(?,?,?,?,?);";
             try {
                 Date date = Date.valueOf(String.valueOf(LocalDate.of(order.getOrderDate().getYear(), order.getOrderDate().getMonthValue(), order.getOrderDate().getDayOfMonth())));
 
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setDouble(1, order.getTotalCost());
                 ps.setInt(2, order.getOfferId());
                 ps.setShort(3, order.getPeopleCount());
                 ps.setInt(4, order.getUserId());
                 ps.setDate(5, date);
-
                 ps.executeUpdate();
                 Log.d("Order made", "Pomyślnie złożono zamówienie");
 
                 updateOfferCount(order.getOfferId(), order.getPeopleCount());
+
             } catch (SQLException sqlE) {
                 Log.d("Make order error", sqlE.getMessage());
             }
         }
     }
 
-    // When admin deletes an offer should give minus value of peopleCount
     public static void updateOfferCount(int offerId, short peopleCount) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        String query = "UPDATE offer SET places_number = places_number - (?) WHERE offer_id = ?;";
-        try {
+        if (connection.isPresent()) {
+            String query = "UPDATE offer SET places_number = places_number - (?) WHERE offer_id = ?;";
+            try {
+                PreparedStatement ps = connection.get().prepareStatement(query);
+                ps.setShort(1, peopleCount);
+                ps.setInt(2, offerId);
+                ps.executeUpdate();
+                Log.d("Update made", "Pomyślnie aktualizowano liczbę ofert.");
 
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setShort(1, peopleCount);
-            ps.setInt(2, offerId);
-
-            ps.executeUpdate();
-            Log.d("Update made", "Pomyślnie aktualizowano liczbę ofert.");
-
-        } catch (SQLException sqlE) {
-            Log.d("Update count error", sqlE.getMessage());
+            } catch (SQLException sqlE) {
+                Log.d("Update count error", sqlE.getMessage());
+            }
         }
     }
 
     public static void cancelOrder(int orderId, int offerId, short peopleCount) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "DELETE FROM [order] WHERE order_id = ?;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setInt(1, orderId);
-
                 int result = ps.executeUpdate();
                 if (result > 0) {
                     Log.d("Order canceled", "Pomyślnie anulowano zamówienie hotelu wraz z powiązaniami");
@@ -781,18 +715,16 @@ public class Database {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<Order> getUserOrders() {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        List<Order> queriedOrders = new ArrayList<>();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT order_id,total_cost,offer_id,people_count,order_date FROM [order] WHERE user_id = ?;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setInt(1, userId);
                 ResultSet rs = ps.executeQuery();
-
-                List<Order> orderList = new ArrayList<>();
 
                 while (rs.next()) {
                     int orderId = rs.getInt("order_id");
@@ -800,32 +732,26 @@ public class Database {
                     int offerId = rs.getInt("offer_id");
                     short peopleCount = rs.getShort("people_count");
                     Date orderDate = rs.getDate("order_date");
-
                     LocalDate localDate = orderDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-                    orderList.add(new Order(orderId, totalCost, peopleCount, offerId, localDate, userId));
+                    queriedOrders.add(new Order(orderId, totalCost, peopleCount, offerId, localDate, userId));
                 }
-
-                return orderList;
-
             } catch (SQLException sqlE) {
                 Log.d("Get orders error", sqlE.getMessage());
             }
         }
-        return null;
+        return queriedOrders;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<Order> gettAllOrders() {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        List<Order> queriedOrders = new ArrayList<>();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT order_id,total_cost,offer_id,people_count,order_date FROM [order];";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
-
-                List<Order> orderList = new ArrayList<>();
 
                 while (rs.next()) {
                     int orderId = rs.getInt("order_id");
@@ -833,26 +759,21 @@ public class Database {
                     int offerId = rs.getInt("offer_id");
                     short peopleCount = rs.getShort("people_count");
                     Date orderDate = rs.getDate("order_date");
-
                     LocalDate localDate = orderDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-                    orderList.add(new Order(orderId, totalCost, peopleCount, offerId, localDate, userId));
+                    queriedOrders.add(new Order(orderId, totalCost, peopleCount, offerId, localDate, userId));
                 }
-
-                return orderList;
-
             } catch (SQLException sqlE) {
                 Log.d("Get all orders error", sqlE.getMessage());
             }
         }
-        return null;
+        return queriedOrders;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void addOffer(Offer offer) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "INSERT INTO offer(places_number,price,start_date,end_date,hotel_id) VALUES(?,?,?,?,?);";
             try {
                 Date date1 = Date.valueOf(String.valueOf(LocalDate.of(offer.getStartDate().getYear(), offer.getStartDate().getMonthValue(), offer.getStartDate().getDayOfMonth())));
@@ -862,13 +783,12 @@ public class Database {
                         .setScale(2, RoundingMode.HALF_UP)
                         .doubleValue();
 
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setShort(1, offer.getPlacesNumber());
                 ps.setDouble(2, formattedPrice);
                 ps.setDate(3, date1);
                 ps.setDate(4, date2);
                 ps.setInt(5, offer.getHotelId());
-
                 ps.executeUpdate();
                 Log.d("Offer added", "Pomyślnie dodano ofertę");
 
@@ -879,14 +799,13 @@ public class Database {
     }
 
     public static void deleteOffer(int offerId) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "DELETE FROM offer WHERE offer_id = ?;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setInt(1, offerId);
-
                 int result = ps.executeUpdate();
                 if (result > 0)
                     Log.d("Offer deleted", "Pomyślnie usunięto ofertę wraz z powiązaniami");
@@ -899,22 +818,18 @@ public class Database {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<Offer> getAllOffers() {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        List<Offer> queriedOffers = new ArrayList<>();
 
-        if (connection != null) {
-
+        if (connection.isPresent()) {
             String query = "SELECT offer_id,places_number,price,start_date,end_date,h.hotel_id AS hotelId,star_count,description,co.name AS CountryName," +
                     "c.name AS cityName,f.type AS feedType,hn.name AS hotelName,image_path FROM offer o INNER JOIN hotel h ON o.hotel_id=h.hotel_id " +
                     "INNER JOIN city c ON c.city_id = h.city_id INNER JOIN country co ON co.country_id = h.country_id INNER JOIN food f ON f.food_id=h.food_id " +
                     "INNER JOIN hotel_name hn ON hn.hotel_name_id = h.name_id";
-
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
-
-                List<Offer> offersList = new ArrayList<>();
 
                 while (rs.next()) {
                     int offerId = rs.getInt("offer_id");
@@ -933,30 +848,26 @@ public class Database {
 
                     Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                     SerializableBitmap serializableBitmap = new SerializableBitmap(bitmap);
-
                     LocalDate localDate1 = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     LocalDate localDate2 = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    Hotel h = new Hotel(hotelId, new Country(countryName), new City(cityName), new Food(foodType),
+                            starCount, description, new HotelName(hotelName), serializableBitmap);
 
-                    Hotel h = new Hotel(hotelId, new Country(0, countryName), new City(0, cityName, (short) 0), new Food(0, foodType), starCount, description, new HotelName(0, hotelName), serializableBitmap);
-
-                    offersList.add(new Offer(offerId, availablePlaces, price, localDate1, localDate2, h));
+                    queriedOffers.add(new Offer(offerId, availablePlaces, price, localDate1, localDate2, h));
                 }
-
-                return offersList;
-
             } catch (SQLException sqlE) {
                 Log.d("Get offers error", sqlE.getMessage());
             }
         }
 
-        return null;
+        return queriedOffers;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static Offer getOfferById(int offerId) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        Offer offer = null;
 
-        if (connection != null) {
+        if (connection.isPresent()) {
 
             String query = "SELECT places_number,price,start_date,end_date,h.hotel_id AS hotelId,star_count,description,co.name AS CountryName," +
                     "c.name AS cityName,f.type AS feedType,hn.name AS hotelName,image_path FROM offer o INNER JOIN hotel h ON o.hotel_id=h.hotel_id " +
@@ -964,11 +875,9 @@ public class Database {
                     "INNER JOIN hotel_name hn ON hn.hotel_name_id = h.name_id WHERE offer_id = ?";
 
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setInt(1, offerId);
                 ResultSet rs = ps.executeQuery();
-
-                Offer offer = null;
 
                 if (rs.next()) {
                     short availablePlaces = rs.getShort("places_number");
@@ -990,43 +899,23 @@ public class Database {
                     LocalDate localDate1 = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     LocalDate localDate2 = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-                    Hotel h = new Hotel(hotelId, new Country(0, countryName), new City(0, cityName, (short) 0), new Food(0, foodType), starCount, description, new HotelName(0, hotelName), serializableBitmap);
+                    Hotel h = new Hotel(hotelId, new Country(countryName), new City(cityName), new Food(foodType), starCount, description, new HotelName(hotelName), serializableBitmap);
 
                     offer = new Offer(offerId, availablePlaces, price, localDate1, localDate2, h);
                 }
-
-                return offer;
 
             } catch (SQLException sqlE) {
                 Log.d("Get offer by id error", sqlE.getMessage());
             }
         }
 
-        return null;
+        return offer;
     }
 
-
-    private static String prepareQuery(List<String> list, String tableName) {
-        StringBuilder query = new StringBuilder();
-
-        if (list.size() > 0) {
-            query.append("(");
-            for (Object item : list) {
-                query.append(tableName).append(" LIKE '").append(item.toString()).append("' OR ");
-            }
-
-            query = new StringBuilder(query.substring(0, query.length() - 3));
-            query.append(')');
-        }
-        return query.toString();
-    }
-
-//    public static List<Offer> filterOffers(short placesNumber, double minPrice, double maxPrice, LocalDate startDate, LocalDate endDate, List<Country> countryList, List<City> cityList, List<Food> foodList, short minStarCount)
-//    @RequiresApi(api = Build.VERSION_CODES.O)
 //    public static List<Offer> filterOffers(short placesNumber, double minPrice, double maxPrice, LocalDate startDate, LocalDate endDate, List<Country> countryList, List<City> cityList, List<Food> foodList, short minStarCount) {
-//            Connection connection = connectionHelper.getConnection();
+//            Optional<Connection> connection = connectionHelper.getConnection();
 //
-//            if (connection != null) {
+//            if (connection.isPresent()) {
 //
 //                String query = "SELECT offer_id,places_number,price,start_date,end_date,h.hotel_id AS hotelId,star_count,description,co.name AS CountryName," +
 //                        "c.name AS cityName,f.type AS feedType,hn.name AS hotelName,image_path FROM offer o INNER JOIN hotel h ON o.hotel_id=h.hotel_id " +
@@ -1060,7 +949,7 @@ public class Database {
 //                    Date date1 = Date.valueOf(String.valueOf(LocalDate.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth())));
 //                    Date date2 = Date.valueOf(String.valueOf(LocalDate.of(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfMonth())));
 //
-//                    PreparedStatement ps = connection.prepareStatement(query);
+//                    PreparedStatement ps = connection.get().prepareStatement(query);
 //                    ps.setShort(1, placesNumber);
 //                    ps.setDouble(2, minPrice);
 //                    ps.setDouble(3, maxPrice);
@@ -1092,7 +981,7 @@ public class Database {
 //                        LocalDate localDate1 = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 //                        LocalDate localDate2 = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 //
-//                        Hotel h = new Hotel(hotelId, new Country(0, countryName), new City(0, cityName, (short)0), new Food(0, foodType), starCount, description, new HotelName(0, hotelName), serializableBitmap);
+//                        Hotel h = new Hotel(hotelId, new Country(countryName), new City(cityName), new Food(foodType), starCount, description, new HotelName(hotelName), serializableBitmap);
 //
 //                        filteredOffersList.add(new Offer(offerId, availablePlaces, price, localDate1, localDate2, h));
 //                    }
@@ -1105,44 +994,26 @@ public class Database {
 //        return null;
 //    }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<Integer> filterOffersIds(short placesNumber, double minPrice, double maxPrice, LocalDate startDate, LocalDate endDate, List<Country> countryList, List<City> cityList, List<Food> foodList, short minStarCount) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        List<Integer> queriedOffers = new ArrayList<>();
 
-        if (connection != null) {
-
+        if (connection.isPresent()) {
             String query = "SELECT offer_id FROM offer o INNER JOIN hotel h ON o.hotel_id=h.hotel_id " +
                     "INNER JOIN city c ON c.city_id = h.city_id INNER JOIN country co ON co.country_id = h.country_id INNER JOIN food f ON f.food_id=h.food_id " +
                     "INNER JOIN hotel_name hn ON hn.hotel_name_id = h.name_id WHERE " +
                     "(? <= places_number) AND (price >= ? AND price <= ?) AND (start_date >= ? AND end_date <= ?) AND (? <= star_count) AND ";
 
-            List<String> stringCountryList = countryList.stream().map(Objects::toString).collect(Collectors.toList());
-            List<String> stringCityList = cityList.stream().map(Objects::toString).collect(Collectors.toList());
-            List<String> stringFoodList = foodList.stream().map(Objects::toString).collect(Collectors.toList());
-
-            String countryQuery = prepareQuery(stringCountryList, "co.name");
-            String cityQuery = prepareQuery(stringCityList, "c.name");
-            String foodQuery = prepareQuery(stringFoodList, "f.type");
-
-            if (!countryQuery.equals(""))
-                query += countryQuery;
-
-            if (!cityQuery.equals("") && !countryQuery.equals(""))
-                query += " AND " + cityQuery;
-            else if (countryQuery.equals("") && !cityQuery.equals(""))
-                query += cityQuery;
-
-            if ((!countryQuery.equals("") || !cityQuery.equals("")) && !foodQuery.equals(""))
-                query += " AND " + foodQuery;
-            else if (countryQuery.equals("") && cityQuery.equals("") && !foodQuery.equals(""))
-                query += foodQuery;
-
+            String countryQuery = preparePartialQuery(toStringList(countryList), "co.name");
+            String cityQuery = preparePartialQuery(toStringList(cityList), "c.name");
+            String foodQuery = preparePartialQuery(toStringList(foodList), "f.type");
+            query = prepareFinalQuery(query, countryQuery, cityQuery, foodQuery);
 
             try {
                 Date date1 = Date.valueOf(String.valueOf(LocalDate.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth())));
                 Date date2 = Date.valueOf(String.valueOf(LocalDate.of(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfMonth())));
 
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setShort(1, placesNumber);
                 ps.setDouble(2, minPrice);
                 ps.setDouble(3, maxPrice);
@@ -1151,31 +1022,62 @@ public class Database {
                 ps.setShort(6, minStarCount);
                 ResultSet rs = ps.executeQuery();
 
-                List<Integer> filteredOffersIdsList = new ArrayList<>();
 
                 while (rs.next()) {
                     int offerId = rs.getInt("offer_id");
-                    filteredOffersIdsList.add(offerId);
+                    queriedOffers.add(offerId);
                 }
-                return filteredOffersIdsList;
-
             } catch (SQLException sqlE) {
                 Log.d("Get filter error", sqlE.getMessage());
             }
         }
-        return null;
+        return queriedOffers;
+    }
+
+    private static String preparePartialQuery(List<String> list, String tableName) {
+        StringBuilder query = new StringBuilder();
+        if (list.size() > 0) {
+            query.append("(");
+            for (Object item : list) {
+                query.append(tableName).append(" LIKE '").append(item.toString()).append("' OR ");
+            }
+
+            query = new StringBuilder(query.substring(0, query.length() - 3));
+            query.append(')');
+        }
+        return query.toString();
+    }
+
+    private static String prepareFinalQuery(String query, String countryQuery, String cityQuery, String foodQuery) {
+        if (!countryQuery.equals(""))
+            query += countryQuery;
+
+        if (!cityQuery.equals("") && !countryQuery.equals(""))
+            query += " AND " + cityQuery;
+        else if (countryQuery.equals("") && !cityQuery.equals(""))
+            query += cityQuery;
+
+        if ((!countryQuery.equals("") || !cityQuery.equals("")) && !foodQuery.equals(""))
+            query += " AND " + foodQuery;
+        else if (countryQuery.equals("") && cityQuery.equals("") && !foodQuery.equals(""))
+            query += foodQuery;
+
+        return query;
+    }
+
+    private static <T> List<String> toStringList(List<T> list) {
+        return list.stream().map(Objects::toString).collect(Collectors.toList());
     }
 
     public static void addOfferToCart(int offerId) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "INSERT INTO cart(offer_id,user_id) VALUES(?,?);";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setInt(1, offerId);
                 ps.setInt(2, userId);
-
                 ps.executeUpdate();
                 Log.d("Offer to cart added", "Pomyślnie dodano ofertę do koszyka");
 
@@ -1186,14 +1088,13 @@ public class Database {
     }
 
     public static void deleteFromCart(int id) {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "DELETE FROM cart WHERE offer_id = ?;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setInt(1, id);
-
                 int result = ps.executeUpdate();
                 if (result > 0)
                     Log.d("Offer from cart deleted", "Pomyślnie usunięto ofertę z koszyka");
@@ -1204,21 +1105,19 @@ public class Database {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<Offer> getOffersFromCart() {
-        Connection connection = connectionHelper.getConnection();
+        Optional<Connection> connection = connectionHelper.getConnection();
+        List<Offer> queriedOffers = new ArrayList<>();
 
-        if (connection != null) {
+        if (connection.isPresent()) {
             String query = "SELECT o.offer_id AS offerId,places_number,price,start_date,end_date,h.hotel_id AS hotelId,star_count,description,co.name AS CountryName," +
                     "c.name AS cityName,f.type AS feedType,hn.name AS hotelName,image_path FROM cart INNER JOIN offer o ON cart.offer_id=o.offer_id INNER JOIN hotel h ON o.hotel_id=h.hotel_id " +
                     "INNER JOIN city c ON c.city_id = h.city_id INNER JOIN country co ON co.country_id = h.country_id INNER JOIN food f ON f.food_id=h.food_id " +
                     "INNER JOIN hotel_name hn ON hn.hotel_name_id = h.name_id WHERE user_id = ?;";
             try {
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setInt(1, userId);
                 ResultSet rs = ps.executeQuery();
-
-                List<Offer> offersList = new ArrayList<>();
 
                 while (rs.next()) {
                     int offerId = rs.getInt("offerId");
@@ -1237,35 +1136,29 @@ public class Database {
 
                     Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                     SerializableBitmap serializableBitmap = new SerializableBitmap(bitmap);
-
                     LocalDate localDate1 = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     LocalDate localDate2 = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    Hotel h = new Hotel(hotelId, new Country(countryName), new City(cityName), new Food(foodType),
+                            starCount, description, new HotelName(hotelName), serializableBitmap);
 
-                    Hotel h = new Hotel(hotelId, new Country(0, countryName), new City(0, cityName, (short) 0), new Food(0, foodType), starCount, description, new HotelName(0, hotelName), serializableBitmap);
-
-                    offersList.add(new Offer(offerId, availablePlaces, price, localDate1, localDate2, h));
+                    queriedOffers.add(new Offer(offerId, availablePlaces, price, localDate1, localDate2, h));
                 }
-
-                return offersList;
-
             } catch (SQLException sqlE) {
                 Log.d("Get from cart error", sqlE.getMessage());
             }
         }
-        return null;
+        return queriedOffers;
     }
 
-// public static List<Integer> getOffersIdsFromCart()
-//    @RequiresApi(api = Build.VERSION_CODES.O)
 //    public static List<Integer> getOffersIdsFromCart() {
-//        Connection connection = connectionHelper.getConnection();
+//        Optional<Connection> connection = connectionHelper.getConnection();
 //
-//        if (connection != null) {
+//        if (connection.isPresent()) {
 //            String query = "SELECT o.offer_id AS offerId FROM cart INNER JOIN offer o ON cart.offer_id=o.offer_id INNER JOIN hotel h ON o.hotel_id=h.hotel_id " +
 //                    "INNER JOIN city c ON c.city_id = h.city_id INNER JOIN country co ON co.country_id = h.country_id INNER JOIN food f ON f.food_id=h.food_id " +
 //                    "INNER JOIN hotel_name hn ON hn.hotel_name_id = h.name_id WHERE user_id = ?;";
 //            try {
-//                PreparedStatement ps = connection.prepareStatement(query);
+//                PreparedStatement ps = connection.get().prepareStatement(query);
 //                ps.setInt(1, userId);
 //                ResultSet rs = ps.executeQuery();
 //

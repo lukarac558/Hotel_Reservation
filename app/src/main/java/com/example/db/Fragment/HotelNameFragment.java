@@ -3,11 +3,9 @@ package com.example.db.Fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -39,13 +37,11 @@ import com.example.db.R;
 
 public class HotelNameFragment extends Fragment {
 
-    ConfigurationActivity configurationActivity;
-    Intent intent;
-    Spinner selectedHotelNameSpinner;
-    EditText hotelNameEditText;
-    ArrayAdapter<String> hotelNameAdapter;
-    List<HotelName> hotelNameList;
-    List<String> stringHotelNameList;
+    private ConfigurationActivity configurationActivity;
+    private Intent intent;
+    private Spinner selectedHotelNameSpinner;
+    private EditText hotelNameEditText;
+    private List<String> stringHotelNameList;
 
     public HotelNameFragment() {
     }
@@ -65,7 +61,7 @@ public class HotelNameFragment extends Fragment {
         configurationActivity.findViewById(R.id.hotelNameImageButton).setVisibility(View.INVISIBLE);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,9 +71,9 @@ public class HotelNameFragment extends Fragment {
         Button addHotelNameButton = view.findViewById(R.id.addHotelNameButton);
         Button deleteHotelNameButton = view.findViewById(R.id.deleteHotelNameButton);
 
-        hotelNameList = Database.getHotelNames();
+        List<HotelName> hotelNameList = Database.getHotelNames();
 
-        stringHotelNameList = (List<String>) hotelNameList.stream().map(Objects::toString).collect(Collectors.toList());
+        stringHotelNameList = hotelNameList.stream().map(Objects::toString).collect(Collectors.toList());
         Collections.sort(stringHotelNameList);
 
         setHotelNameAdapter();
@@ -134,7 +130,7 @@ public class HotelNameFragment extends Fragment {
     }
 
     private void setHotelNameAdapter(){
-        hotelNameAdapter = new ArrayAdapter<>(configurationActivity.getApplicationContext(), android.R.layout.simple_spinner_item, stringHotelNameList);
+        ArrayAdapter<String> hotelNameAdapter = new ArrayAdapter<>(configurationActivity.getApplicationContext(), android.R.layout.simple_spinner_item, stringHotelNameList);
         hotelNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectedHotelNameSpinner.setAdapter(hotelNameAdapter);
     }

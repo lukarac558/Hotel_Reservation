@@ -1,13 +1,11 @@
 package com.example.db.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -34,48 +32,36 @@ import com.example.db.Database.Database;
 
 public class OfferDetailsActivity extends AppCompatActivity {
 
-    Intent intent;
-    int offerId;
-    Offer offer;
-    short peopleCount;
-    double totalPrice;
-    String stringTotalPrice;
-    ImageView dHotelImageView;
-    RatingBar dStarsRatingBar;
-    TextView dHotelNameTextView;
-    TextView dCountryTextView;
-    TextView dCityTextView;
-    TextView dFoodTextView;
-    TextView dPriceTextView;
-    TextView dStartDateTextView;
-    TextView dEndDateTextView;
-    TextView dDescriptionTextView;
-    NumberPicker dPeopleCountNumberPicker;
-    TextView dTotalPriceTextView;
+    private Intent intent;
+    private Offer offer;
+    private short peopleCount;
+    private double totalPrice;
+    private String stringTotalPrice;
+    private NumberPicker dPeopleCountNumberPicker;
+    private TextView dTotalPriceTextView;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_details);
 
-        dHotelImageView = findViewById(R.id.dHotelImageView);
-        dHotelNameTextView = findViewById(R.id.dHotelNameTextView);
-        dStarsRatingBar = findViewById(R.id.dStarsRatingBar);
-        dCountryTextView = findViewById(R.id.dCountryTextView);
-        dCityTextView = findViewById(R.id.dCityTextView);
-        dFoodTextView = findViewById(R.id.dFoodTextView);
-        dPriceTextView = findViewById(R.id.dPriceTextView);
-        dStartDateTextView = findViewById(R.id.dStartDateTextView);
-        dEndDateTextView = findViewById(R.id.dEndDateTextView);
-        dDescriptionTextView = findViewById(R.id.dDescriptionTextView);
+        ImageView dHotelImageView = findViewById(R.id.dHotelImageView);
+        TextView dHotelNameTextView = findViewById(R.id.dHotelNameTextView);
+        RatingBar dStarsRatingBar = findViewById(R.id.dStarsRatingBar);
+        TextView dCountryTextView = findViewById(R.id.dCountryTextView);
+        TextView dCityTextView = findViewById(R.id.dCityTextView);
+        TextView dFoodTextView = findViewById(R.id.dFoodTextView);
+        TextView dPriceTextView = findViewById(R.id.dPriceTextView);
+        TextView dStartDateTextView = findViewById(R.id.dStartDateTextView);
+        TextView dEndDateTextView = findViewById(R.id.dEndDateTextView);
+        TextView dDescriptionTextView = findViewById(R.id.dDescriptionTextView);
         dPeopleCountNumberPicker = findViewById(R.id.dPeopleCountNumberPicker);
         dTotalPriceTextView = findViewById(R.id.dTotalPriceTextView);
 
         if(Database.userId <= 0)
             findViewById(R.id.dBookButton).setVisibility(View.INVISIBLE);
 
-        offerId = (int) getIntent().getSerializableExtra("offer");
+        int offerId = (int) getIntent().getSerializableExtra("offer");
         offer = Database.getOfferById(offerId);
         peopleCount = (short) getIntent().getSerializableExtra("peopleCount");
 
@@ -143,7 +129,6 @@ public class OfferDetailsActivity extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void bookOffer(View view){
 
         if(Database.userId > 0 ) {

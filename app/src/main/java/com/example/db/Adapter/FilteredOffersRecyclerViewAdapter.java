@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.db.Activity.OfferDetailsActivity;
@@ -45,7 +43,7 @@ public class FilteredOffersRecyclerViewAdapter extends RecyclerView.Adapter<Filt
     }
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    
     @Override
     public void onBindViewHolder(@NonNull OfferViewHolder holder, int position) {
         int id = data.get(position);

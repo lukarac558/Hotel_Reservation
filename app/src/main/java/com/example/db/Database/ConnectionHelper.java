@@ -5,28 +5,27 @@ import android.util.Log;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Optional;
 
 public class ConnectionHelper {
-    String username,password,ip, port, database;
+    String username = "sa",
+            password = "123",
+            ip = "192.168.0.196",
+            port = "1433",
+            database = "TrivagoDB";
 
-    public Connection getConnection(){
-        ip ="192.168.0.196";
-        database="TrivagoDB";
-        username="sa";
-        password="123";
-        port="1433";
-
+    public Optional<Connection> getConnection(){
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         String connectionURL;
-        Connection connection = null;
+        Optional<Connection> connection = Optional.empty();
 
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             connectionURL = "jdbc:jtds:sqlserver://" + ip + ":" + port + ";" + "databasename=" + database + ";user=" + username +
                     ";password=" + password + ";";
-            connection = DriverManager.getConnection(connectionURL);
+            connection = Optional.of(DriverManager.getConnection(connectionURL));
         }
         catch (Exception e){
             Log.d("Connection error", "Problem połączenia z bazą danych: " + e.getMessage());

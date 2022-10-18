@@ -1,11 +1,9 @@
 package com.example.db.Fragment;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,11 +30,8 @@ import com.example.db.R;
 
 public class DeleteOfferFragment extends Fragment {
 
-    OffersActivity offersActivity;
-    Intent intent;
-    ArrayList<Offer> offerList;
-    RecyclerView offerRecyclerView;
-    OffersRecyclerViewAdapter offersRecyclerViewAdapter;
+    private OffersActivity offersActivity;
+    private Intent intent;
 
     public DeleteOfferFragment() {
     }
@@ -51,19 +46,19 @@ public class DeleteOfferFragment extends Fragment {
         offersActivity = (OffersActivity) getActivity();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_delete_offer, container, false);
 
-        offerList = (ArrayList<Offer>) Database.getAllOffers();
-        offerRecyclerView = view.findViewById(R.id.oOffersRecyclerView);
+        ArrayList<Offer> offerList = new ArrayList<>(Database.getAllOffers());
+        RecyclerView offerRecyclerView = view.findViewById(R.id.oOffersRecyclerView);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(offersActivity.getApplicationContext());
         offerRecyclerView.setLayoutManager(linearLayoutManager);
 
-        offersRecyclerViewAdapter = new OffersRecyclerViewAdapter(getContext(), offerList);
+        OffersRecyclerViewAdapter offersRecyclerViewAdapter = new OffersRecyclerViewAdapter(getContext(), offerList);
         offerRecyclerView.setAdapter(offersRecyclerViewAdapter);
 
         return view;

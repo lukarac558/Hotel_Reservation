@@ -21,11 +21,11 @@ import com.example.db.R;
 
 public class ConfigurationActivity extends AppCompatActivity {
 
-    Intent intent;
-    CountryFragment countryFragment;
-    CityFragment cityFragment;
-    FoodFragment foodFragment;
-    HotelNameFragment hotelNameFragment;
+    private Intent intent;
+    private CountryFragment countryFragment;
+    private CityFragment cityFragment;
+    private FoodFragment foodFragment;
+    private HotelNameFragment hotelNameFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

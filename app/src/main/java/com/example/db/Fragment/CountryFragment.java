@@ -3,11 +3,9 @@ package com.example.db.Fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -38,13 +36,11 @@ import com.example.db.R;
 
 public class CountryFragment extends Fragment {
 
-    ConfigurationActivity configurationActivity;
-    Intent intent;
-    Spinner allCountriesSpinner;
-    ArrayAdapter<String> adapter;
-    List<Country> countryList;
-    List<String> allCountriesList;
-    List<String> stringCountryList;
+    private ConfigurationActivity configurationActivity;
+    private Intent intent;
+    private Spinner allCountriesSpinner;
+    private List<String> allCountriesList;
+    private List<String> stringCountryList;
 
     public CountryFragment() {
     }
@@ -64,7 +60,7 @@ public class CountryFragment extends Fragment {
         configurationActivity.findViewById(R.id.hotelNameImageButton).setVisibility(View.INVISIBLE);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,10 +69,9 @@ public class CountryFragment extends Fragment {
         Button addCountryButton = view.findViewById(R.id.addCountryButton);
         Button deleteCountryButton = view.findViewById(R.id.deleteCountryButton);
 
-        countryList = Database.getCountries();
+        List<Country> countryList = Database.getCountries();
 
-        stringCountryList  = (List<String>) countryList.stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
-
+        stringCountryList = countryList.stream().map(Objects::toString).collect(Collectors.toList());
         allCountriesList = Database.getAllWorldCountries();
         Collections.sort(allCountriesList);
 
@@ -142,7 +137,7 @@ public class CountryFragment extends Fragment {
     }
 
     private void setAdapter(){
-        adapter = new ArrayAdapter<>(configurationActivity.getApplicationContext(), android.R.layout.simple_spinner_item, allCountriesList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(configurationActivity.getApplicationContext(), android.R.layout.simple_spinner_item, allCountriesList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         allCountriesSpinner.setAdapter(adapter);
     }

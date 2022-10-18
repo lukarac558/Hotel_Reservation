@@ -19,9 +19,7 @@ import com.example.db.R;
 
 public class OffersActivity extends AppCompatActivity {
 
-    Intent intent;
-    AddOfferFragment addOfferFragment;
-    DeleteOfferFragment deleteOfferFragment;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +30,8 @@ public class OffersActivity extends AppCompatActivity {
     public void addOffer(View view){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        addOfferFragment = AddOfferFragment.newInstance();
-        fragmentTransaction.replace(R.id.offersLinearLayout,addOfferFragment);
+        AddOfferFragment addOfferFragment = AddOfferFragment.newInstance();
+        fragmentTransaction.replace(R.id.offersLinearLayout, addOfferFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -41,7 +39,7 @@ public class OffersActivity extends AppCompatActivity {
     public void deleteOffer(View view){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        deleteOfferFragment = DeleteOfferFragment.newInstance();
+        DeleteOfferFragment deleteOfferFragment = DeleteOfferFragment.newInstance();
         fragmentTransaction.replace(R.id.offersLinearLayout, deleteOfferFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();

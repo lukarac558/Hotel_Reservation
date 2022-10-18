@@ -1,15 +1,12 @@
 package com.example.db.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -43,31 +40,30 @@ import com.example.db.Database.Database;
 
 public class SearchEngineActivity extends AppCompatActivity {
 
-    Intent intent;
-    MultiSpinnerSearch countrySpinner;
-    MultiSpinnerSearch citySpinner;
-    MultiSpinnerSearch foodSpinner;
-    NumberPicker peopleCountNumberPicker;
-    RangeSlider priceRangeSlider;
-    RadioGroup starsRadioGroup;
-    List<Country> countryList;
-    List<Country> selectedCountriesList = new ArrayList<>();
-    List<KeyPairBoolData> countryListConverter;
-    List<City> cityList;
-    List<City> selectedCitiesList = new ArrayList<>();
-    List<KeyPairBoolData> cityListConverter;
-    List<Food> foodList;
-    List<Food> selectedFoodTypesList = new ArrayList<>();
-    List<KeyPairBoolData> foodListConverter;
-    TextView startDateTextView;
-    TextView endDateTextView;
-    DatePickerDialog.OnDateSetListener startDateSetListener;
-    DatePickerDialog.OnDateSetListener endDateSetListener;
-    LocalDate startDate;
-    LocalDate endDate;
-    byte starsCount = 1;
+    private Intent intent;
+    private MultiSpinnerSearch countrySpinner;
+    private MultiSpinnerSearch citySpinner;
+    private MultiSpinnerSearch foodSpinner;
+    private NumberPicker peopleCountNumberPicker;
+    private RangeSlider priceRangeSlider;
+    private List<Country> countryList;
+    private final List<Country> selectedCountriesList = new ArrayList<>();
+    private List<KeyPairBoolData> countryListConverter;
+    private List<City> cityList;
+    private final List<City> selectedCitiesList = new ArrayList<>();
+    private List<KeyPairBoolData> cityListConverter;
+    private List<Food> foodList;
+    private final List<Food> selectedFoodTypesList = new ArrayList<>();
+    private List<KeyPairBoolData> foodListConverter;
+    private TextView startDateTextView;
+    private TextView endDateTextView;
+    private DatePickerDialog.OnDateSetListener startDateSetListener;
+    private DatePickerDialog.OnDateSetListener endDateSetListener;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private byte starsCount = 1;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +75,7 @@ public class SearchEngineActivity extends AppCompatActivity {
         foodSpinner = findViewById(R.id.foodSpinner);
         peopleCountNumberPicker = findViewById(R.id.peopleCountNumberPicker);
         priceRangeSlider = findViewById(R.id.priceRangeSlider);
-        starsRadioGroup = findViewById(R.id.starsRadioGroup);
+        RadioGroup starsRadioGroup = findViewById(R.id.starsRadioGroup);
         startDateTextView = findViewById(R.id.startDateTextView);
         endDateTextView = findViewById(R.id.endDateTextView);
 
@@ -105,11 +101,11 @@ public class SearchEngineActivity extends AppCompatActivity {
 
                     for (String country : citiesArray) {
                         short countryId = Database.getCountryIdByName(country);
-                        cityList.addAll(Objects.requireNonNull(Database.getCitiesByCountryId(countryId)));
+                        cityList = Database.getCitiesByCountryId(countryId);
                     }
                 } else {
                     short countryId = Database.getCountryIdByName(countries);
-                    cityList.addAll(Objects.requireNonNull(Database.getCitiesByCountryId(countryId)));
+                    cityList = Database.getCitiesByCountryId(countryId);
                 }
 
                 cityListConverter.clear();
@@ -125,7 +121,6 @@ public class SearchEngineActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
@@ -164,48 +159,45 @@ public class SearchEngineActivity extends AppCompatActivity {
         filterButton.setOnClickListener(view -> filter());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     public void filter() {
-        AsyncTask.execute(() -> {
-            short peopleCount = (short) peopleCountNumberPicker.getValue();
+        short peopleCount = (short) peopleCountNumberPicker.getValue();
 
-            List<Float> minMaxValues = priceRangeSlider.getValues();
-            double minPrice = minMaxValues.get(0);
-            double maxPrice = minMaxValues.get(1);
+        List<Float> minMaxValues = priceRangeSlider.getValues();
+        double minPrice = minMaxValues.get(0);
+        double maxPrice = minMaxValues.get(1);
 
-            setSelectedCountries();
-            setSelectedCities();
-            setSelectedFoodTypes();
+        setSelectedCountries();
+        setSelectedCities();
+        setSelectedFoodTypes();
 
-            LocalDate dateNow = LocalDate.now();
+        LocalDate dateNow = LocalDate.now();
 
-            if (startDate == null)
-                startDate = dateNow;
+        if (startDate == null)
+            startDate = dateNow;
 
-            if (endDate == null)
-                endDate = dateNow.plusYears(2);
+        if (endDate == null)
+            endDate = dateNow.plusYears(2);
 
-            if (startDate.isAfter(endDate)) {
-                Toast.makeText(this, "Początek musi mieć mniejszą wartość niż koniec zakresu dat urlopu", Toast.LENGTH_SHORT).show();
-                Log.d("Date error", "Początek musi mieć mniejszą wartość niż koniec zakresu dat urlopu");
-                return;
-            }
+        if (startDate.isAfter(endDate)) {
+            Toast.makeText(this, "Początek musi mieć mniejszą wartość niż koniec zakresu dat urlopu", Toast.LENGTH_SHORT).show();
+            Log.d("Date error", "Początek musi mieć mniejszą wartość niż koniec zakresu dat urlopu");
+            return;
+        }
 
-            //List<Offer> offerList = Database.filterOffers(peopleCount, minPrice, maxPrice, startDate, endDate, selectedCountriesList, selectedCitiesList, selectedFoodTypesList, starsCount);
-            List<Integer> offersIdsList = Database.filterOffersIds(peopleCount, minPrice, maxPrice, startDate, endDate, selectedCountriesList, selectedCitiesList, selectedFoodTypesList, starsCount);
-            //getOfferById
+        List<Integer> offersIdsList;
+        offersIdsList = Database.filterOffersIds(peopleCount, minPrice, maxPrice, startDate, endDate, selectedCountriesList, selectedCitiesList, selectedFoodTypesList, starsCount);
 
-            if (offersIdsList != null && offersIdsList.size() > 0) {
-                Intent intent = new Intent(getApplicationContext(), FilteredOffersActivity.class);
-                ArrayList<Integer> adapterList = new ArrayList<>(offersIdsList);
-                intent.putExtra("offerList", adapterList);
-                intent.putExtra("peopleCount", peopleCount);
-                startActivity(intent);
-            } else {
-                Toast.makeText(this, "Nie znaleziono żadnych ofert. Zmień kryteria.", Toast.LENGTH_SHORT).show();
-                Log.d("Searching error", "Nie znaleziono żadnych ofert. Zmień kryteria.");
-            }
-        });
+        if (offersIdsList.size() > 0) {
+            Intent intent = new Intent(getApplicationContext(), FilteredOffersActivity.class);
+            ArrayList<Integer> adapterList = new ArrayList<>(offersIdsList);
+            intent.putExtra("offerList", adapterList);
+            intent.putExtra("peopleCount", peopleCount);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Nie znaleziono żadnych ofert. Zmień kryteria.", Toast.LENGTH_SHORT).show();
+            Log.d("Searching error", "Nie znaleziono żadnych ofert. Zmień kryteria.");
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -281,7 +273,7 @@ public class SearchEngineActivity extends AppCompatActivity {
 
         if (list.size() > 0) {
             for (KeyPairBoolData k : list) {
-                int id = (int) k.getId();
+                short id = (short) k.getId();
                 String name = k.getName();
                 selectedCountriesList.add(new Country(id, name));
             }
@@ -317,10 +309,10 @@ public class SearchEngineActivity extends AppCompatActivity {
             for (KeyPairBoolData k : list) {
                 int id = (int) k.getId();
                 String name = k.getName();
-                selectedCitiesList.add(new City(id, name, (short) 0));
+                Objects.requireNonNull(selectedCitiesList).add(new City(id, name));
             }
         } else
-            selectedCitiesList.addAll(cityList);
+            Objects.requireNonNull(selectedCitiesList).addAll(cityList);
     }
 
     private void setFoodTypes() {
@@ -351,10 +343,10 @@ public class SearchEngineActivity extends AppCompatActivity {
             for (KeyPairBoolData k : list) {
                 int id = (int) k.getId();
                 String type = k.getName();
-                selectedFoodTypesList.add(new Food(id, type));
+                Objects.requireNonNull(selectedFoodTypesList).add(new Food(id, type));
             }
         } else
-            selectedFoodTypesList.addAll(foodList);
+            Objects.requireNonNull(selectedFoodTypesList).addAll(foodList);
     }
 
     private void showCalendar(DatePickerDialog.OnDateSetListener listener) {
@@ -372,7 +364,7 @@ public class SearchEngineActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     private void setStartDate(TextView textView, int year, int month, int day) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         month++;
@@ -395,7 +387,7 @@ public class SearchEngineActivity extends AppCompatActivity {
         textView.setText(stringDate);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     private void setEndDate(TextView textView, int year, int month, int day) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         month++;

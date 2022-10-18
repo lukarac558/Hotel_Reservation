@@ -1,19 +1,20 @@
 package com.example.db.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.db.R;
 import com.google.gson.Gson;
@@ -27,31 +28,46 @@ import com.example.db.Database.Database;
 
 public class FavouriteOffersActivity extends AppCompatActivity {
 
-    Intent intent;
-    ArrayList<Offer> favouritesList = new ArrayList<>();
-    RecyclerView favouritesRecyclerView;
+    private Intent intent;
+    private final ArrayList<Offer> favouritesList = new ArrayList<>();
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favourite_offers);
 
-        favouritesRecyclerView = findViewById(R.id.favouriteOffersRecyclerView);
-        favouritesRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        favouritesRecyclerView.setLayoutManager(linearLayoutManager);
         createList();
         if (favouritesList.size() > 0) {
+            setContentView(R.layout.activity_favourite_offers);
+            RecyclerView favouritesRecyclerView = findViewById(R.id.favouriteOffersRecyclerView);
+            favouritesRecyclerView.setHasFixedSize(true);
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            favouritesRecyclerView.setLayoutManager(linearLayoutManager);
+
             FavouriteOffersRecyclerViewAdapter adapter = new FavouriteOffersRecyclerViewAdapter(this, favouritesList);
             favouritesRecyclerView.setAdapter(adapter);
         }
+        else {
+            Toast.makeText(this, "Nie masz obecnie żadnych ulubionych ofert.", Toast.LENGTH_LONG).show();
+            setContentView(R.layout.empty_recycler);
+
+            Button filterButton = findViewById(R.id.searchEngineButton);
+            TextView emptyTextView = findViewById(R.id.emptyTextView);
+
+            emptyTextView.setText("Nie masz obecnie żadnych ulubionych ofert. Jeśli chcesz przeglądnąć aktualne oferty, kliknij w poniższy przycisk. Zostaniesz wówczas przeniesiony do wyszukiwarki ofert.");
+
+            filterButton.setOnClickListener(view -> {
+                Intent intent = new Intent(getApplicationContext(), SearchEngineActivity.class);
+                startActivity(intent);
+            });
+        }
+
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void createList() {
         if (Database.userId > 0) {
-            favouritesList = (ArrayList<Offer>) Database.getOffersFromCart();
+                favouritesList.addAll(Database.getOffersFromCart());
         } else {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             Map<String, ?> offerMap = sharedPreferences.getAll();

@@ -29,11 +29,8 @@ import com.example.db.R;
 
 public class DeleteHotelFragment extends Fragment {
 
-    HotelsActivity hotelsActivity;
-    Intent intent;
-    ArrayList<Hotel> hotelList;
-    RecyclerView hotelRecyclerView;
-    HotelsRecyclerViewAdapter hotelsRecyclerViewAdapter;
+    private HotelsActivity hotelsActivity;
+    private Intent intent;
 
     public DeleteHotelFragment() {
     }
@@ -54,13 +51,13 @@ public class DeleteHotelFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_delete_hotel, container, false);
 
-        hotelList = (ArrayList<Hotel>) Database.getAllHotels();
-        hotelRecyclerView = view.findViewById(R.id.dHotelsRecyclerView);
+        ArrayList<Hotel> hotelList = new ArrayList<>(Database.getAllHotels());
+        RecyclerView hotelRecyclerView = view.findViewById(R.id.dHotelsRecyclerView);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(hotelsActivity.getApplicationContext());
         hotelRecyclerView.setLayoutManager(linearLayoutManager);
 
-        hotelsRecyclerViewAdapter = new HotelsRecyclerViewAdapter(getContext(), hotelList);
+        HotelsRecyclerViewAdapter hotelsRecyclerViewAdapter = new HotelsRecyclerViewAdapter(getContext(), hotelList);
         hotelRecyclerView.setAdapter(hotelsRecyclerViewAdapter);
 
         return view;

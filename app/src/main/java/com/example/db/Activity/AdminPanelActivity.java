@@ -1,11 +1,9 @@
 package com.example.db.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,9 +15,9 @@ import com.example.db.R;
 
 public class AdminPanelActivity extends AppCompatActivity {
 
-    Intent intent;
+    private Intent intent;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

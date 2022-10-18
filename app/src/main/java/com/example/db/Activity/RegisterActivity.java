@@ -18,12 +18,12 @@ import com.example.db.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText rLoginEditText;
-    EditText rPasswordEditText;
-    EditText rPassword2EditText;
-    EditText rEmailEditText;
-    EditText rPhoneEditText;
-    TextView rErrorTextView;
+    private EditText rLoginEditText;
+    private EditText rPasswordEditText;
+    private EditText rPassword2EditText;
+    private EditText rEmailEditText;
+    private EditText rPhoneEditText;
+    private TextView rErrorTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
