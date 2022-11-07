@@ -12,9 +12,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.db.Fragment.EditHotelFragment;
 import com.example.db.R;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
+
 import com.example.db.Class.Hotel;
 import com.example.db.Database.Database;
 
@@ -23,7 +31,7 @@ public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecycl
     private final ArrayList<Hotel> data;
     private final Context context;
 
-    public HotelsRecyclerViewAdapter(Context context, ArrayList<Hotel> data){
+    public HotelsRecyclerViewAdapter(Context context, ArrayList<Hotel> data) {
         this.context = context;
         this.data = data;
     }
@@ -31,7 +39,7 @@ public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecycl
     @NonNull
     @Override
     public HotelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_row_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_row_item, parent, false);
         return new HotelViewHolder(view).linkAdapter(this);
     }
 
@@ -43,10 +51,9 @@ public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecycl
 
         Bitmap bitmap = hotel.getImage().getBitmap();
         holder.hrHotelImageView.setImageBitmap(bitmap);
-        holder.hrHotelNameTextView.setText(hotel.getName().getName());
-        holder.hrCountryTextView.setText(hotel.getCountry().getName());
+        holder.hrHotelNameTextView.setText(hotel.getName());
+        holder.hrCountryTextView.setText(hotel.getCity().getCountry().getName());
         holder.hrCityTextView.setText(hotel.getCity().getName());
-        holder.hrFoodTextView.setText(hotel.getFood().getType());
         holder.hrDescriptionTextView.setText(hotel.getDescription());
         holder.hrStarsRatingBar.setRating(hotel.getStarCount());
     }
@@ -56,9 +63,9 @@ public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecycl
         return data.size();
     }
 
-    public static class HotelViewHolder extends RecyclerView.ViewHolder{
+    public static class HotelViewHolder extends RecyclerView.ViewHolder {
         private final ImageView hrHotelImageView;
-        private final TextView hrHotelNameTextView, hrCountryTextView, hrCityTextView, hrFoodTextView, hrDescriptionTextView;
+        private final TextView hrHotelNameTextView, hrCountryTextView, hrCityTextView, hrDescriptionTextView;
         private final RatingBar hrStarsRatingBar;
         private Context context;
         private Hotel hotel;
@@ -71,7 +78,6 @@ public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecycl
             hrHotelNameTextView = itemView.findViewById(R.id.hrHotelNameTextView);
             hrCountryTextView = itemView.findViewById(R.id.hrCountryTextView);
             hrCityTextView = itemView.findViewById(R.id.hrCityTextView);
-            hrFoodTextView = itemView.findViewById(R.id.hrFoodTextView);
             hrDescriptionTextView = itemView.findViewById(R.id.hrDescriptionTextView);
             hrStarsRatingBar = itemView.findViewById(R.id.hrStarsRatingBar);
 
@@ -83,8 +89,13 @@ public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecycl
                         (dialog, id) -> {
                             hotel = adapter.data.get(getAdapterPosition());
 
-                            Database.deleteHotel(hotel.getId());
-                            Toast.makeText(context, "Pomyślnie usunięto hotel", Toast.LENGTH_SHORT).show();
+                            try {
+                                Database.deleteHotel(hotel.getId());
+                                Toast.makeText(context, "Pomyślnie usunięto hotel", Toast.LENGTH_SHORT).show();
+                            } catch (SQLException exception) {
+                                Toast.makeText(context, "Usunięcie niemożliwe. Hotel jest w użyciu.", Toast.LENGTH_SHORT).show();
+                            }
+
                             adapter.data.remove(getAdapterPosition());
                             adapter.notifyItemRemoved(getAdapterPosition());
                         });
@@ -94,9 +105,22 @@ public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecycl
                 AlertDialog hotelAlert = alertBuilder.create();
                 hotelAlert.show();
             });
+
+            itemView.findViewById(R.id.hrEditButton).setOnClickListener(view -> {
+                hotel = adapter.data.get(getAdapterPosition());
+
+                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                EditHotelFragment editHotelFragment = EditHotelFragment.newInstance(hotel.getId());
+                fragmentTransaction.replace(R.id.hotelsLinearLayout, editHotelFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            });
+
+
         }
 
-        public HotelsRecyclerViewAdapter.HotelViewHolder linkAdapter(HotelsRecyclerViewAdapter adapter){
+        public HotelsRecyclerViewAdapter.HotelViewHolder linkAdapter(HotelsRecyclerViewAdapter adapter) {
             this.adapter = adapter;
             return this;
         }

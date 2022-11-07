@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import com.example.db.Class.Offer;
@@ -78,11 +79,11 @@ public class OfferDetailsActivity extends AppCompatActivity {
         stringTotalPrice = String.valueOf(totalPrice);
 
         dHotelImageView.setImageBitmap(bitmap);
-        dHotelNameTextView.setText(offer.getHotel().getName().getName());
+        dHotelNameTextView.setText(offer.getHotel().getName());
         dStarsRatingBar.setRating(offer.getHotel().getStarCount());
-        dCountryTextView.setText(offer.getHotel().getCountry().getName());
+        dCountryTextView.setText(offer.getHotel().getCity().getCountry().getName());
         dCityTextView.setText(offer.getHotel().getCity().getName());
-        dFoodTextView.setText(offer.getHotel().getFood().getType());
+        dFoodTextView.setText(offer.getFood().getType());
         dPriceTextView.setText(stringPrice);
         dStartDateTextView.setText(offer.getStartDate().toString());
         dEndDateTextView.setText(offer.getEndDate().toString());
@@ -107,9 +108,13 @@ public class OfferDetailsActivity extends AppCompatActivity {
 
         if(Database.userId > 0) {
             int id = offer.getId();
-            Database.addOfferToCart(id);
-            Toast.makeText(this, "Pomyślnie dodano przedmiot do koszyka", Toast.LENGTH_SHORT).show();
-            Log.d("To cart added", "Pomyślnie dodano przedmiot do koszyka");
+
+            try {
+                Database.addOfferToCart(id , peopleCount);
+                Toast.makeText(this, "Pomyślnie dodano przedmiot do koszyka", Toast.LENGTH_SHORT).show();
+            } catch (SQLException exception) {
+                Toast.makeText(this, "Przedmiot jest już w koszyku, dlatego nie można go dodać.", Toast.LENGTH_SHORT).show();
+            }
 
             Intent intent = new Intent(getApplicationContext(), FavouriteOffersActivity.class);
             startActivity(intent);
@@ -118,10 +123,9 @@ public class OfferDetailsActivity extends AppCompatActivity {
         {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            Gson gson = new Gson();
-            String json = gson.toJson(offer);
+
             String offerId = "offer" + offer.getId();
-            editor.putString(offerId, json);
+            editor.putInt(offerId, peopleCount);
             editor.apply();
 
             Intent intent = new Intent(getApplicationContext(), FavouriteOffersActivity.class);
@@ -153,7 +157,7 @@ public class OfferDetailsActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if(Database.permission.equalsIgnoreCase("user")) {
+        if(!Database.isAdmin) {
             inflater.inflate(R.menu.user_menu, menu);
             MenuItem login_item = menu.findItem(R.id.login);
             login_item.setVisible(false);
@@ -173,7 +177,7 @@ public class OfferDetailsActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if(Database.permission.equalsIgnoreCase("user")) {
+        if(!Database.isAdmin) {
 
             if(id == R.id.showSearchEngine)
                 intent = new Intent(this, SearchEngineActivity.class);

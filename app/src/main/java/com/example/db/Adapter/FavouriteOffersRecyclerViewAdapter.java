@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.db.Activity.OfferDetailsActivity;
 import com.example.db.Activity.RegisterActivity;
+import com.example.db.Class.CartItem;
 import com.example.db.R;
+
+import java.sql.SQLException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import com.example.db.Class.Offer;
 import com.example.db.Database.Database;
@@ -30,9 +31,9 @@ import com.example.db.Database.Database;
 public class FavouriteOffersRecyclerViewAdapter extends RecyclerView.Adapter<FavouriteOffersRecyclerViewAdapter.FavouriteOfferViewHolder> {
 
     private final Context context;
-    private final ArrayList<Offer> data;
+    private final ArrayList<CartItem> data;
 
-    public FavouriteOffersRecyclerViewAdapter(Context context, ArrayList<Offer> data) {
+    public FavouriteOffersRecyclerViewAdapter(Context context, ArrayList<CartItem> data) {
         this.data = data;
         this.context = context;
     }
@@ -49,25 +50,23 @@ public class FavouriteOffersRecyclerViewAdapter extends RecyclerView.Adapter<Fav
     
     @Override
     public void onBindViewHolder(@NonNull FavouriteOfferViewHolder holder, int position) {
-        Offer offer = data.get(position);
+        CartItem cartItem = data.get(position);
         holder.context = context;
+        holder.cartItem = cartItem;
+        Offer offer = Database.getOfferById(cartItem.getOfferId());
 
-        if(Database.userId <= 0)
-            offer = Database.getOfferById(offer.getId());
-
-        Bitmap bitmap = Objects.requireNonNull(offer).getHotel().getImage().getBitmap();
+        Bitmap bitmap = offer.getHotel().getImage().getBitmap();
         String stringPrice = String.valueOf(offer.getPrice());
 
         long days = ChronoUnit.DAYS.between(offer.getStartDate(), offer.getEndDate());
 
-        holder.offer = offer;
-        holder.faHotelNameTextView.setText(offer.getHotel().getName().getName());
-        holder.faCountryTextView.setText(offer.getHotel().getCountry().getName()+",");
+        holder.faHotelNameTextView.setText(offer.getHotel().getName());
+        holder.faCountryTextView.setText(offer.getHotel().getCity().getCountry().getName()+",");
         holder.faCityTextView.setText(offer.getHotel().getCity().getName());
         holder.faStartDateTextView.setText(offer.getStartDate().toString());
         holder.faDaysTextView.setText("(" + days + " dni)");
         holder.faPriceTextView.setText(stringPrice);
-        holder.faFoodTextView.setText(offer.getHotel().getFood().getType());
+        holder.faFoodTextView.setText(offer.getFood().getType());
         holder.faHotelImageView.setImageBitmap(bitmap);
         holder.faRatingBar.setRating(offer.getHotel().getStarCount());
     }
@@ -81,7 +80,7 @@ public class FavouriteOffersRecyclerViewAdapter extends RecyclerView.Adapter<Fav
         private final TextView faHotelNameTextView, faCountryTextView, faCityTextView, faStartDateTextView, faDaysTextView, faPriceTextView, faFoodTextView;
         private final ImageView faHotelImageView;
         private final RatingBar faRatingBar;
-        private Offer offer;
+        private CartItem cartItem;
         private Context context;
         private FavouriteOffersRecyclerViewAdapter adapter;
 
@@ -99,17 +98,22 @@ public class FavouriteOffersRecyclerViewAdapter extends RecyclerView.Adapter<Fav
 
             itemView.findViewById(R.id.faDeleteButton).setOnClickListener(view -> {
 
-                offer = adapter.data.get(getAdapterPosition());
+                cartItem = adapter.data.get(getAdapterPosition());
 
                 if (Database.userId > 0) {
-                    int id = offer.getId();
-                    Log.d("offerId", "offerId:" + id);
-                    Database.deleteFromCart(id);
-                    Toast.makeText(context, "Pomyślnie usunięto z koszyka", Toast.LENGTH_SHORT).show();
+                    int id = cartItem.getOfferId();
+
+                    try {
+                        Database.deleteFromCart(id);
+                        Toast.makeText(context, "Pomyślnie usunięto z koszyka", Toast.LENGTH_SHORT).show();
+                    } catch (SQLException exception) {
+                        Toast.makeText(context, "Napotkano błąd przy usuwaniu z koszyka.", Toast.LENGTH_SHORT).show();
+                    }
+
                 } else {
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    String key = "offer" + offer.getId();
+                    String key = "offer" + cartItem.getOfferId();
                     editor.remove(key);
                     editor.apply();
                 }
@@ -122,8 +126,8 @@ public class FavouriteOffersRecyclerViewAdapter extends RecyclerView.Adapter<Fav
             itemView.findViewById(R.id.faDetailsButton).setOnClickListener(view -> {
                 if (Database.userId > 0) {
                     Intent intent = new Intent(context, OfferDetailsActivity.class);
-                    intent.putExtra("offer", offer.getId());
-                    intent.putExtra("peopleCount", (short)1);
+                    intent.putExtra("offer", cartItem.getOfferId());
+                    intent.putExtra("peopleCount", cartItem.getPeopleCount());
                     context.startActivity(intent);
                 }
                 else {

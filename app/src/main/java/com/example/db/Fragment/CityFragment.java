@@ -1,31 +1,22 @@
 package com.example.db.Fragment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
 
-import java.util.Collections;
-import java.util.List;
 import com.example.db.Activity.ConfigurationActivity;
-import com.example.db.Class.City;
-import com.example.db.Class.Country;
 import com.example.db.Database.Database;
 import com.example.db.Activity.HotelsActivity;
 import com.example.db.Activity.LoginActivity;
@@ -37,11 +28,6 @@ public class CityFragment extends Fragment {
 
     private ConfigurationActivity configurationActivity;
     private Intent intent;
-    private Spinner selectedCountriesSpinner;
-    private Spinner selectedCitiesSpinner;
-    private EditText cityEditText;
-    private List<Country> countryList;
-    private List<City> cityList;
 
     public CityFragment() {
     }
@@ -54,103 +40,53 @@ public class CityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        configurationActivity = (ConfigurationActivity)getActivity();
+        configurationActivity = (ConfigurationActivity) getActivity();
         configurationActivity.findViewById(R.id.countryImageButton).setVisibility(View.INVISIBLE);
         configurationActivity.findViewById(R.id.cityImageButton).setVisibility(View.INVISIBLE);
         configurationActivity.findViewById(R.id.foodImageButton).setVisibility(View.INVISIBLE);
-        configurationActivity.findViewById(R.id.hotelNameImageButton).setVisibility(View.INVISIBLE);
+        configurationActivity.findViewById(R.id.userImageButton).setVisibility(View.INVISIBLE);
     }
 
-    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view =  inflater.inflate(R.layout.fragment_city, container, false);
-        selectedCountriesSpinner = view.findViewById(R.id.selectedCountriesSpinner);
-        selectedCitiesSpinner = view.findViewById(R.id.selectedCitiesSpinner);
-        cityEditText = view.findViewById(R.id.cityEditText);
-        Button addCityButton = view.findViewById(R.id.addCityButton);
-        Button deleteCityButton = view.findViewById(R.id.deleteCityButton);
-
-        countryList = Database.getCountries();
-        cityList = Database.getCities();
-
-        Collections.sort(countryList);
-        Collections.sort(cityList);
-
-        setCountryAdapter();
-        setCityAdapter();
+        View view = inflater.inflate(R.layout.fragment_city, container, false);
+        Button addCityButton = view.findViewById(R.id.cAddCityButton);
+        Button deleteCityButton = view.findViewById(R.id.cDeleteCityButton);
 
         addCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String cityName = cityEditText.getText().toString();
-
-                if(!cityName.isEmpty()) {
-                    Country selectedCountry = (Country) selectedCountriesSpinner.getSelectedItem();
-                    short countryId = (short) selectedCountry.getId();
-
-                    City city = new City(0, cityName, countryId);
-
-                    Database.addCity(city);
-                    Toast.makeText(getContext(), "Pomyślnie dodano miasto", Toast.LENGTH_SHORT).show();
-
-                    if (!cityList.contains(cityName)) {
-                        cityList.add(city);
-                        Collections.sort(cityList);
-                    }
-
-                    setCityAdapter();
-                }
-                else
-                    Log.d("Empty city name", "Należy wprowadzić nazwę miasta");
+                addCity();
             }
         });
 
         deleteCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                AlertDialog.Builder alterBuilder = new AlertDialog.Builder(getContext());
-                alterBuilder.setMessage("Czy na pewno chcesz usunąć wybrany element z bazy wraz z jego powiązaniami?");
-                alterBuilder.setCancelable(true);
-                alterBuilder.setPositiveButton("Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                City selectedCity = (City) selectedCitiesSpinner.getSelectedItem();
-
-                                Database.deleteCity(selectedCity.getName());
-                                cityList.remove(selectedCity);
-                                Toast.makeText(getContext(), "Pomyślnie usunięto miasto", Toast.LENGTH_SHORT).show();
-                                setCityAdapter();
-                            }
-                        });
-                alterBuilder.setNegativeButton("Anuluj",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog cityAlert = alterBuilder.create();
-                cityAlert.show();
+                deleteCity();
             }
         });
 
         return view;
     }
 
-    private void setCountryAdapter(){
-        ArrayAdapter<Country> countryAdapter = new ArrayAdapter<>(configurationActivity.getApplicationContext(), android.R.layout.simple_spinner_item, countryList);
-        countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        selectedCountriesSpinner.setAdapter(countryAdapter);
+    public void addCity(){
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        AddCityFragment addCityFragment = AddCityFragment.newInstance();
+        fragmentTransaction.replace(R.id.citiesLinearLayout, addCityFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
-    private void setCityAdapter(){
-        ArrayAdapter<City> cityAdapter = new ArrayAdapter<>(configurationActivity.getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
-        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        selectedCitiesSpinner.setAdapter(cityAdapter);
+    public void deleteCity(){
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        DeleteCityFragment deleteHotelFragment = DeleteCityFragment.newInstance();
+        fragmentTransaction.replace(R.id.citiesLinearLayout, deleteHotelFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

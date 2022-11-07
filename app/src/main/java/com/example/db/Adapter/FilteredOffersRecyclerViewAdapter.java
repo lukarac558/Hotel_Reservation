@@ -57,13 +57,13 @@ public class FilteredOffersRecyclerViewAdapter extends RecyclerView.Adapter<Filt
 
         holder.peopleCount = peopleCount;
         holder.offerId = id;
-        holder.fHotelNameTextView.setText(offer.getHotel().getName().getName());
-        holder.fCountryTextView.setText(offer.getHotel().getCountry().getName()+",");
+        holder.fHotelNameTextView.setText(offer.getHotel().getName());
+        holder.fCountryTextView.setText(offer.getHotel().getCity().getCountry().getName()+",");
         holder.fCityTextView.setText(offer.getHotel().getCity().getName());
         holder.fStartDateTextView.setText(offer.getStartDate().toString());
         holder.fDaysTextView.setText("(" + days + " dni)");
         holder.fPriceTextView.setText(stringPrice);
-        holder.fFoodTextView.setText(offer.getHotel().getFood().getType());
+        holder.fFoodTextView.setText(offer.getFood().getType());
         holder.fHotelImageView.setImageBitmap(bitmap);
         holder.fRatingBar.setRating(offer.getHotel().getStarCount());
     }

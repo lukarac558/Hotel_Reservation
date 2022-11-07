@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.db.Class.CartItem;
 import com.example.db.R;
 import com.google.gson.Gson;
 
@@ -29,9 +32,10 @@ import com.example.db.Database.Database;
 public class FavouriteOffersActivity extends AppCompatActivity {
 
     private Intent intent;
-    private final ArrayList<Offer> favouritesList = new ArrayList<>();
+    private final ArrayList<CartItem> favouritesList = new ArrayList<>();
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +43,7 @@ public class FavouriteOffersActivity extends AppCompatActivity {
         createList();
         if (favouritesList.size() > 0) {
             setContentView(R.layout.activity_favourite_offers);
-            RecyclerView favouritesRecyclerView = findViewById(R.id.favouriteOffersRecyclerView);
+            RecyclerView favouritesRecyclerView = findViewById(R.id.usersRecyclerView);
             favouritesRecyclerView.setHasFixedSize(true);
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -47,8 +51,7 @@ public class FavouriteOffersActivity extends AppCompatActivity {
 
             FavouriteOffersRecyclerViewAdapter adapter = new FavouriteOffersRecyclerViewAdapter(this, favouritesList);
             favouritesRecyclerView.setAdapter(adapter);
-        }
-        else {
+        } else {
             Toast.makeText(this, "Nie masz obecnie żadnych ulubionych ofert.", Toast.LENGTH_LONG).show();
             setContentView(R.layout.empty_recycler);
 
@@ -67,17 +70,16 @@ public class FavouriteOffersActivity extends AppCompatActivity {
 
     private void createList() {
         if (Database.userId > 0) {
-                favouritesList.addAll(Database.getOffersFromCart());
+            favouritesList.addAll(Database.getAllFromCart());
         } else {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             Map<String, ?> offerMap = sharedPreferences.getAll();
 
             for (Map.Entry<String, ?> entry : offerMap.entrySet()) {
                 if (entry.getKey().contains("offer")) {
-                    Gson gson = new Gson();
-                    String json = sharedPreferences.getString(entry.getKey(), "");
-                    Offer offer = gson.fromJson(json, Offer.class);
-                    favouritesList.add(offer);
+                    short peopleCount = (short) sharedPreferences.getInt(entry.getKey(), 1);
+                    String offer = entry.getKey().replace("offer", "");
+                    favouritesList.add(new CartItem(Integer.parseInt(offer), peopleCount));
                 }
             }
         }
@@ -85,7 +87,7 @@ public class FavouriteOffersActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if (Database.permission.equalsIgnoreCase("user")) {
+        if (!Database.isAdmin) {
             inflater.inflate(R.menu.user_menu, menu);
             MenuItem login_item = menu.findItem(R.id.login);
             login_item.setVisible(false);
@@ -104,7 +106,7 @@ public class FavouriteOffersActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if (Database.permission.equalsIgnoreCase("user")) {
+        if (!Database.isAdmin) {
 
             if (id == R.id.showSearchEngine)
                 intent = new Intent(this, SearchEngineActivity.class);

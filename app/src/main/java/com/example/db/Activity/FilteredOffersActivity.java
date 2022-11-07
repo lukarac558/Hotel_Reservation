@@ -39,7 +39,7 @@ public class FilteredOffersActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if(Database.permission.equalsIgnoreCase("user")) {
+        if(!Database.isAdmin) {
             inflater.inflate(R.menu.user_menu, menu);
             MenuItem login_item = menu.findItem(R.id.login);
             login_item.setVisible(false);
@@ -59,7 +59,7 @@ public class FilteredOffersActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if(Database.permission.equalsIgnoreCase("user")) {
+        if(!Database.isAdmin) {
 
             if(id == R.id.showSearchEngine)
                 intent = new Intent(this, SearchEngineActivity.class);

@@ -13,31 +13,48 @@ public class Offer implements Serializable {
     private LocalDate endDate;
     private int hotelId;
     private Hotel hotel;
+    private int foodId;
+    private Food food;
+    private short peopleCount;
 
-    public Offer(short placesNumber, double price, LocalDate startDate, LocalDate endDate, int hotelId) {
+    public Offer(short placesNumber, double price, LocalDate startDate, LocalDate endDate, int hotelId, int foodId) {
         this.placesNumber = placesNumber;
         this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
         this.hotelId = hotelId;
+        this.foodId = foodId;
     }
 
-    public Offer(int id, short placesNumber, double price, LocalDate startDate, LocalDate endDate, int hotelId) {
+    public Offer(int id, short placesNumber, double price, LocalDate startDate, LocalDate endDate, int hotelId, int foodId) {
         this.id = id;
         this.placesNumber = placesNumber;
         this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
         this.hotelId = hotelId;
+        this.foodId = foodId;
     }
 
-    public Offer(int id, short placesNumber, double price, LocalDate startDate, LocalDate endDate, Hotel hotel) {
+    public Offer(int id, short placesNumber, double price, LocalDate startDate, LocalDate endDate, Hotel hotel, Food food) {
         this.id = id;
         this.placesNumber = placesNumber;
         this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
         this.hotel = hotel;
+        this.food = food;
+    }
+
+    public Offer(int id, short placesNumber, double price, LocalDate startDate, LocalDate endDate, Hotel hotel, Food food, short peopleCount) {
+        this.id = id;
+        this.placesNumber = placesNumber;
+        this.price = price;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.hotel = hotel;
+        this.food = food;
+        this.peopleCount = peopleCount;
     }
 
     public int getId() {
@@ -96,17 +113,33 @@ public class Offer implements Serializable {
         this.hotel = hotel;
     }
 
+    public int getFoodId() {
+        return foodId;
+    }
+
+    public void setFoodId(int foodId) {
+        this.foodId = foodId;
+    }
+
+    public Food getFood() {
+        return food;
+    }
+
+    public void setFood(Food food) {
+        this.food = food;
+    }
+
+    public short getPeopleCount() {
+        return peopleCount;
+    }
+
+    public void setPeopleCount(short peopleCount) {
+        this.peopleCount = peopleCount;
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return "Offer{" +
-                "id=" + id +
-                ", placesNumber=" + placesNumber +
-                ", price=" + price +
-                ", startDate=" + startDate.toString() +
-                ", endDate=" + endDate.toString() +
-                ", hotelId=" + hotelId +
-                ", hotel=" + hotel +
-                '}';
+        return "Offer id = " + id;
     }
 }

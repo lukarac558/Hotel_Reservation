@@ -23,9 +23,9 @@
         android:id="@+id/hDeleteHotelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="deleteHotel"
-        android:text="Usuń hotel"
         android:minWidth="140dp"
+        android:onClick="editOrDeleteHotel"
+        android:text="Edytuj / Usuń hotel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/hAddHotelButton"
@@ -40,8 +40,9 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"></LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

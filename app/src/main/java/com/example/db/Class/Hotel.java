@@ -6,44 +6,32 @@ import java.io.Serializable;
 
 public class Hotel implements Serializable {
     private int id;
-    private short countryId;
-    private Country country;
     private int cityId;
     private City city;
-    private int foodId;
-    private Food food;
     private short starCount;
     private String description;
-    private int nameId;
-    private HotelName name;
+    private String name;
     private SerializableBitmap image;
 
-    public Hotel(int id, short countryId, int cityId, int foodId, short starCount, String description, int nameId, SerializableBitmap image) {
+    public Hotel(int id, int cityId, short starCount, String description, String name, SerializableBitmap image) {
         this.id = id;
-        this.countryId = countryId;
         this.cityId = cityId;
-        this.foodId = foodId;
         this.starCount = starCount;
         this.description = description;
-        this.nameId = nameId;
+        this.name = name;
         this.image = image;
     }
 
-    public Hotel(int id, short countryId, int cityId, int foodId, short starCount, String description, int nameId) {
-        this.id = id;
-        this.countryId = countryId;
+    public Hotel(int cityId, short starCount, String description, String name) {
         this.cityId = cityId;
-        this.foodId = foodId;
         this.starCount = starCount;
         this.description = description;
-        this.nameId = nameId;
+        this.name = name;
     }
 
-    public Hotel(int id, Country country, City city, Food food, short starCount, String description, HotelName name, SerializableBitmap image) {
+    public Hotel(int id, City city, short starCount, String description, String name, SerializableBitmap image) {
         this.id = id;
-        this.country = country;
         this.city = city;
-        this.food = food;
         this.starCount = starCount;
         this.description = description;
         this.name = name;
@@ -66,22 +54,6 @@ public class Hotel implements Serializable {
         this.id = id;
     }
 
-    public short getCountryId() {
-        return countryId;
-    }
-
-    public void setCountryId(short countryId) {
-        this.countryId = countryId;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
     public int getCityId() {
         return cityId;
     }
@@ -96,22 +68,6 @@ public class Hotel implements Serializable {
 
     public void setCity(City city) {
         this.city = city;
-    }
-
-    public int getFoodId() {
-        return foodId;
-    }
-
-    public void setFoodId(int foodId) {
-        this.foodId = foodId;
-    }
-
-    public Food getFood() {
-        return food;
-    }
-
-    public void setFood(Food food) {
-        this.food = food;
     }
 
     public short getStarCount() {
@@ -130,25 +86,17 @@ public class Hotel implements Serializable {
         this.description = description;
     }
 
-    public int getNameId() {
-        return nameId;
-    }
-
-    public void setNameId(int nameId) {
-        this.nameId = nameId;
-    }
-
-    public HotelName getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(HotelName name) {
+    public void setName(String name) {
         this.name = name;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return name.getName() + '(' + starCount + "*), " + country.getName() + ", " + city.getName() + ", " + food.getType();
+        return name + '(' + starCount + "*), " + city.getCountry().getName() + ", " + city.getName();
     }
 }

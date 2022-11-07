@@ -16,7 +16,7 @@ import com.example.db.Fragment.CityFragment;
 import com.example.db.Fragment.CountryFragment;
 import com.example.db.Database.Database;
 import com.example.db.Fragment.FoodFragment;
-import com.example.db.Fragment.HotelNameFragment;
+import com.example.db.Fragment.UsersFragment;
 import com.example.db.R;
 
 public class ConfigurationActivity extends AppCompatActivity {
@@ -25,7 +25,7 @@ public class ConfigurationActivity extends AppCompatActivity {
     private CountryFragment countryFragment;
     private CityFragment cityFragment;
     private FoodFragment foodFragment;
-    private HotelNameFragment hotelNameFragment;
+    private UsersFragment usersFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +43,14 @@ public class ConfigurationActivity extends AppCompatActivity {
             fragmentTransaction.remove(cityFragment);
         if(foodFragment != null)
             fragmentTransaction.remove(foodFragment);
-        if(hotelNameFragment != null)
-            fragmentTransaction.remove(hotelNameFragment);
+        if(usersFragment != null)
+            fragmentTransaction.remove(usersFragment);
 
         fragmentTransaction.commit();
         findViewById(R.id.countryImageButton).setVisibility(View.VISIBLE);
         findViewById(R.id.cityImageButton).setVisibility(View.VISIBLE);
         findViewById(R.id.foodImageButton).setVisibility(View.VISIBLE);
-        findViewById(R.id.hotelNameImageButton).setVisibility(View.VISIBLE);
+        findViewById(R.id.userImageButton).setVisibility(View.VISIBLE);
         findViewById(R.id.backButton).setVisibility(View.INVISIBLE);
     }
 
@@ -84,11 +84,11 @@ public class ConfigurationActivity extends AppCompatActivity {
         findViewById(R.id.backButton).setVisibility(View.VISIBLE);
     }
 
-    public void showHotelNameFragment(View view){
+    public void showUsersFragment(View view){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        hotelNameFragment = HotelNameFragment.newInstance();
-        fragmentTransaction.replace(R.id.linearLayout,hotelNameFragment);
+        usersFragment = UsersFragment.newInstance();
+        fragmentTransaction.replace(R.id.linearLayout, usersFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         findViewById(R.id.backButton).setVisibility(View.VISIBLE);

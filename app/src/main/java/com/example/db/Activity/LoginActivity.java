@@ -57,14 +57,14 @@ public class LoginActivity extends AppCompatActivity {
         if (Database.userId == -1)
             errorTextView.setText("Wprowadzono niepoprawne dane");
         else {
-            if(Database.permission.equalsIgnoreCase("user")) {
-                Intent intent = new Intent(getApplicationContext(), SearchEngineActivity.class);
-                startActivity(intent);
+            Intent intent;
+            if(!Database.isAdmin) {
+                intent = new Intent(getApplicationContext(), SearchEngineActivity.class);
             }
-            else if(Database.permission.equalsIgnoreCase("admin")) {
-                Intent intent = new Intent(getApplicationContext(), AdminPanelActivity.class);
-                startActivity(intent);
+            else {
+                intent = new Intent(getApplicationContext(), AdminPanelActivity.class);
             }
+            startActivity(intent);
 
             Toast.makeText(this, "Zalogowano się pomyślnie.", Toast.LENGTH_SHORT).show();
         }

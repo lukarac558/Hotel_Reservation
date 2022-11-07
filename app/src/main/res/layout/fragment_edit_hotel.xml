@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".Fragment.AddHotelFragment">
+
+    <ImageView
+        android:id="@+id/hotelNameImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/hotel_icon"
+        tools:src="@drawable/empty_image" />
+
+    <ImageView
+        android:id="@+id/countryImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cityImageView"
+        app:srcCompat="@drawable/city_icon"
+        tools:src="@drawable/empty_image" />
+
+    <ImageView
+        android:id="@+id/cityImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hotelNameImageView"
+        app:srcCompat="@drawable/country_icon"
+        tools:src="@drawable/empty_image" />
+
+    <TextView
+        android:id="@+id/heCityTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="24dp"
+        android:text="City"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/countryImageView"
+        app:layout_constraintTop_toBottomOf="@+id/heCountryTextView" />
+
+    <TextView
+        android:id="@+id/heCountryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="24dp"
+        android:text="Country"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/cityImageView"
+        app:layout_constraintTop_toBottomOf="@+id/heHotelNameTextView" />
+
+    <TextView
+        android:id="@+id/heHotelNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="24dp"
+        android:text="HotelName"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/hotelNameImageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="48dp"
+        android:text="Wybierz liczbę gwiazdek"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/countryImageView" />
+
+
+    <Button
+        android:id="@+id/editHotelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:minWidth="140dp"
+        android:minHeight="60dp"
+        android:onClick="addHotel"
+        android:text="Edytuj hotel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heDescriptionEditText" />
+
+    <RadioGroup
+        android:id="@+id/heStarsRadioGroup"
+        android:layout_width="70dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="230dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9">
+
+        <RadioButton
+            android:id="@+id/heOneStarRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="*" />
+
+        <RadioButton
+            android:id="@+id/heTwoStarsRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="**" />
+
+        <RadioButton
+            android:id="@+id/heThreeStarsRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="***" />
+
+        <RadioButton
+            android:id="@+id/heFourStarsRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="****" />
+
+        <RadioButton
+            android:id="@+id/heFiveStarsRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="*****" />
+
+    </RadioGroup>
+
+
+    <EditText
+        android:id="@+id/heDescriptionEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="Wprowadź opis hotelu"
+        android:inputType="textMultiLine"
+        android:maxLength="200"
+        android:maxLines="4"
+        android:paddingLeft="8dp"
+        android:paddingRight="4dp"
+        android:singleLine="false"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heSelectImageButton" />
+
+    <ImageView
+        android:id="@+id/heHotelImageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="48dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/countryImageView"
+        app:srcCompat="@drawable/empty_image"
+        tools:src="@drawable/empty_image" />
+
+    <Button
+        android:id="@+id/heSelectImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:minWidth="140dp"
+        android:minHeight="40dp"
+        android:text="Wybierz zdjęcie"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heHotelImageView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

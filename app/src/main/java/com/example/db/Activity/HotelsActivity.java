@@ -36,7 +36,7 @@ public class HotelsActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    public void deleteHotel(View view){
+    public void editOrDeleteHotel(View view){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         DeleteHotelFragment deleteHotelFragment = DeleteHotelFragment.newInstance();

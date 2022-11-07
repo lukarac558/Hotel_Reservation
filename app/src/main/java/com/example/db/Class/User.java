@@ -9,28 +9,32 @@ public class User implements Serializable {
     private String login;
     private String password;
     private String email;
-    private int phoneNumber;
-    private String permission;
+    private boolean isAdmin;
 
-    public User(int id, String login, String password, String email, int phoneNumber, String permission) {
+    public User(int id, String login, String password, String email, boolean isAdmin) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.permission = permission;
+        this.isAdmin = isAdmin;
     }
 
-    public User(String login, String password, String email, int phoneNumber) {
+    public User(String login, String email, Boolean isAdmin) {
         this.login = login;
-        this.password = password;
         this.email = email;
-        this.phoneNumber = phoneNumber;
+        this.isAdmin = isAdmin;
     }
 
-    public User(int id, String permission) {
+    public User(int userId, String login, String email, Boolean isAdmin) {
+        this.id = userId;
+        this.login = login;
+        this.email = email;
+        this.isAdmin = isAdmin;
+    }
+
+    public User(int id, boolean isAdmin) {
         this.id = id;
-        this.permission = permission;
+        this.isAdmin = isAdmin;
     }
 
     public int getId() {
@@ -65,20 +69,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public int getPhoneNumber() {
-        return phoneNumber;
+    public boolean getIsAdmin() {
+        return isAdmin;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
-    public void setPermission(String permission) {
-        this.permission = permission;
+    public void setPermission(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     @NonNull

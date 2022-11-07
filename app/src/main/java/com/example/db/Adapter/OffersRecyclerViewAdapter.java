@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.db.R;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.example.db.Class.Offer;
@@ -52,10 +54,10 @@ public class OffersRecyclerViewAdapter extends RecyclerView.Adapter<OffersRecycl
         holder.ofrPriceTextView.setText(price);
         holder.ofrStartDateTextView.setText(offer.getStartDate().toString());
         holder.ofrEndDateTextView.setText(offer.getEndDate().toString());
-        holder.ofrHotelNameTextView.setText(offer.getHotel().getName().getName());
-        holder.ofrCountryTextView.setText(offer.getHotel().getCountry().getName()+",");
+        holder.ofrHotelNameTextView.setText(offer.getHotel().getName());
+        holder.ofrCountryTextView.setText(offer.getHotel().getCity().getCountry().getName()+",");
         holder.ofrCityTextView.setText(offer.getHotel().getCity().getName());
-        holder.ofrFoodTextView.setText(offer.getHotel().getFood().getType());
+        holder.ofrFoodTextView.setText(offer.getFood().getType());
         holder.ofrHotelImageView.setImageBitmap(bitmap);
         holder.ofrStarsRatingBar.setRating(offer.getHotel().getStarCount());
     }
@@ -87,7 +89,7 @@ public class OffersRecyclerViewAdapter extends RecyclerView.Adapter<OffersRecycl
             ofrFoodTextView = itemView.findViewById(R.id.ofrFoodTextView);
             ofrStarsRatingBar = itemView.findViewById(R.id.ofrStarsRatingBar);
 
-            itemView.findViewById(R.id.ofrDeleteButton).setOnClickListener(view -> {
+            itemView.findViewById(R.id.userDeleteButton).setOnClickListener(view -> {
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(itemView.getContext());
                 alertBuilder.setMessage("Czy na pewno chcesz usunąć wybrany element z bazy wraz z jego powiązaniami?");
                 alertBuilder.setCancelable(true);
@@ -95,8 +97,13 @@ public class OffersRecyclerViewAdapter extends RecyclerView.Adapter<OffersRecycl
                         (dialog, id) -> {
                             offer = adapter.data.get(getAdapterPosition());
 
-                            Database.deleteOffer(offer.getId());
-                            Toast.makeText(context, "Pomyślnie usunięto ofertę", Toast.LENGTH_SHORT).show();
+                            try {
+                                Database.deleteOffer(offer.getId());
+                                Toast.makeText(context, "Pomyślnie usunięto ofertę", Toast.LENGTH_SHORT).show();
+                            } catch (SQLException exception) {
+                                Toast.makeText(context, "Usunięcie niemożliwe. Oferta w użyciu.", Toast.LENGTH_SHORT).show();
+                            }
+
                             adapter.data.remove(getAdapterPosition());
                             adapter.notifyItemRemoved(getAdapterPosition());
                         });

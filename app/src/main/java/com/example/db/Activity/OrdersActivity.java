@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,16 +26,16 @@ import com.example.db.R;
 public class OrdersActivity extends AppCompatActivity {
 
     private Intent intent;
-    private ArrayList<Order> orderList;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Database.permission.equalsIgnoreCase("user"))
+        ArrayList<Order> orderList;
+        if (!Database.isAdmin)
             orderList = new ArrayList<>(Database.getUserOrders());
-        else if (Database.permission.equalsIgnoreCase("admin"))
-            orderList = new ArrayList<>(Database.gettAllOrders());
+        else orderList = new ArrayList<>(Database.gettAllOrders());
 
         if (orderList.size() > 0) {
             setContentView(R.layout.activity_orders);
@@ -53,7 +54,7 @@ public class OrdersActivity extends AppCompatActivity {
             Button filterButton = findViewById(R.id.searchEngineButton);
             TextView emptyTextView = findViewById(R.id.emptyTextView);
 
-            if (Database.permission.equalsIgnoreCase("user"))
+            if (!Database.isAdmin)
                 emptyTextView.setText("Nie złożyłeś jeszcze żadnego zamówienia. Jeśli chcesz to zrobić, kliknij w poniższy przycisk. Zostaniesz wówczas przeniesiony do wyszukiwarki ofert.");
             else {
                 filterButton.setVisibility(View.INVISIBLE);
@@ -69,12 +70,11 @@ public class OrdersActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if (Database.permission.equalsIgnoreCase("user")) {
+        if (!Database.isAdmin) {
             inflater.inflate(R.menu.user_menu, menu);
             MenuItem login_item = menu.findItem(R.id.login);
             login_item.setVisible(false);
-        } else if (Database.permission.equalsIgnoreCase("admin"))
-            inflater.inflate(R.menu.admin_menu, menu);
+        } else inflater.inflate(R.menu.admin_menu, menu);
 
         return true;
     }
@@ -84,7 +84,7 @@ public class OrdersActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if (Database.permission.equalsIgnoreCase("user")) {
+        if (!Database.isAdmin) {
 
             if (id == R.id.showSearchEngine)
                 intent = new Intent(this, SearchEngineActivity.class);
@@ -96,7 +96,7 @@ public class OrdersActivity extends AppCompatActivity {
                 Database.logOut();
                 intent = new Intent(this, LoginActivity.class);
             }
-        } else if (Database.permission.equalsIgnoreCase("admin")) {
+        } else {
 
             if (id == R.id.showHotels)
                 intent = new Intent(this, HotelsActivity.class);

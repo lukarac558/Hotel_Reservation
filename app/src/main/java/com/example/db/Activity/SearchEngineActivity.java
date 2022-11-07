@@ -30,8 +30,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 
 import com.example.db.Class.City;
 import com.example.db.Class.Country;
@@ -49,6 +52,7 @@ public class SearchEngineActivity extends AppCompatActivity {
     private List<Country> countryList;
     private final List<Country> selectedCountriesList = new ArrayList<>();
     private List<KeyPairBoolData> countryListConverter;
+    private Map<Long, String> countryCodeMap;
     private List<City> cityList;
     private final List<City> selectedCitiesList = new ArrayList<>();
     private List<KeyPairBoolData> cityListConverter;
@@ -62,7 +66,6 @@ public class SearchEngineActivity extends AppCompatActivity {
     private LocalDate startDate;
     private LocalDate endDate;
     private byte starsCount = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,17 +98,17 @@ public class SearchEngineActivity extends AppCompatActivity {
                 cityList.clear();
 
                 if (countries.equals("Wybierz państwo"))
-                    cityList = Database.getCities();
+                    cityList = Database.getAllCities();
                 else if (countries.contains(",")) {
                     String[] citiesArray = countries.split(", ");
 
                     for (String country : citiesArray) {
-                        short countryId = Database.getCountryIdByName(country);
-                        cityList = Database.getCitiesByCountryId(countryId);
+                        String countryCode = Database.getCountryCodeByName(country);
+                        cityList = Database.getCitiesByCountryCode(countryCode);
                     }
                 } else {
-                    short countryId = Database.getCountryIdByName(countries);
-                    cityList = Database.getCitiesByCountryId(countryId);
+                    String countryCode = Database.getCountryCodeByName(countries);
+                    cityList = Database.getCitiesByCountryCode(countryCode);
                 }
 
                 cityListConverter.clear();
@@ -202,7 +205,7 @@ public class SearchEngineActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if (Database.permission.equalsIgnoreCase("user")) {
+        if (!Database.isAdmin) {
             inflater.inflate(R.menu.user_menu, menu);
             MenuItem login_item = menu.findItem(R.id.login);
             login_item.setVisible(false);
@@ -221,7 +224,7 @@ public class SearchEngineActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if (Database.permission.equalsIgnoreCase("user")) {
+        if (!Database.isAdmin) {
 
             if (id == R.id.showSearchEngine)
                 intent = new Intent(this, SearchEngineActivity.class);
@@ -253,16 +256,34 @@ public class SearchEngineActivity extends AppCompatActivity {
         countrySpinner.setEmptyTitle("Nie znaleziono takiego państwa");
         countrySpinner.setShowSelectAllButton(true);
 
-        countryList = Database.getCountries();
+        countryList = Database.getCountriesInOffer();
+        countryCodeMap = new HashMap<>();
+        long key =1;
+
+        for (Country c : countryList) {
+            countryCodeMap.put(key, c.getCode());
+            key++;
+        }
+
         countryListConverter = new ArrayList<>();
 
         for (Country c : countryList) {
             KeyPairBoolData k = new KeyPairBoolData();
-            k.setId(c.getId());
+            k.setId(getKeyByValue(c.getCode()));
             k.setName(c.getName());
             k.setSelected(false);
             countryListConverter.add(k);
         }
+    }
+
+    private long getKeyByValue(String code){
+        AtomicLong id = new AtomicLong(0);
+        countryCodeMap.forEach((key, value) -> {
+            if (value.equals(code))
+                id.set(key);
+        });
+
+        return id.get();
     }
 
     private void setSelectedCountries() {
@@ -273,9 +294,9 @@ public class SearchEngineActivity extends AppCompatActivity {
 
         if (list.size() > 0) {
             for (KeyPairBoolData k : list) {
-                short id = (short) k.getId();
+                long id = k.getId();
                 String name = k.getName();
-                selectedCountriesList.add(new Country(id, name));
+                selectedCountriesList.add(new Country(countryCodeMap.get(id), name));
             }
         } else
             selectedCountriesList.addAll(countryList);
@@ -287,7 +308,7 @@ public class SearchEngineActivity extends AppCompatActivity {
         citySpinner.setEmptyTitle("Nie znaleziono takiego miasta");
         citySpinner.setShowSelectAllButton(true);
 
-        cityList = Database.getCities();
+        cityList = Database.getAllCities();
         cityListConverter = new ArrayList<>();
 
         for (City c : cityList) {

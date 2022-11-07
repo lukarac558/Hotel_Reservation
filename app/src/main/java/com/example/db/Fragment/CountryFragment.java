@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,13 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import com.example.db.Activity.ConfigurationActivity;
 import com.example.db.Class.Country;
@@ -38,9 +37,9 @@ public class CountryFragment extends Fragment {
 
     private ConfigurationActivity configurationActivity;
     private Intent intent;
-    private Spinner allCountriesSpinner;
-    private List<String> allCountriesList;
-    private List<String> stringCountryList;
+    private Spinner selectedCountrySpinner;
+    private EditText countryCodeEditText, countryNameEditText;
+    private List<Country> allCountriesList;
 
     public CountryFragment() {
     }
@@ -57,7 +56,7 @@ public class CountryFragment extends Fragment {
         configurationActivity.findViewById(R.id.countryImageButton).setVisibility(View.INVISIBLE);
         configurationActivity.findViewById(R.id.cityImageButton).setVisibility(View.INVISIBLE);
         configurationActivity.findViewById(R.id.foodImageButton).setVisibility(View.INVISIBLE);
-        configurationActivity.findViewById(R.id.hotelNameImageButton).setVisibility(View.INVISIBLE);
+        configurationActivity.findViewById(R.id.userImageButton).setVisibility(View.INVISIBLE);
     }
 
     
@@ -65,33 +64,43 @@ public class CountryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_country, container, false);
-        allCountriesSpinner = view.findViewById(R.id.allCountriesSpinner);
+        selectedCountrySpinner = view.findViewById(R.id.selectedCountrySpinner);
+        countryCodeEditText = view.findViewById(R.id.countryCodeEditText);
+        countryNameEditText = view.findViewById(R.id.countryNameEditText);
         Button addCountryButton = view.findViewById(R.id.addCountryButton);
         Button deleteCountryButton = view.findViewById(R.id.deleteCountryButton);
 
-        List<Country> countryList = Database.getCountries();
-
-        stringCountryList = countryList.stream().map(Objects::toString).collect(Collectors.toList());
-        allCountriesList = Database.getAllWorldCountries();
+        allCountriesList = Database.getAllCountries();
         Collections.sort(allCountriesList);
-
-        updateUsedCountries();
         setAdapter();
 
         addCountryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String selectedCountry = (String) allCountriesSpinner.getSelectedItem();
-                if(selectedCountry.contains("[DOSTĘPNY W OFERCIE]"))
-                    Log.d("Country used", "Państwo jest już dostępne w ofercie");
-                else {
-                    Database.addCountry(selectedCountry);
-                    stringCountryList.add(selectedCountry);
-                    Toast.makeText(getContext(), "Pomyślnie dodano państwo", Toast.LENGTH_SHORT).show();
+
+                String code = countryCodeEditText.getText().toString();
+                String name = countryNameEditText.getText().toString();
+
+                if(code.isEmpty()) {
+                    Toast.makeText(getContext(), "Należy wprowadzić kod państwa.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
-                updateUsedCountries();
-                setAdapter();
+                if(name.isEmpty()) {
+                    Toast.makeText(getContext(), "Należy wprowadzić nazwę państwa.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                try {
+                    Database.addCountry(new Country(code, name));
+                    Toast.makeText(getContext(), "Pomyślnie dodano nowe państwo.", Toast.LENGTH_SHORT).show();
+
+                    allCountriesList = Database.getAllCountries();
+                    Collections.sort(allCountriesList);
+                    setAdapter();
+                } catch (SQLException exception) {
+                    Toast.makeText(getContext(), "Istnieje już państwo o takim kodzie.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -99,25 +108,26 @@ public class CountryFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-                alertBuilder.setMessage("Czy na pewno chcesz usunąć wybrany element z bazy wraz z jego powiązaniami?");
+                alertBuilder.setMessage("Czy na pewno chcesz usunąć wybrany element?");
                 alertBuilder.setCancelable(true);
                 alertBuilder.setPositiveButton("Ok",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                Country selectedCountry = (Country) selectedCountrySpinner.getSelectedItem();
 
-                                String selectedCountry = (String) allCountriesSpinner.getSelectedItem();
-                                String country="";
+                                try {
+                                    Database.deleteCountry(selectedCountry.getCode());
+                                    Toast.makeText(getContext(), "Pomyślnie usunięto państwo.", Toast.LENGTH_SHORT).show();
 
-                                if(!selectedCountry.contains("[DOSTĘPNY W OFERCIE]"))
-                                    Log.d("Country not selected", "Państwo nie jest dostępne w ofercie");
-                                else {
-                                    country = selectedCountry.replace(" [DOSTĘPNY W OFERCIE]", "");
-                                    Database.deleteCountry(country);
-                                    stringCountryList.remove(country);
-                                    Toast.makeText(getContext(), "Pomyślnie usunięto państwo", Toast.LENGTH_SHORT).show();
+                                    allCountriesList = Database.getAllCountries();
+                                    Collections.sort(allCountriesList);
+                                    setAdapter();
+                                } catch (SQLException exception) {
+                                    Toast.makeText(getContext(), "Usunięcie niemożliwe. Wybrane państwo jest w użyciu.", Toast.LENGTH_SHORT).show();
                                 }
 
-                                updateUnUsedCountries(country);
+                                allCountriesList = Database.getAllCountries();
+                                Collections.sort(allCountriesList);
                                 setAdapter();
                             }
                         });
@@ -137,28 +147,9 @@ public class CountryFragment extends Fragment {
     }
 
     private void setAdapter(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(configurationActivity.getApplicationContext(), android.R.layout.simple_spinner_item, allCountriesList);
+        ArrayAdapter<Country> adapter = new ArrayAdapter<>(configurationActivity.getApplicationContext(), android.R.layout.simple_spinner_item, allCountriesList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        allCountriesSpinner.setAdapter(adapter);
-    }
-
-    private void updateUsedCountries(){
-        for(String country : stringCountryList){
-            if(allCountriesList.contains(country)){
-                int index = allCountriesList.indexOf(country);
-                allCountriesList.set(index, country + " [DOSTĘPNY W OFERCIE]");
-            }
-        }
-    }
-
-    private void updateUnUsedCountries(String countryName){
-        for(Object country : allCountriesList){
-            if(allCountriesList.contains(countryName + " [DOSTĘPNY W OFERCIE]") && !stringCountryList.contains(countryName)){
-                int index = allCountriesList.indexOf(country);
-                String str = country.toString().replace(" [DOSTĘPNY W OFERCIE]", "");
-                allCountriesList.set(index, str);
-            }
-        }
+        selectedCountrySpinner.setAdapter(adapter);
     }
 
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

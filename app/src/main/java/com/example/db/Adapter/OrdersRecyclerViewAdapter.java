@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.db.Class.Offer;
 import com.example.db.R;
+
+import java.sql.SQLException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -36,7 +38,7 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecycl
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_row_item,parent,false);
-        if(Database.permission.equalsIgnoreCase("user"))
+        if(!Database.isAdmin)
             view.findViewById(R.id.orDeleteButton).setVisibility(View.INVISIBLE);
         return new OrderViewHolder(view).linkAdapter(this);
     }
@@ -60,13 +62,13 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecycl
         holder.orOrderIdTextView.setText(orderId);
         holder.orOrderDateTextView.setText(order.getOrderDate().toString());
         holder.orPeopleCountTextView.setText(peopleCount);
-        holder.orHotelNameTextView.setText(offer.getHotel().getName().getName());
-        holder.orCountryTextView.setText(offer.getHotel().getCountry().getName()+",");
+        holder.orHotelNameTextView.setText(offer.getHotel().getName());
+        holder.orCountryTextView.setText(offer.getHotel().getCity().getCountry().getName()+",");
         holder.orCityTextView.setText(offer.getHotel().getCity().getName());
         holder.orStartDateTextView.setText(offer.getStartDate().toString());
         holder.orDaysTextView.setText("(" + days + " dni)");
         holder.orTotalCostTextView.setText(stringTotalCost);
-        holder.orFoodTextView.setText(offer.getHotel().getFood().getType());
+        holder.orFoodTextView.setText(offer.getFood().getType());
         holder.orHotelImageView.setImageBitmap(bitmap);
         holder.orStarsRatingBar.setRating(offer.getHotel().getStarCount());
     }
@@ -108,8 +110,13 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecycl
                             (dialog, id) -> {
                                 order = adapter.data.get(getAdapterPosition());
 
-                                Database.cancelOrder(order.getId(), order.getOfferId(), order.getPeopleCount());
-                                Toast.makeText(context, "Pomyślnie anulowano rezerwację", Toast.LENGTH_SHORT).show();
+                                try {
+                                    Database.cancelOrder(order.getId(), order.getOfferId(), order.getPeopleCount());
+                                    Toast.makeText(context, "Pomyślnie anulowano rezerwację", Toast.LENGTH_SHORT).show();
+                                } catch (SQLException exception) {
+                                    Toast.makeText(context, "Napotkano błąd przy anulowaniu rezerwacji.", Toast.LENGTH_SHORT).show();
+                                }
+
                                 adapter.data.remove(getAdapterPosition());
                                 adapter.notifyItemRemoved(getAdapterPosition());
                             });

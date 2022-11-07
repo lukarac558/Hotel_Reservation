@@ -18,16 +18,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/imageView31"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/hrHotelImageView"
+                app:layout_constraintTop_toBottomOf="@+id/imageView19"
+                app:srcCompat="@drawable/city_icon" />
+
+            <Button
+                android:id="@+id/hrEditButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:minWidth="100dp"
+                android:minHeight="40dp"
+                android:text="Edytuj"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hrDeleteButton" />
+
             <TextView
                 android:id="@+id/hrCountryTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="10dp"
-                android:text="Country,"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
+                android:text="Country"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/hrHotelImageView"
-                app:layout_constraintTop_toBottomOf="@+id/hrHotelNameTextView" />
+                app:layout_constraintStart_toEndOf="@+id/imageView19"
+                app:layout_constraintTop_toTopOf="@+id/imageView19" />
 
             <TextView
                 android:id="@+id/hrHotelNameTextView"
@@ -45,11 +66,11 @@
                 android:id="@+id/hrDeleteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:layout_marginEnd="6dp"
-                android:minWidth="120dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="12dp"
+                android:minWidth="100dp"
                 android:minHeight="40dp"
-                android:text="Usuń hotel"
+                android:text="Usuń"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -87,45 +108,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:text="City"
-                app:layout_constraintStart_toEndOf="@+id/hrCountryTextView"
-                app:layout_constraintTop_toBottomOf="@+id/hrHotelNameTextView" />
-
-            <ImageView
-                android:id="@+id/imageView19"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                app:layout_constraintStart_toEndOf="@+id/hrHotelImageView"
-                app:layout_constraintTop_toBottomOf="@+id/hrCountryTextView"
-                app:srcCompat="@drawable/food_type_icon" />
-
-            <TextView
-                android:id="@+id/hrFoodTextView"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="10dp"
-                android:maxLines="2"
-                android:singleLine="false"
-                android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/imageView19"
-                app:layout_constraintTop_toBottomOf="@+id/hrCountryTextView" />
+                app:layout_constraintStart_toEndOf="@+id/imageView31"
+                app:layout_constraintTop_toTopOf="@+id/imageView31" />
 
             <TextView
                 android:id="@+id/textView24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:text="O hotelu"
                 android:textStyle="italic"
                 app:layout_constraintStart_toEndOf="@+id/hrHotelImageView"
-                app:layout_constraintTop_toBottomOf="@+id/hrFoodTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView31" />
 
             <TextView
                 android:id="@+id/hrDescriptionTextView"
@@ -138,6 +135,16 @@
                 android:textSize="9sp"
                 app:layout_constraintStart_toEndOf="@+id/hrHotelImageView"
                 app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+            <ImageView
+                android:id="@+id/imageView19"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@+id/hrHotelImageView"
+                app:layout_constraintTop_toBottomOf="@+id/hrHotelNameTextView"
+                app:srcCompat="@drawable/country_icon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

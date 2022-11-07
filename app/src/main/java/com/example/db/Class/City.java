@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class City implements Serializable, Comparable<City> {
     private int id;
     private String name;
-    private short countryId;
+    private String countryCode;
     private Country country;
 
     public City(String name) {
@@ -19,16 +19,26 @@ public class City implements Serializable, Comparable<City> {
         this.name = name;
     }
 
-    public City(int id, String name, short countryId) {
+    public City(int id, String name, String countryCode) {
         this.id = id;
         this.name = name;
-        this.countryId = countryId;
+        this.countryCode = countryCode;
     }
 
     public City(int id, String name, Country country) {
         this.id = id;
         this.name = name;
         this.country = country;
+    }
+
+    public City(String name, Country country){
+        this.name = name;
+        this.country = country;
+    }
+
+    public City(String name, String countryCode){
+        this.name = name;
+        this.countryCode = countryCode;
     }
 
     public int getId() {
@@ -47,12 +57,12 @@ public class City implements Serializable, Comparable<City> {
         this.name = name;
     }
 
-    public short getCountryId() {
-        return countryId;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setCountryId(short countryId) {
-        this.countryId = countryId;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public Country getCountry() {

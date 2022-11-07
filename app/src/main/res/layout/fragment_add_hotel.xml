@@ -11,20 +11,11 @@
         android:id="@+id/addCityImageButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
         android:src="@drawable/ic_baseline_add_box_32"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toBottomOf="@+id/hAllCountriesSpinner"
-        tools:src="@drawable/ic_baseline_add_box_32" />
-
-    <ImageButton
-        android:id="@+id/addFoodImageButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/ic_baseline_add_box_32"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/hAllHotelNamesSpinner"
         tools:src="@drawable/ic_baseline_add_box_32" />
 
     <TextView
@@ -32,29 +23,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="220dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="32dp"
         android:text="Wybierz liczbę gwiazdek"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hAlLFoodTypesSpinner" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Wyżywienie"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hAllHotelNamesSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/hHotelNameEditText" />
 
     <Spinner
         android:id="@+id/hAllCountriesSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:minHeight="48dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +45,7 @@
         android:id="@+id/hAllCitiesSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:minHeight="48dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,11 +54,26 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
 
+    <EditText
+        android:id="@+id/hHotelNameEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Wprowadź nazwę hotelu"
+        android:inputType="textMultiLine"
+        android:maxLength="50"
+        android:minWidth="250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
     <ImageButton
         android:id="@+id/addCountryImageButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
         android:src="@drawable/ic_baseline_add_box_32"
         app:layout_constraintStart_toEndOf="@+id/textView5"
@@ -90,7 +84,7 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Nazwa hotelu"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -98,35 +92,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hAllCitiesSpinner" />
 
-    <Spinner
-        android:id="@+id/hAllHotelNamesSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:minHeight="48dp"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <Spinner
-        android:id="@+id/hAlLFoodTypesSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:minHeight="48dp"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
 
     <Button
         android:id="@+id/addHotelButton"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:layout_marginTop="8dp"
         android:minWidth="140dp"
         android:minHeight="60dp"
         android:onClick="addHotel"
@@ -181,7 +152,7 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Państwo"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -193,7 +164,7 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Miasto"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -205,6 +176,7 @@
         android:id="@+id/descriptionEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Wprowadź opis hotelu"
         android:inputType="textMultiLine"
@@ -213,7 +185,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="4dp"
         android:singleLine="false"
-        android:textSize="12sp"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -224,11 +196,11 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="32dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hAlLFoodTypesSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/hHotelNameEditText"
         app:srcCompat="@drawable/empty_image"
         tools:src="@drawable/empty_image" />
 
@@ -242,16 +214,5 @@
         android:text="Wybierz zdjęcie"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hotelImageView" />
-
-    <ImageButton
-        android:id="@+id/addHotelNameImageButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/ic_baseline_add_box_32"
-        app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/hAllCitiesSpinner"
-        tools:src="@drawable/ic_baseline_add_box_32" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

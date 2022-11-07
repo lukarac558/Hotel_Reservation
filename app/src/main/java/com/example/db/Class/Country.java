@@ -6,24 +6,24 @@ import java.io.Serializable;
 
 public class Country implements Serializable, Comparable<Country> {
 
-    private short id;
+    private String code;
     private String name;
 
     public Country(String name) {
         this.name = name;
     }
 
-    public Country(short id, String name) {
-        this.id = id;
+    public Country(String code, String name) {
+        this.code = code;
         this.name = name;
     }
 
-    public short getId() {
-        return id;
+    public String getCode() {
+        return code;
     }
 
-    public void setId(short id) {
-        this.id = id;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -37,11 +37,11 @@ public class Country implements Serializable, Comparable<Country> {
     @NonNull
     @Override
     public String toString() {
-        return name;
+        return "[" + code + "] " + name;
     }
 
     @Override
     public int compareTo(Country country) {
-        return this.getName().compareToIgnoreCase(country.getName());
+        return this.getCode().compareToIgnoreCase(country.getCode());
     }
 }

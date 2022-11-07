@@ -22,7 +22,6 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText rPasswordEditText;
     private EditText rPassword2EditText;
     private EditText rEmailEditText;
-    private EditText rPhoneEditText;
     private TextView rErrorTextView;
 
     @Override
@@ -34,7 +33,6 @@ public class RegisterActivity extends AppCompatActivity {
         rPasswordEditText = findViewById(R.id.rPasswordEditText);
         rPassword2EditText = findViewById(R.id.rPassword2EditText);
         rEmailEditText = findViewById(R.id.rEmailEditText);
-        rPhoneEditText = findViewById(R.id.rPhoneEditText);
         rErrorTextView = findViewById(R.id.rErrorTextView);
     }
 
@@ -47,10 +45,6 @@ public class RegisterActivity extends AppCompatActivity {
         String password = rPasswordEditText.getText().toString();
         String password2 = rPassword2EditText.getText().toString();
         String email = rEmailEditText.getText().toString();
-        int phoneNumber=-1;
-
-        if(!rPhoneEditText.getText().toString().isEmpty())
-        phoneNumber = Integer.parseInt(rPhoneEditText.getText().toString());
 
         if(login.isEmpty() || password.isEmpty() || password2.isEmpty() || email.isEmpty())
             rErrorTextView.setText("Należy wypełnić wszystkie wymagane pola");
@@ -62,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
         else{
             try {
 
-                Database.register(login, MD5.hashPassword(password), email, phoneNumber);
+                Database.register(login, MD5.hashPassword(password), email);
                 Toast.makeText(this, "Pomyślnie utworzono konto.", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -73,6 +67,5 @@ public class RegisterActivity extends AppCompatActivity {
                 rErrorTextView.setText("Problem z hashowaniem hasła");
             }
         }
-
     }
 }

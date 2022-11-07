@@ -31,16 +31,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 import com.example.db.Class.City;
 import com.example.db.Class.Country;
-import com.example.db.Class.Food;
 import com.example.db.Class.Hotel;
 import com.example.db.Activity.ConfigurationActivity;
-import com.example.db.Class.HotelName;
 import com.example.db.Database.Database;
 import com.example.db.Activity.HotelsActivity;
 import com.example.db.Activity.LoginActivity;
@@ -54,17 +53,13 @@ public class AddHotelFragment extends Fragment {
     private Intent intent;
     private Spinner hAllCountriesSpinner;
     private Spinner hAllCitiesSpinner;
-    private Spinner hAllHotelNamesSpinner;
-    private Spinner hAlLFoodTypesSpinner;
     private ImageView hotelImageView;
-    private EditText descriptionEditText;
+    private EditText descriptionEditText, hotelNameEditText;
     private Bitmap bitmap;
     private Uri imageUrl;
     private short starsCount = 1;
     private List<Country> countryList;
     private List<City> cityList;
-    private List<Food> foodList;
-    private List<HotelName> hotelNameList;
 
     public AddHotelFragment() {
     }
@@ -80,7 +75,6 @@ public class AddHotelFragment extends Fragment {
         hotelsActivity = (HotelsActivity) getActivity();
     }
 
-    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,33 +85,24 @@ public class AddHotelFragment extends Fragment {
         Button addHotelButton = view.findViewById(R.id.addHotelButton);
         ImageButton addCountryImageButton = view.findViewById(R.id.addCountryImageButton);
         ImageButton addCityImageButton = view.findViewById(R.id.addCityImageButton);
-        ImageButton addHotelNameImageButton = view.findViewById(R.id.addHotelNameImageButton);
-        ImageButton addFoodImageButton = view.findViewById(R.id.addFoodImageButton);
+        hotelNameEditText = view.findViewById(R.id.hHotelNameEditText);
         hAllCountriesSpinner = view.findViewById(R.id.hAllCountriesSpinner);
         hAllCitiesSpinner = view.findViewById(R.id.hAllCitiesSpinner);
-        hAllHotelNamesSpinner = view.findViewById(R.id.hAllHotelNamesSpinner);
-        hAlLFoodTypesSpinner = view.findViewById(R.id.hAlLFoodTypesSpinner);
         descriptionEditText = view.findViewById(R.id.descriptionEditText);
         RadioGroup hStarsRadioGroup = view.findViewById(R.id.hStarsRadioGroup);
 
-        countryList = Database.getCountries();
-        foodList =  Database.getFoodTypes();
-        hotelNameList = Database.getHotelNames();
+        countryList = Database.getCountriesInOffer();
 
         Collections.sort(countryList);
-        Collections.sort(foodList);
-        Collections.sort(hotelNameList);
 
         setCountryAdapter();
-        setFoodAdapter();
-        setHotelNameAdapter();
 
         hAllCountriesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Country country = (Country) adapterView.getSelectedItem();
 
-                cityList = Database.getCitiesByCountryId(country.getId());
+                cityList = Database.getCitiesByCountryCode(country.getCode());
                 Collections.sort(cityList);
                 setCityAdapter();
             }
@@ -178,21 +163,6 @@ public class AddHotelFragment extends Fragment {
             }
         });
 
-        addHotelNameImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToConfiguration();
-            }
-        });
-
-        addFoodImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToConfiguration();
-            }
-        });
-
-
         return view;
     }
 
@@ -221,51 +191,47 @@ public class AddHotelFragment extends Fragment {
         AsyncTask.execute(() -> {
 
             if (countryList.size() == 0) {
-                showError("Należy dodać państwa do bazy.", "There is no country");
+                showMessage("Należy dodać państwa do bazy.", "There is no country");
                 return;
             }
 
             if (cityList.size() == 0) {
-                showError("Należy dodać najpierw miasta do bazy.", "There is no city");
+                showMessage("Należy dodać najpierw miasta do bazy.", "There is no city");
                 return;
             }
 
-            if (foodList.size() == 0) {
-                showError("Należy dodać najpierw wyżywienie do bazy.", "There is no food");
-                return;
-            }
-
-            if (hotelNameList.size() == 0) {
-                showError("Należy dodać najpierw nazwę hotelu do bazy.", "There is no hn");
+            if (hotelNameEditText.getText().toString().isEmpty()) {
+                showMessage("Należy dodać najpierw wprowadzić nazwę hotelu.", "There is no hn");
                 return;
             }
 
             if (bitmap == null) {
-                showError("Należy wybrać zdjęcie hotelu", "Bitmap is null");
+                showMessage("Należy wybrać zdjęcie hotelu", "Bitmap is null");
                 return;
             }
 
-            Country selectedCountry = (Country) hAllCountriesSpinner.getSelectedItem();
             City selectedCity = (City) hAllCitiesSpinner.getSelectedItem();
-            Food selectedFood = (Food) hAlLFoodTypesSpinner.getSelectedItem();
-            HotelName selectedHotelName = (HotelName) hAllHotelNamesSpinner.getSelectedItem();
+            String hotelName = hotelNameEditText.getText().toString();
             String description = descriptionEditText.getText().toString();
-
-            short countryId = Database.getCountryIdByName(selectedCountry.getName());
             int cityId = Database.getCityIdByName(selectedCity.getName());
-            int foodId = Database.getFoodIdByType(selectedFood.getType());
-            int hotelNameId = Database.getHotelNameIdByType(selectedHotelName.getName());
 
-            Hotel hotel = new Hotel(0, countryId, cityId, foodId, starsCount, description, hotelNameId);
-            Database.addHotel(hotel, bitmap);
+            Hotel hotel = new Hotel(cityId, starsCount, description, hotelName);
+
+            try {
+                Database.addHotel(hotel, bitmap);
+                showMessage("Pomyślnie utworzono hotel.", "Hotel added");
+            } catch (SQLException exception) {
+                showMessage("Istnieje już hotel o takiej kombinacji państwa, miasta i nazwy.", "Hotel in use");
+            }
+
             backToPanel();
         });
     }
 
-    private void showError(String errorDescription, String logTag) {
+    private void showMessage(String messageDescription, String logTag) {
         hotelsActivity.runOnUiThread(() -> {
-            Toast.makeText(hotelsActivity.getApplicationContext(), errorDescription, Toast.LENGTH_LONG).show();
-            Log.d(logTag, errorDescription);
+            Toast.makeText(hotelsActivity.getApplicationContext(), messageDescription, Toast.LENGTH_LONG).show();
+            Log.d(logTag, messageDescription);
         });
     }
 
@@ -285,18 +251,6 @@ public class AddHotelFragment extends Fragment {
         ArrayAdapter<City> cityAdapter = new ArrayAdapter<>(hotelsActivity.getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
         cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hAllCitiesSpinner.setAdapter(cityAdapter);
-    }
-
-    private void setFoodAdapter() {
-        ArrayAdapter<Food> foodAdapter = new ArrayAdapter<>(hotelsActivity.getApplicationContext(), android.R.layout.simple_spinner_item, foodList);
-        foodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        hAlLFoodTypesSpinner.setAdapter(foodAdapter);
-    }
-
-    private void setHotelNameAdapter() {
-        ArrayAdapter<HotelName> hotelNameAdapter = new ArrayAdapter<>(hotelsActivity.getApplicationContext(), android.R.layout.simple_spinner_item, hotelNameList);
-        hotelNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        hAllHotelNamesSpinner.setAdapter(hotelNameAdapter);
     }
 
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

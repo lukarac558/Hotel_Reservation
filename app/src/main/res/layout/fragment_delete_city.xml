@@ -5,36 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Fragment.FoodFragment">
+    tools:context=".Fragment.CityFragment">
+
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Dostępne typy wyżywienia"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:text="Wybierz miasto do usunięcia"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dcSelectedCountriesSpinner" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Wybierz państwo"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/deleteFoodButton"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:minHeight="60dp"
-        android:text="Usuń wybrane wyżywienie"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectedFoodTypesSpinner" />
-
-
     <Spinner
-        android:id="@+id/selectedFoodTypesSpinner"
+        android:id="@+id/dcSelectedCitiesSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -43,34 +41,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-
-    <EditText
-        android:id="@+id/foodEditText"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/dcSelectedCountriesSpinner"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:ems="10"
-        android:hint="Podaj typ wyżywienia"
-        android:inputType="textShortMessage"
-        android:maxLength="50"
+        android:layout_marginTop="8dp"
+        android:minHeight="48dp"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deleteFoodButton" />
+        app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
     <Button
-        android:id="@+id/addFoodButton"
+        android:id="@+id/dcDeleteCityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:minWidth="160dp"
         android:minHeight="60dp"
-        android:text="Dodaj wyżywienie"
+        android:text="Usuń wybrane miasto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/foodEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/dcSelectedCitiesSpinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
