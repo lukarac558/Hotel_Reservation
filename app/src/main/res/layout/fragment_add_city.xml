@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Fragment.CityFragment">
+    tools:context=".fragment.CityFragment">
 
     <TextView
         android:id="@+id/textView2"
@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acSelectedCountriesSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/acCountriesSpinner" />
 
     <TextView
         android:id="@+id/textView27"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/acSelectedCitiesSpinner"
+        android:id="@+id/acCitiesSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Spinner
-        android:id="@+id/acSelectedCountriesSpinner"
+        android:id="@+id/acCountriesSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -56,18 +56,19 @@
         app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
     <EditText
-        android:id="@+id/acCityNameEditText"
+        android:id="@+id/acCityEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Podaj nazwę miasta"
         android:inputType="textShortMessage"
+        android:textAlignment="center"
         android:maxLength="50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acSelectedCitiesSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/acCitiesSpinner" />
 
     <Button
         android:id="@+id/acAddCityButton"
@@ -80,6 +81,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acCityNameEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/acCityEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

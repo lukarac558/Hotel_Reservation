@@ -8,11 +8,13 @@
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_add_box_32.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_build_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_calendar_month_32.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_delete_32.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_email_32.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_favorite_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_favourite_32.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_hotel_24.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_hotel_32.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_local_offer_32.xml" value="0.1" />
@@ -24,11 +26,26 @@
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_person_32.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_phone_android_32.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_baseline_search_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_calendar_icon_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_city_icon_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_configuration_icon_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_country.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_country_icon.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_country_icon_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_food_type_icon_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_hotel_icon_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_id_icon_32.xml" value="0.1" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_admin_panel.xml" value="0.28177083333333336" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_offer_icon_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_order_icon_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_person_icon.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_person_icon_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/ic_price_icon_32.xml" value="0.1" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/drawable/roundcorner.xml" value="0.297" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_admin_panel.xml" value="0.5" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_booked.xml" value="0.3182291666666667" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_booked_offers.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_configuration.xml" value="0.22395833333333334" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_configuration.xml" value="0.33" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_favourite_offers.xml" value="0.34322916666666664" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_filtered_offers.xml" value="0.2994791666666667" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/activity_hotels.xml" value="0.33" />
@@ -54,7 +71,7 @@
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/fragment_add_offer.xml" value="0.3223958333333333" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/fragment_city.xml" value="0.33" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/fragment_country.xml" value="0.33" />
-        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/fragment_delete_city.xml" value="0.2942708333333333" />
+        <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/fragment_delete_city.xml" value="0.33" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/fragment_delete_cty.xml" value="0.35104166666666664" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/fragment_delete_hotel.xml" value="0.22760416666666666" />
         <entry key="..\:/Users/Matik/AndroidStudioProjects/DB/app/src/main/res/layout/fragment_delete_offer.xml" value="0.22760416666666666" />

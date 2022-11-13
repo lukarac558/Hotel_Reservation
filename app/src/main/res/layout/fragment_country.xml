@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Fragment.FoodFragment">
+    tools:context=".fragment.FoodFragment">
 
 
     <EditText
@@ -16,7 +16,8 @@
         android:ems="10"
         android:hint="Podaj kod państwa"
         android:inputType="textShortMessage"
-        android:maxLength="50"
+        android:maxLength="2"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,6 +72,7 @@
         android:hint="Podaj nazwę państwa"
         android:inputType="textShortMessage"
         android:maxLength="50"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

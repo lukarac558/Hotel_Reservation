@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Fragment.AddHotelFragment">
+    tools:context=".fragment.AddHotelFragment">
 
     <ImageButton
         android:id="@+id/addCityImageButton"
@@ -63,6 +63,7 @@
         android:hint="Wprowadź nazwę hotelu"
         android:inputType="textMultiLine"
         android:maxLength="50"
+        android:textAlignment="center"
         android:minWidth="250dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -94,9 +95,9 @@
 
 
     <Button
-        android:id="@+id/addHotelButton"
+        android:id="@+id/adAddHotelButton"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:minWidth="140dp"
         android:minHeight="60dp"
@@ -119,31 +120,36 @@
             android:id="@+id/hOneStarRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="*" />
+            android:text="*"
+            app:buttonTint="#FF403233" />
 
         <RadioButton
             android:id="@+id/hTwoStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="**" />
+            android:text="**"
+            app:buttonTint="#FF403233" />
 
         <RadioButton
             android:id="@+id/hThreeStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="***" />
+            android:text="***"
+            app:buttonTint="#FF403233" />
 
         <RadioButton
             android:id="@+id/hFourStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="****" />
+            android:text="****"
+            app:buttonTint="#FF403233" />
 
         <RadioButton
             android:id="@+id/hFiveStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="*****" />
+            android:text="*****"
+            app:buttonTint="#FF403233" />
 
     </RadioGroup>
 
@@ -210,7 +216,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:minWidth="140dp"
-        android:minHeight="40dp"
+        android:minHeight="48dp"
         android:text="Wybierz zdjęcie"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hotelImageView" />

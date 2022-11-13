@@ -13,40 +13,37 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DB">
         <activity
-            android:name=".Fragment.UsersFragment"
+            android:name=".activity.HotelsActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.HotelsActivity"
+            android:name=".activity.OffersActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.OffersActivity"
+            android:name=".activity.ConfigurationActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.ConfigurationActivity"
+            android:name=".activity.AdminPanelActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.AdminPanelActivity"
+            android:name=".activity.OrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.OrdersActivity"
+            android:name=".activity.FavouriteOffersActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.FavouriteOffersActivity"
+            android:name=".activity.OfferDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.OfferDetailsActivity"
+            android:name=".activity.FilteredOffersActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.FilteredOffersActivity"
+            android:name=".activity.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.RegisterActivity"
+            android:name=".activity.SearchEngineActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.SearchEngineActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

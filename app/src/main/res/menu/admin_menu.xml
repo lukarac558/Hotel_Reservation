@@ -3,27 +3,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/showHotels"
+        android:id="@+id/hotelMenuOption"
         android:icon="@drawable/ic_baseline_hotel_32"
         android:title="Hotels"
         app:showAsAction="always" />
     <item
-        android:id="@+id/showOffers"
+        android:id="@+id/offerMenuOption"
         android:icon="@drawable/ic_baseline_local_offer_32"
         android:title="Offers"
         app:showAsAction="always" />
     <item
-        android:id="@+id/aShowOrders"
+        android:id="@+id/adminOrderMenuOption"
         android:icon="@drawable/ic_baseline_paid_32"
         android:title="Orders"
         app:showAsAction="always" />
     <item
-        android:id="@+id/showConfiguration"
+        android:id="@+id/configurationMenuOption"
         android:icon="@drawable/ic_baseline_build_32"
         android:title="Configuration"
         app:showAsAction="always" />
     <item
-        android:id="@+id/aLogout"
+        android:id="@+id/adminLogoutMenuOption"
         android:icon="@drawable/ic_baseline_logout_32"
         android:title="Logout"
         app:showAsAction="always" />

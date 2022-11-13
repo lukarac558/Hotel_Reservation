@@ -7,7 +7,7 @@
     android:background="@drawable/background"
 
 
-    tools:context=".Fragment.AddOfferFragment">
+    tools:context=".fragment.AddOfferFragment">
 
     <Spinner
         android:id="@+id/oFoodSpinner"
@@ -82,6 +82,7 @@
         android:ems="10"
         android:hint="Wprowadź cenę za osobę [zł]"
         android:inputType="number|numberDecimal"
+        android:textAlignment="center"
         android:maxLength="8"
         android:minWidth="250dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="Wybierz początek"
         app:layout_constraintStart_toEndOf="@+id/imageView27"
         app:layout_constraintTop_toBottomOf="@+id/oPriceEditText" />
@@ -104,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="Wybierz koniec"
         app:layout_constraintStart_toEndOf="@+id/imageView28"
         app:layout_constraintTop_toBottomOf="@+id/oPriceEditText" />
@@ -126,7 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="120dp"
-        android:minHeight="60dp"
+        android:minHeight="48dp"
         android:text="Dodaj ofertę"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.479"
@@ -146,7 +147,7 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:text="Wybierz liczbę miejsc"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -156,29 +157,29 @@
 
     <ImageView
         android:id="@+id/imageView27"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="14dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/oPriceEditText"
-        app:srcCompat="@drawable/calendar_icon"
-        tools:src="@drawable/calendar_icon" />
+        app:srcCompat="@drawable/ic_baseline_calendar_month_32"
+        tools:src="@drawable/ic_baseline_calendar_month_32" />
 
     <ImageView
         android:id="@+id/imageView28"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginStart="220dp"
         android:layout_marginTop="14dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/oPriceEditText"
-        app:srcCompat="@drawable/calendar_icon"
-        tools:src="@drawable/calendar_icon" />
+        app:srcCompat="@drawable/ic_baseline_calendar_month_32"
+        tools:src="@drawable/ic_baseline_calendar_month_32" />
 
     <TextView
         android:id="@+id/textView8"

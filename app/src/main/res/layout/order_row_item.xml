@@ -10,7 +10,7 @@
         android:layout_height="190dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="#0126F8"
+        app:strokeColor="#403233"
         app:strokeWidth="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,8 +29,8 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView17"
-                app:srcCompat="@drawable/price_icon"
-                tools:srcCompat="@drawable/price_icon" />
+                app:srcCompat="@drawable/ic_price_icon_32"
+                tools:srcCompat="@drawable/ic_price_icon_32" />
 
             <ImageView
                 android:id="@+id/imageView17"
@@ -42,8 +42,8 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/calendar_icon"
-                tools:srcCompat="@drawable/calendar_icon" />
+                app:srcCompat="@drawable/ic_calendar_icon_32"
+                tools:srcCompat="@drawable/ic_calendar_icon_32" />
 
             <ImageView
                 android:id="@+id/imageView16"
@@ -55,16 +55,16 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView13"
-                app:srcCompat="@drawable/person_icon"
-                tools:srcCompat="@drawable/person_icon" />
+                app:srcCompat="@drawable/ic_person_icon_32"
+                tools:srcCompat="@drawable/ic_person_icon_32" />
 
             <Button
                 android:id="@+id/orDeleteButton"
                 android:layout_width="140dp"
                 android:layout_height="60dp"
                 android:layout_marginEnd="12dp"
-                android:layout_marginBottom="18dp"
-                android:text="Usuń rezerwację"
+                android:layout_marginBottom="4dp"
+                android:text="Anuluj rezerwację"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -197,8 +197,8 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toEndOf="@+id/orHotelImageView"
                 app:layout_constraintTop_toBottomOf="@+id/orStartDateTextView"
-                app:srcCompat="@drawable/food_type_icon"
-                tools:srcCompat="@drawable/food_type_icon" />
+                app:srcCompat="@drawable/ic_food_type_icon_32"
+                tools:srcCompat="@drawable/ic_food_type_icon_32" />
 
             <TextView
                 android:id="@+id/orStartDateTextView"
@@ -239,6 +239,7 @@
                 android:layout_marginTop="11dp"
                 android:isIndicator="true"
                 android:numStars="5"
+                android:progressTint="#218380"
                 android:stepSize="0.1"
                 app:layout_constraintStart_toEndOf="@+id/orHotelNameTextView"
                 app:layout_constraintTop_toBottomOf="@+id/textView31" />
@@ -275,8 +276,8 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/id_icon"
-                tools:srcCompat="@drawable/id_icon" />
+                app:srcCompat="@drawable/ic_id_icon_32"
+                tools:srcCompat="@drawable/ic_id_icon_32" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Activity.SearchEngineActivity">
+    tools:context=".activity.SearchEngineActivity">
 
 
     <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
@@ -79,25 +79,29 @@
             android:id="@+id/twoStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Od **" />
+            android:text="Od **"
+            app:buttonTint="#FF403233" />
 
         <RadioButton
             android:id="@+id/threeStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Od ***" />
+            android:text="Od ***"
+            app:buttonTint="#FF403233" />
 
         <RadioButton
             android:id="@+id/fourStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Od ****" />
+            android:text="Od ****"
+            app:buttonTint="#FF403233" />
 
         <RadioButton
             android:id="@+id/fiveStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Od *****" />
+            android:text="Od *****"
+            app:buttonTint="#FF403233" />
 
     </RadioGroup>
 
@@ -106,7 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:text="Wybierz początek"
         app:layout_constraintStart_toEndOf="@+id/imageView29"
         app:layout_constraintTop_toBottomOf="@+id/priceRangeSlider" />
@@ -116,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:text="Wybierz koniec"
         app:layout_constraintStart_toEndOf="@+id/imageView30"
         app:layout_constraintTop_toBottomOf="@+id/priceRangeSlider" />
@@ -171,26 +175,26 @@
 
     <ImageView
         android:id="@+id/imageView29"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="22dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/priceRangeSlider"
-        app:srcCompat="@drawable/calendar_icon" />
+        app:srcCompat="@drawable/ic_baseline_calendar_month_32" />
 
     <ImageView
         android:id="@+id/imageView30"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginStart="220dp"
         android:layout_marginTop="22dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/priceRangeSlider"
-        app:srcCompat="@drawable/calendar_icon" />
+        app:srcCompat="@drawable/ic_baseline_calendar_month_32" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

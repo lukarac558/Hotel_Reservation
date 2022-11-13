@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Activity.HotelsActivity">
+    tools:context=".activity.HotelsActivity">
 
 
     <Button
@@ -13,7 +13,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="140dp"
-        android:onClick="addCity"
         android:text="Dodaj miasto"
         app:layout_constraintEnd_toStartOf="@+id/cDeleteCityButton"
         app:layout_constraintHorizontal_bias="0.5"
@@ -26,7 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="140dp"
-        android:onClick="deleteCity"
         android:text="Usuń miasto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -35,7 +33,7 @@
 
 
     <LinearLayout
-        android:id="@+id/citiesLinearLayout"
+        android:id="@+id/citiesLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"

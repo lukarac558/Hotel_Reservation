@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Fragment.AddHotelFragment">
+    tools:context=".fragment.AddHotelFragment">
 
     <ImageView
         android:id="@+id/hotelNameImageView"
@@ -17,8 +17,8 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/hotel_icon"
-        tools:src="@drawable/empty_image" />
+        app:srcCompat="@drawable/ic_hotel_icon_32"
+        tools:src="@drawable/ic_hotel_icon_32" />
 
     <ImageView
         android:id="@+id/countryImageView"
@@ -30,8 +30,8 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cityImageView"
-        app:srcCompat="@drawable/city_icon"
-        tools:src="@drawable/empty_image" />
+        app:srcCompat="@drawable/ic_city_icon_32"
+        tools:src="@drawable/ic_city_icon_32" />
 
     <ImageView
         android:id="@+id/cityImageView"
@@ -43,8 +43,8 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hotelNameImageView"
-        app:srcCompat="@drawable/country_icon"
-        tools:src="@drawable/empty_image" />
+        app:srcCompat="@drawable/ic_country_icon_32"
+        tools:src="@drawable/ic_country_icon_32" />
 
     <TextView
         android:id="@+id/heCityTextView"
@@ -95,7 +95,7 @@
     <Button
         android:id="@+id/editHotelButton"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:minWidth="140dp"
         android:minHeight="60dp"
@@ -118,31 +118,36 @@
             android:id="@+id/heOneStarRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="*" />
+            android:text="*"
+            app:buttonTint="#FF403233" />
 
         <RadioButton
             android:id="@+id/heTwoStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="**" />
+            android:text="**"
+            app:buttonTint="#FF403233" />
 
         <RadioButton
             android:id="@+id/heThreeStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="***" />
+            android:text="***"
+            app:buttonTint="#FF403233" />
 
         <RadioButton
             android:id="@+id/heFourStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="****" />
+            android:text="****"
+            app:buttonTint="#FF403233" />
 
         <RadioButton
             android:id="@+id/heFiveStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="*****" />
+            android:text="*****"
+            app:buttonTint="#FF403233" />
 
     </RadioGroup>
 
@@ -185,7 +190,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:minWidth="140dp"
-        android:minHeight="40dp"
+        android:minHeight="48dp"
         android:text="Wybierz zdjęcie"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/heHotelImageView" />

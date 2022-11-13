@@ -10,7 +10,7 @@
         android:layout_height="140dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="#0126F8"
+        app:strokeColor="#403233"
         app:strokeWidth="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/faDetailsButton"
+                android:id="@+id/fDetailsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -51,7 +51,7 @@
                 android:text="2000.00"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/faDetailsButton"
+                app:layout_constraintBottom_toTopOf="@+id/fDetailsButton"
                 app:layout_constraintEnd_toStartOf="@+id/textView12" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_marginBottom="4dp"
                 android:text="zł/os."
                 android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/faDetailsButton"
+                app:layout_constraintBottom_toTopOf="@+id/fDetailsButton"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
@@ -86,6 +86,7 @@
                 android:layout_marginTop="16dp"
                 android:isIndicator="true"
                 android:numStars="5"
+                android:progressTint="#218380"
                 android:stepSize="0.1"
                 app:layout_constraintStart_toEndOf="@+id/fHotelNameTextView"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -152,8 +153,8 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toEndOf="@+id/fHotelImageView"
                 app:layout_constraintTop_toBottomOf="@+id/fStartDateTextView"
-                app:srcCompat="@drawable/food_type_icon"
-                tools:srcCompat="@drawable/food_type_icon" />
+                app:srcCompat="@drawable/ic_food_type_icon_32"
+                tools:srcCompat="@drawable/ic_food_type_icon_32" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

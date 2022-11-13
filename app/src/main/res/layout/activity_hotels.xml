@@ -5,22 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Activity.HotelsActivity">
+    tools:context=".activity.HotelsActivity">
 
     <Button
-        android:id="@+id/hAddHotelButton"
+        android:id="@+id/addHotelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="addHotel"
         android:text="Dodaj hotel"
         android:minWidth="140dp"
-        app:layout_constraintEnd_toStartOf="@+id/hDeleteHotelButton"
+        app:layout_constraintEnd_toStartOf="@+id/deleteHotelButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/hDeleteHotelButton"
+        android:id="@+id/deleteHotelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="140dp"
@@ -28,12 +28,12 @@
         android:text="Edytuj / Usuń hotel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/hAddHotelButton"
+        app:layout_constraintStart_toEndOf="@+id/addHotelButton"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <LinearLayout
-        android:id="@+id/hotelsLinearLayout"
+        android:id="@+id/hotelsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"

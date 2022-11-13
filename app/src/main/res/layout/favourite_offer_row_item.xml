@@ -10,7 +10,7 @@
         android:layout_height="140dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="#0126F8"
+        app:strokeColor="#403233"
         app:strokeWidth="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,8 +21,7 @@
                 android:id="@+id/faDeleteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="8dp"
                 android:minWidth="120dp"
                 android:minHeight="40dp"
                 android:text="Usuń"
@@ -33,7 +32,7 @@
                 android:id="@+id/faDetailsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="8dp"
                 android:minWidth="120dp"
                 android:minHeight="40dp"
                 android:text="Rezerwuj"
@@ -77,6 +76,7 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="0.1"
+                android:progressTint="#218380"
                 app:layout_constraintStart_toEndOf="@+id/faHotelNameTextView"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,8 +130,8 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toEndOf="@+id/faHotelImageView"
                 app:layout_constraintTop_toBottomOf="@+id/faStartDateTextView"
-                app:srcCompat="@drawable/food_type_icon"
-                tools:srcCompat="@drawable/food_type_icon" />
+                app:srcCompat="@drawable/ic_food_type_icon_32"
+                tools:srcCompat="@drawable/ic_food_type_icon_32" />
 
             <TextView
                 android:id="@+id/faFoodTextView"

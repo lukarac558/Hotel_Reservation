@@ -11,7 +11,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="#0126F8"
+        app:strokeColor="#403233"
         app:strokeWidth="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +26,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toEndOf="@+id/hrHotelImageView"
                 app:layout_constraintTop_toBottomOf="@+id/imageView19"
-                app:srcCompat="@drawable/city_icon" />
+                app:srcCompat="@drawable/ic_city_icon_32" />
 
             <Button
                 android:id="@+id/hrEditButton"
@@ -99,6 +99,7 @@
                 android:layout_marginTop="16dp"
                 android:isIndicator="true"
                 android:numStars="5"
+                android:progressTint="#218380"
                 android:stepSize="0.1"
                 app:layout_constraintStart_toEndOf="@+id/hrHotelNameTextView"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -144,7 +145,7 @@
                 android:layout_marginTop="4dp"
                 app:layout_constraintStart_toEndOf="@+id/hrHotelImageView"
                 app:layout_constraintTop_toBottomOf="@+id/hrHotelNameTextView"
-                app:srcCompat="@drawable/country_icon" />
+                app:srcCompat="@drawable/ic_country_icon_32" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

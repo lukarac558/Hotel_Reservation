@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Activity.OfferDetailsActivity"
+    tools:context=".activity.OfferDetailsActivity"
     tools:layout_editor_absoluteX="1dp"
     tools:layout_editor_absoluteY="14dp">
 
@@ -47,8 +47,8 @@
 
     <ImageView
         android:id="@+id/dHotelImageView"
-        android:layout_width="match_parent"
-        android:layout_height="192dp"
+        android:layout_width="274dp"
+        android:layout_height="188dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -201,7 +201,7 @@
         android:layout_marginTop="16dp"
         android:isIndicator="true"
         android:numStars="5"
-        android:progressTint="@color/purple_500"
+        android:progressTint="#218380"
         android:stepSize="0.1"
         app:layout_constraintStart_toEndOf="@+id/dHotelNameTextView"
         app:layout_constraintTop_toBottomOf="@+id/dHotelImageView" />
@@ -216,7 +216,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView12"
-        app:srcCompat="@drawable/food_type_icon" />
+        app:srcCompat="@drawable/ic_food_type_icon_32" />
 
     <ImageView
         android:id="@+id/imageView11"
@@ -228,7 +228,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dHotelNameTextView"
-        app:srcCompat="@drawable/city_icon" />
+        app:srcCompat="@drawable/ic_city_icon_32" />
 
     <ImageView
         android:id="@+id/imageView12"
@@ -240,7 +240,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dHotelNameTextView"
-        app:srcCompat="@drawable/country_icon" />
+        app:srcCompat="@drawable/ic_country_icon_32" />
 
     <ImageView
         android:id="@+id/imageView9"
@@ -252,7 +252,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView11"
-        app:srcCompat="@drawable/price_icon" />
+        app:srcCompat="@drawable/ic_price_icon_32" />
 
     <TextView
         android:id="@+id/textView"
@@ -297,8 +297,8 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView10"
-        app:srcCompat="@drawable/calendar_icon"
-        tools:srcCompat="@drawable/calendar_icon" />
+        app:srcCompat="@drawable/ic_calendar_icon_32"
+        tools:srcCompat="@drawable/ic_calendar_icon_32" />
 
     <ImageView
         android:id="@+id/imageView25"
@@ -310,7 +310,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView9"
-        app:srcCompat="@drawable/calendar_icon"
-        tools:srcCompat="@drawable/calendar_icon" />
+        app:srcCompat="@drawable/ic_calendar_icon_32"
+        tools:srcCompat="@drawable/ic_calendar_icon_32" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,27 +3,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/showSearchEngine"
+        android:id="@+id/searchEngineMenuOption"
         android:icon="@drawable/ic_baseline_search_32"
         android:title="Search"
         app:showAsAction="always" />
     <item
-        android:id="@+id/showFavourites"
-        android:icon="@drawable/ic_baseline_favorite_32"
+        android:id="@+id/favouriteMenuOption"
+        android:icon="@drawable/ic_baseline_favourite_32"
         android:title="Favourites"
         app:showAsAction="always" />
     <item
-        android:id="@+id/uShowOrders"
+        android:id="@+id/userOrderMenuOption"
         android:icon="@drawable/ic_baseline_paid_32"
         android:title="Orders"
         app:showAsAction="always" />
     <item
-        android:id="@+id/login"
+        android:id="@+id/loginMenuOption"
         android:icon="@drawable/ic_baseline_login_32"
         android:title="Login"
         app:showAsAction="always" />
     <item
-        android:id="@+id/uLogout"
+        android:id="@+id/userLogoutMenuOption"
         android:icon="@drawable/ic_baseline_logout_32"
         android:title="Logout"
         app:showAsAction="always" />
