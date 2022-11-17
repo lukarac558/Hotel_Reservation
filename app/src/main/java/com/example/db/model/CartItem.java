@@ -11,12 +11,6 @@ public class CartItem implements Serializable {
     private int userId;
     private User user;
 
-    public CartItem(int offerId, short peopleCount, int userId) {
-        this.offerId = offerId;
-        this.userId = userId;
-        this.peopleCount = peopleCount;
-    }
-
     public CartItem(int id, int offerId, short peopleCount, int userId) {
         this.id = id;
         this.offerId = offerId;
@@ -24,27 +18,9 @@ public class CartItem implements Serializable {
         this.userId = userId;
     }
 
-    public CartItem(Offer offer, short peopleCount, User user) {
-        this.offer = offer;
-        this.peopleCount = peopleCount;
-        this.user = user;
-    }
-
-    public CartItem(Offer offer, short peopleCount) {
-        this.offer = offer;
-        this.peopleCount = peopleCount;
-    }
-
     public CartItem(int offerId, short peopleCount) {
         this.offerId = offerId;
         this.peopleCount = peopleCount;
-    }
-
-    public CartItem(int id, Offer offer, short peopleCount, User user) {
-        this.id = id;
-        this.offer = offer;
-        this.peopleCount = peopleCount;
-        this.user = user;
     }
 
     public int getId() {

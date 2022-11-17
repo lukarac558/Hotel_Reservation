@@ -11,29 +11,10 @@ public class User implements Serializable {
     private String email;
     private boolean isAdmin;
 
-    public User(int id, String login, String password, String email, boolean isAdmin) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.email = email;
-        this.isAdmin = isAdmin;
-    }
-
-    public User(String login, String email, Boolean isAdmin) {
-        this.login = login;
-        this.email = email;
-        this.isAdmin = isAdmin;
-    }
-
     public User(int userId, String login, String email, Boolean isAdmin) {
         this.id = userId;
         this.login = login;
         this.email = email;
-        this.isAdmin = isAdmin;
-    }
-
-    public User(int id, boolean isAdmin) {
-        this.id = id;
         this.isAdmin = isAdmin;
     }
 

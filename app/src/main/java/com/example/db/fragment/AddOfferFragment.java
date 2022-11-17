@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
@@ -78,7 +77,7 @@ public class AddOfferFragment extends Fragment {
         startDateTextView = view.findViewById(R.id.oStartDateTextView);
         endDateTextView = view.findViewById(R.id.oEndDateTextView);
         placesNumberNumberPicker = view.findViewById(R.id.oPlacesNumberNumberPicker);
-        Button oAddOfferButton = view.findViewById(R.id.oAddOfferButton);
+        Button addOfferButton = view.findViewById(R.id.oAddOfferButton);
 
         List<Country> countries = Database.getCountriesInOffer();
         List<Food> foodTypes = Database.getFoodTypes();
@@ -120,38 +119,20 @@ public class AddOfferFragment extends Fragment {
         });
 
 
-        startDateTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                WindowDirector.showCalendar(startDateSetListener, getActivity());
-            }
-        });
+        startDateTextView.setOnClickListener(startDateView -> WindowDirector.showCalendar(startDateSetListener, getActivity()));
 
-        startDateSetListener = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                String stringDate = Formatter.getFormattedDate(year, month, day);
-                startDate = LocalDate.parse(stringDate, formatter);
-                startDateTextView.setText(stringDate);
-            }
+        startDateSetListener = (datePicker, year, month, day) -> {
+            String stringDate = Formatter.getFormattedDate(year, month, day);
+            startDate = LocalDate.parse(stringDate, formatter);
+            startDateTextView.setText(stringDate);
         };
 
-        endDateTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                WindowDirector.showCalendar(endDateSetListener, getActivity());
-            }
-        });
+        endDateTextView.setOnClickListener(endDateView -> WindowDirector.showCalendar(endDateSetListener, getActivity()));
 
-        endDateSetListener = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                String stringDate = Formatter.getFormattedDate(year, month, day);
-                endDate = LocalDate.parse(stringDate, formatter);
-                endDateTextView.setText(stringDate);
-            }
+        endDateSetListener = (datePicker, year, month, day) -> {
+            String stringDate = Formatter.getFormattedDate(year, month, day);
+            endDate = LocalDate.parse(stringDate, formatter);
+            endDateTextView.setText(stringDate);
         };
 
         priceEditText.addTextChangedListener(new TextWatcher() {
@@ -176,85 +157,81 @@ public class AddOfferFragment extends Fragment {
             }
         });
 
-        oAddOfferButton.setOnClickListener(new View.OnClickListener() {
+        addOfferButton.setOnClickListener(addOfferView -> {
+            Country selectedCountry = (Country) countrySpinner.getSelectedItem();
+            String selectedCity = "", selectedHotelName = "", selectedFood = "";
 
-            @Override
-            public void onClick(View view) {
-                Country selectedCountry = (Country) countrySpinner.getSelectedItem();
-                String selectedCity = "", selectedHotelName = "", selectedFood = "";
-
-                if (citySpinner.getSelectedItem() != null) {
-                    selectedCity = citySpinner.getSelectedItem().toString();
-                }
-
-                if (hotelNameSpinner.getSelectedItem() != null) {
-                    selectedHotelName = hotelNameSpinner.getSelectedItem().toString();
-                }
-
-                if (foodSpinner.getSelectedItem() != null) {
-                    selectedFood = foodSpinner.getSelectedItem().toString();
-                }
-
-
-                if (priceEditText.getText().toString().isEmpty()) {
-                    Log.d("Price is empty", "Należy wprowadzić cenę za osobę");
-                    Toast.makeText(getContext(), "Należy wprowadzić cenę za osobę", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (startDate == null || endDate == null) {
-                    Log.d("Date is empty", "Należy wybrać początek i koniec oferty");
-                    Toast.makeText(getContext(), "Należy wybrać początek i koniec oferty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (startDate.isAfter(endDate)) {
-                    Log.d("Date error", "Początek musi mieć mniejszą wartość niż koniec zakresu dat urlopu");
-                    Toast.makeText(getContext(), "Początek musi mieć mniejszą wartość niż koniec zakresu dat urlopu", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (selectedCountry.toString().isEmpty()) {
-                    Log.d("Country is empty", "Należy wybrać państwo");
-                    Toast.makeText(getContext(), "Należy wybrać państwo", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (selectedCity.isEmpty()) {
-                    Log.d("City is empty", "Należy wybrać miasto");
-                    Toast.makeText(getContext(), "Należy wybrać miasto", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (selectedHotelName.isEmpty()) {
-                    Log.d("Hotel name is empty", "Należy wybrać nazwę hotelu");
-                    Toast.makeText(getContext(), "Należy wybrać nazwę hotelu", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (selectedFood.isEmpty()) {
-                    Log.d("Food is empty", "Należy wybrać typ wyżywienia");
-                    Toast.makeText(getContext(), "Należy wybrać typ wyżywienia", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                int hotelId = Database.getHotelIdByParams(selectedCountry.getName(), selectedCity, selectedHotelName);
-                int fooId = Database.getFoodIdByType(selectedFood);
-
-                short placesNumber = (short) placesNumberNumberPicker.getValue();
-                double price = Double.parseDouble(priceEditText.getText().toString());
-
-                if (price > 20000.00) {
-                    Toast.makeText(getContext(), "Maksymalna cena za osobę wynosi 20000.00zł", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                Offer offer = new Offer(placesNumber, price, startDate, endDate, hotelId, fooId);
-
-                Database.addOffer(offer);
-                Toast.makeText(getContext(), "Pomyślnie dodano ofertę", Toast.LENGTH_SHORT).show();
-                backToPanel();
+            if (citySpinner.getSelectedItem() != null) {
+                selectedCity = citySpinner.getSelectedItem().toString();
             }
+
+            if (hotelNameSpinner.getSelectedItem() != null) {
+                selectedHotelName = hotelNameSpinner.getSelectedItem().toString();
+            }
+
+            if (foodSpinner.getSelectedItem() != null) {
+                selectedFood = foodSpinner.getSelectedItem().toString();
+            }
+
+
+            if (priceEditText.getText().toString().isEmpty()) {
+                Log.d("Price is empty", "Należy wprowadzić cenę za osobę");
+                Toast.makeText(getContext(), "Należy wprowadzić cenę za osobę", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (startDate == null || endDate == null) {
+                Log.d("Date is empty", "Należy wybrać początek i koniec oferty");
+                Toast.makeText(getContext(), "Należy wybrać początek i koniec oferty", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (startDate.isAfter(endDate)) {
+                Log.d("Date error", "Początek musi mieć mniejszą wartość niż koniec zakresu dat urlopu");
+                Toast.makeText(getContext(), "Początek musi mieć mniejszą wartość niż koniec zakresu dat urlopu", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (selectedCountry.toString().isEmpty()) {
+                Log.d("Country is empty", "Należy wybrać państwo");
+                Toast.makeText(getContext(), "Należy wybrać państwo", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (selectedCity.isEmpty()) {
+                Log.d("City is empty", "Należy wybrać miasto");
+                Toast.makeText(getContext(), "Należy wybrać miasto", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (selectedHotelName.isEmpty()) {
+                Log.d("Hotel name is empty", "Należy wybrać nazwę hotelu");
+                Toast.makeText(getContext(), "Należy wybrać nazwę hotelu", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (selectedFood.isEmpty()) {
+                Log.d("Food is empty", "Należy wybrać typ wyżywienia");
+                Toast.makeText(getContext(), "Należy wybrać typ wyżywienia", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int hotelId = Database.getHotelIdByParams(selectedCountry.getName(), selectedCity, selectedHotelName);
+            int fooId = Database.getFoodIdByType(selectedFood);
+
+            short placesNumber = (short) placesNumberNumberPicker.getValue();
+            double price = Double.parseDouble(priceEditText.getText().toString());
+
+            if (price > 20000.00) {
+                Toast.makeText(getContext(), "Maksymalna cena za osobę wynosi 20000.00zł", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Offer offer = new Offer(placesNumber, price, startDate, endDate, hotelId, fooId);
+
+            Database.addOffer(offer);
+            Toast.makeText(getContext(), "Pomyślnie dodano ofertę", Toast.LENGTH_SHORT).show();
+            backToPanel();
         });
 
         return view;

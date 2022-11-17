@@ -76,7 +76,6 @@
         android:layout_marginTop="24dp"
         android:text="HotelName"
         android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/hotelNameImageView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,11 +83,11 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
         android:layout_marginTop="48dp"
-        android:text="Wybierz liczbę gwiazdek"
+        android:layout_marginEnd="75dp"
+        android:text="Liczba gwiazdek"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/countryImageView" />
 
 
@@ -110,8 +109,8 @@
         android:id="@+id/heStarsRadioGroup"
         android:layout_width="70dp"
         android:layout_height="100dp"
-        android:layout_marginStart="230dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="110dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
         <RadioButton
@@ -119,35 +118,35 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="*"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
         <RadioButton
             android:id="@+id/heTwoStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="**"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
         <RadioButton
             android:id="@+id/heThreeStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="***"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
         <RadioButton
             android:id="@+id/heFourStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="****"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
         <RadioButton
             android:id="@+id/heFiveStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="*****"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
     </RadioGroup>
 
@@ -188,7 +187,7 @@
         android:id="@+id/heSelectImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="24dp"
         android:minWidth="140dp"
         android:minHeight="48dp"
         android:text="Wybierz zdjęcie"

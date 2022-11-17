@@ -52,19 +52,9 @@ public class CityFragment extends Fragment {
         Button addCityButton = view.findViewById(R.id.cAddCityButton);
         Button deleteCityButton = view.findViewById(R.id.cDeleteCityButton);
 
-        addCityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addCity();
-            }
-        });
+        addCityButton.setOnClickListener(addCityView -> addCity());
 
-        deleteCityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteCity();
-            }
-        });
+        deleteCityButton.setOnClickListener(deleteCityView -> deleteCity());
 
         return view;
     }

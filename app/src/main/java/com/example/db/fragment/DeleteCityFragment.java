@@ -53,7 +53,7 @@ public class DeleteCityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_delete_city, container, false);
         configurationActivity = (ConfigurationActivity) getActivity();
 
-        Button acDeleteCityButton = view.findViewById(R.id.dcDeleteCityButton);
+        Button deleteCityButton = view.findViewById(R.id.dcDeleteCityButton);
         Spinner countrySpinner = view.findViewById(R.id.dcSelectedCountriesSpinner);
         citySpinner = view.findViewById(R.id.dcSelectedCitiesSpinner);
 
@@ -77,12 +77,7 @@ public class DeleteCityFragment extends Fragment {
             }
         });
 
-        acDeleteCityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteCity();
-            }
-        });
+        deleteCityButton.setOnClickListener(deleteCityView -> deleteCity());
 
         return view;
     }

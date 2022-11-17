@@ -76,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="14dp"
         android:text="2022-07-01"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/imageView20"
@@ -87,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="14dp"
         android:text="2022-07-08"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/imageView25"
@@ -98,21 +98,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="14dp"
         android:text="1000.00"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/imageView9"
-        app:layout_constraintTop_toBottomOf="@+id/dCityTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView11" />
 
     <TextView
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="19dp"
         android:text="zł/os."
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/dPriceTextView"
-        app:layout_constraintTop_toBottomOf="@+id/dCityTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView11" />
 
     <TextView
         android:id="@+id/dTotalPriceTextView"
@@ -132,13 +132,13 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="8dp"
         android:maxLines="2"
         android:singleLine="false"
         android:text="Polska"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/imageView12"
-        app:layout_constraintTop_toBottomOf="@+id/dHotelNameTextView" />
+        app:layout_constraintTop_toTopOf="@+id/imageView12" />
 
 
     <TextView
@@ -146,26 +146,26 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="8dp"
         android:maxLines="2"
         android:singleLine="false"
         android:text="Warszawa"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/imageView11"
-        app:layout_constraintTop_toBottomOf="@+id/dHotelNameTextView" />
+        app:layout_constraintTop_toTopOf="@+id/imageView11" />
 
     <TextView
         android:id="@+id/dFoodTextView"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="14dp"
         android:maxLines="2"
         android:singleLine="false"
         android:text="All inclusive"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/dCountryTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView12" />
 
     <TextView
         android:id="@+id/dHotelNameTextView"
@@ -271,9 +271,9 @@
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="76dp"
         android:layout_marginEnd="4dp"
-        android:text="Wybierz liczbę osób"
+        android:text="Liczba osób"
         app:layout_constraintEnd_toStartOf="@+id/dPeopleCountNumberPicker"
         app:layout_constraintTop_toBottomOf="@+id/dDescriptionTextView" />
 
@@ -281,11 +281,11 @@
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="4dp"
         android:text="Cena całkowita"
         app:layout_constraintEnd_toStartOf="@+id/dTotalPriceTextView"
-        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+        app:layout_constraintTop_toBottomOf="@+id/dPeopleCountNumberPicker" />
 
     <ImageView
         android:id="@+id/imageView20"

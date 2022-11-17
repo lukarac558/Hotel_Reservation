@@ -16,6 +16,7 @@ import com.example.db.R;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("unchecked")
 public class FilteredOffersActivity extends AppCompatActivity {
 
     @Override

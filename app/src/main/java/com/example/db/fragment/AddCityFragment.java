@@ -33,7 +33,7 @@ public class AddCityFragment extends Fragment {
     private ConfigurationActivity configurationActivity;
     private Spinner countriesSpinner;
     private Spinner citiesSpinner;
-    private EditText CityEditText;
+    private EditText cityEditText;
     private List<City> cities;
 
     public AddCityFragment() {
@@ -58,7 +58,7 @@ public class AddCityFragment extends Fragment {
         Button addCityButton = view.findViewById(R.id.acAddCityButton);
         countriesSpinner = view.findViewById(R.id.acCountriesSpinner);
         citiesSpinner = view.findViewById(R.id.acCitiesSpinner);
-        CityEditText = view.findViewById(R.id.acCityEditText);
+        cityEditText = view.findViewById(R.id.acCityEditText);
 
         List<Country> countries = Database.getCountriesInOffer();
         Collections.sort(countries);
@@ -79,18 +79,13 @@ public class AddCityFragment extends Fragment {
             }
         });
 
-        addCityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addCity();
-            }
-        });
+        addCityButton.setOnClickListener(cityView -> addCity());
 
         return view;
     }
 
     private void addCity() {
-        String cityName = CityEditText.getText().toString();
+        String cityName = cityEditText.getText().toString();
         Country selectedCountry = (Country) countriesSpinner.getSelectedItem();
 
         if (cityName.isEmpty()) {

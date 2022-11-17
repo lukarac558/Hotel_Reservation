@@ -71,55 +71,47 @@ public class FoodFragment extends Fragment {
         Collections.sort(stringFoodTypes);
         Formatter.setAdapter(foodSpinner, getContext(), foodTypes);
 
-        addFoodButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String foodType = foodEditText.getText().toString();
+        addFoodButton.setOnClickListener(addFoddView -> {
+            String foodType = foodEditText.getText().toString();
 
-                if (!foodType.isEmpty()) {
+            if (!foodType.isEmpty()) {
+                try {
                     Database.addFoodType(foodType);
                     Toast.makeText(getContext(), "Pomyślnie dodano wyżywienie", Toast.LENGTH_SHORT).show();
+                } catch (SQLException exception) {
+                    Toast.makeText(getContext(), "Podany typ istnieje już w bazie", Toast.LENGTH_SHORT).show();
+                }
 
-                    if (!stringFoodTypes.contains(foodType))
-                        stringFoodTypes.add(foodType);
+                if (!stringFoodTypes.contains(foodType))
+                    stringFoodTypes.add(foodType);
 
-                    Formatter.setAdapter(foodSpinner, getContext(), foodTypes);
-                } else
-                    Log.d("Empty food type", "Należy wprowadzić typ wyżywienia");
-            }
+                Formatter.setAdapter(foodSpinner, getContext(), foodTypes);
+            } else
+                Log.d("Empty food type", "Należy wprowadzić typ wyżywienia");
         });
 
-        deleteFoodButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-                alertBuilder.setMessage("Czy na pewno chcesz usunąć wybrany element z bazy?");
-                alertBuilder.setCancelable(true);
-                alertBuilder.setPositiveButton("Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                String selectedFood = (String) foodSpinner.getSelectedItem();
+        deleteFoodButton.setOnClickListener(deleteFoodView -> {
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+            alertBuilder.setMessage("Czy na pewno chcesz usunąć wybrany element z bazy?");
+            alertBuilder.setCancelable(true);
+            alertBuilder.setPositiveButton("Ok",
+                    (dialog, id) -> {
+                        Food selectedFood = (Food) foodSpinner.getSelectedItem();
 
-                                try {
-                                    Database.deleteFoodType(selectedFood);
-                                    stringFoodTypes.remove(selectedFood);
-                                    Toast.makeText(getContext(), "Pomyślnie usunięto wyżywienie", Toast.LENGTH_SHORT).show();
-                                    Formatter.setAdapter(foodSpinner, getContext(), foodTypes);
-                                } catch (SQLException exception) {
-                                    Toast.makeText(getContext(), "Usunięcie niemożliwe. Zadany typ wyżywienia w użyciu.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                alertBuilder.setNegativeButton("Anuluj",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                        try {
+                            Database.deleteFoodType(selectedFood.getType());
+                            stringFoodTypes.remove(selectedFood.getType());
+                            Toast.makeText(getContext(), "Pomyślnie usunięto wyżywienie", Toast.LENGTH_SHORT).show();
+                            Formatter.setAdapter(foodSpinner, getContext(), foodTypes);
+                        } catch (SQLException exception) {
+                            Toast.makeText(getContext(), "Usunięcie niemożliwe. Zadany typ wyżywienia w użyciu.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            alertBuilder.setNegativeButton("Anuluj",
+                    (dialog, id) -> dialog.cancel());
 
-                AlertDialog foodAlert = alertBuilder.create();
-                foodAlert.show();
-            }
+            AlertDialog foodAlert = alertBuilder.create();
+            foodAlert.show();
         });
 
         return view;

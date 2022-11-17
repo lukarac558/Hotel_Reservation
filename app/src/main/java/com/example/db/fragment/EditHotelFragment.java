@@ -102,40 +102,29 @@ public class EditHotelFragment extends Fragment {
         checkActualStarsCount();
         descriptionEditText.setText(hotel.getDescription());
 
-        heStarsRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (radioGroup.getCheckedRadioButtonId() == R.id.heOneStarRadioButton) {
-                    starsCount = 1;
-                }
-                if (radioGroup.getCheckedRadioButtonId() == R.id.heTwoStarsRadioButton) {
-                    starsCount = 2;
-                } else if (radioGroup.getCheckedRadioButtonId() == R.id.heThreeStarsRadioButton) {
-                    starsCount = 3;
-                } else if (radioGroup.getCheckedRadioButtonId() == R.id.heFourStarsRadioButton) {
-                    starsCount = 4;
-                } else if (radioGroup.getCheckedRadioButtonId() == R.id.heFiveStarsRadioButton) {
-                    starsCount = 5;
-                }
+        heStarsRadioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
+            if (radioGroup.getCheckedRadioButtonId() == R.id.heOneStarRadioButton) {
+                starsCount = 1;
+            }
+            if (radioGroup.getCheckedRadioButtonId() == R.id.heTwoStarsRadioButton) {
+                starsCount = 2;
+            } else if (radioGroup.getCheckedRadioButtonId() == R.id.heThreeStarsRadioButton) {
+                starsCount = 3;
+            } else if (radioGroup.getCheckedRadioButtonId() == R.id.heFourStarsRadioButton) {
+                starsCount = 4;
+            } else if (radioGroup.getCheckedRadioButtonId() == R.id.heFiveStarsRadioButton) {
+                starsCount = 5;
             }
         });
 
-        selectImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent gallery = new Intent();
-                gallery.setType("image/*");
-                gallery.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(gallery, "Wybierz zdjęcie"), 1);
-            }
+        selectImageButton.setOnClickListener(selectImageView -> {
+            Intent gallery = new Intent();
+            gallery.setType("image/*");
+            gallery.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(gallery, "Wybierz zdjęcie"), 1);
         });
 
-        editHotelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                editHotel();
-            }
-        });
+        editHotelButton.setOnClickListener(editHotelView -> editHotel());
 
         return view;
     }

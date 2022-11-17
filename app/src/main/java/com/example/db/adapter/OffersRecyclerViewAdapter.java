@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.db.R;
 
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public class OffersRecyclerViewAdapter extends RecyclerView.Adapter<OffersRecycl
     private final ArrayList<Offer> data;
     private final Context context;
 
-    public OffersRecyclerViewAdapter(Context context, ArrayList<Offer> data){
+    public OffersRecyclerViewAdapter(Context context, ArrayList<Offer> data) {
         this.data = data;
         this.context = context;
     }
@@ -35,7 +36,7 @@ public class OffersRecyclerViewAdapter extends RecyclerView.Adapter<OffersRecycl
     @NonNull
     @Override
     public OffersRecyclerViewAdapter.OfferViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.offer_row_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.offer_row_item, parent, false);
         return new OffersRecyclerViewAdapter.OfferViewHolder(view).linkAdapter(this);
     }
 
@@ -55,7 +56,7 @@ public class OffersRecyclerViewAdapter extends RecyclerView.Adapter<OffersRecycl
         holder.startDateTextView.setText(offer.getStartDate().toString());
         holder.endDateTextView.setText(offer.getEndDate().toString());
         holder.hotelNameTextView.setText(offer.getHotel().getName());
-        holder.countryTextView.setText(offer.getHotel().getCity().getCountry().getName()+",");
+        holder.countryTextView.setText(offer.getHotel().getCity().getCountry().getName() + ",");
         holder.cityTextView.setText(offer.getHotel().getCity().getName());
         holder.foodTextView.setText(offer.getFood().getType());
         holder.hotelImageView.setImageBitmap(bitmap);
@@ -67,7 +68,7 @@ public class OffersRecyclerViewAdapter extends RecyclerView.Adapter<OffersRecycl
         return data.size();
     }
 
-    public static class OfferViewHolder extends RecyclerView.ViewHolder{
+    public static class OfferViewHolder extends RecyclerView.ViewHolder {
         private final TextView placesNumberTextView, priceTextView, startDateTextView, endDateTextView;
         private final TextView hotelNameTextView, countryTextView, cityTextView, foodTextView;
         private final ImageView hotelImageView;
@@ -100,12 +101,11 @@ public class OffersRecyclerViewAdapter extends RecyclerView.Adapter<OffersRecycl
                             try {
                                 Database.deleteOffer(offer.getId());
                                 Toast.makeText(context, "Pomyślnie usunięto ofertę", Toast.LENGTH_SHORT).show();
+                                adapter.data.remove(getAdapterPosition());
+                                adapter.notifyItemRemoved(getAdapterPosition());
                             } catch (SQLException exception) {
                                 Toast.makeText(context, "Usunięcie niemożliwe. Oferta w użyciu.", Toast.LENGTH_SHORT).show();
                             }
-
-                            adapter.data.remove(getAdapterPosition());
-                            adapter.notifyItemRemoved(getAdapterPosition());
                         });
                 alertBuilder.setNegativeButton("Anuluj",
                         (dialog, id) -> dialog.cancel());
@@ -115,7 +115,7 @@ public class OffersRecyclerViewAdapter extends RecyclerView.Adapter<OffersRecycl
             });
         }
 
-        public OffersRecyclerViewAdapter.OfferViewHolder linkAdapter(OffersRecyclerViewAdapter adapter){
+        public OffersRecyclerViewAdapter.OfferViewHolder linkAdapter(OffersRecyclerViewAdapter adapter) {
             this.adapter = adapter;
             return this;
         }

@@ -22,15 +22,6 @@ public class Order implements Serializable {
         this.userId = userId;
     }
 
-    public Order(int id, double totalCost, short peopleCount, Offer offer, LocalDate orderDate, User user) {
-        this.id = id;
-        this.totalCost = totalCost;
-        this.peopleCount = peopleCount;
-        this.offer = offer;
-        this.orderDate = orderDate;
-        this.user = user;
-    }
-
     public LocalDate getOrderDate() {
         return orderDate;
     }

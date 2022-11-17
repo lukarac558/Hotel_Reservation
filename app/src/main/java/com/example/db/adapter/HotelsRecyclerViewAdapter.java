@@ -92,12 +92,11 @@ public class HotelsRecyclerViewAdapter extends RecyclerView.Adapter<HotelsRecycl
                             try {
                                 Database.deleteHotel(hotel.getId());
                                 Toast.makeText(context, "Pomyślnie usunięto hotel", Toast.LENGTH_SHORT).show();
+                                adapter.data.remove(getAdapterPosition());
+                                adapter.notifyItemRemoved(getAdapterPosition());
                             } catch (SQLException exception) {
                                 Toast.makeText(context, "Usunięcie niemożliwe. Hotel jest w użyciu.", Toast.LENGTH_SHORT).show();
                             }
-
-                            adapter.data.remove(getAdapterPosition());
-                            adapter.notifyItemRemoved(getAdapterPosition());
                         });
                 alertBuilder.setNegativeButton("Anuluj",
                         (dialog, id) -> dialog.cancel());

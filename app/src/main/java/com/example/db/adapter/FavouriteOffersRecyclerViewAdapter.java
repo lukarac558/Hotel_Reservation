@@ -107,15 +107,14 @@ public class FavouriteOffersRecyclerViewAdapter extends RecyclerView.Adapter<Fav
                     try {
                         Database.deleteFromCart(cartItem.getOfferId());
                         Toast.makeText(context, "Pomyślnie usunięto z koszyka", Toast.LENGTH_SHORT).show();
+                        adapter.data.remove(getAdapterPosition());
+                        adapter.notifyItemRemoved(getAdapterPosition());
                     } catch (SQLException exception) {
                         Toast.makeText(context, "Napotkano błąd przy usuwaniu z koszyka.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     deleteFromSharedPreferences();
                 }
-
-                adapter.data.remove(getAdapterPosition());
-                adapter.notifyItemRemoved(getAdapterPosition());
             });
 
             itemView.findViewById(R.id.faDetailsButton).setOnClickListener(view -> {

@@ -1,7 +1,6 @@
 package com.example.db.fragment;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +28,6 @@ import java.util.List;
 
 public class CountryFragment extends Fragment {
 
-    private ConfigurationActivity configurationActivity;
     private Spinner countrySpinner;
     private EditText countryCodeEditText, countryNameEditText;
     private List<Country> countries;
@@ -45,14 +43,14 @@ public class CountryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        configurationActivity = (ConfigurationActivity)getActivity();
+        ConfigurationActivity configurationActivity = (ConfigurationActivity) getActivity();
         configurationActivity.findViewById(R.id.countryImageButton).setVisibility(View.INVISIBLE);
         configurationActivity.findViewById(R.id.cityImageButton).setVisibility(View.INVISIBLE);
         configurationActivity.findViewById(R.id.foodImageButton).setVisibility(View.INVISIBLE);
         configurationActivity.findViewById(R.id.userImageButton).setVisibility(View.INVISIBLE);
     }
 
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,73 +65,61 @@ public class CountryFragment extends Fragment {
         Collections.sort(countries);
         Formatter.setAdapter(countrySpinner, getContext(), countries);
 
-        addCountryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        addCountryButton.setOnClickListener(addCountryView -> {
 
-                String code = countryCodeEditText.getText().toString();
-                String name = countryNameEditText.getText().toString();
+            String code = countryCodeEditText.getText().toString();
+            String name = countryNameEditText.getText().toString();
 
-                if(code.isEmpty()) {
-                    Toast.makeText(getContext(), "Należy wprowadzić kod państwa.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            if (code.length() != 2) {
+                Toast.makeText(getContext(), "Kod państwa musi zawierać 2 znaki.", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                if(name.isEmpty()) {
-                    Toast.makeText(getContext(), "Należy wprowadzić nazwę państwa.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            if (name.length() < 4) {
+                Toast.makeText(getContext(), "Nazwa państwa musi zawierać co najmniej 4 znaki.", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                try {
-                    Database.addCountry(new Country(code, name));
-                    Toast.makeText(getContext(), "Pomyślnie dodano nowe państwo.", Toast.LENGTH_SHORT).show();
+            try {
+                Database.addCountry(new Country(code, name));
+                Toast.makeText(getContext(), "Pomyślnie dodano nowe państwo.", Toast.LENGTH_SHORT).show();
 
-                    countries = Database.getAllCountries();
-                    Collections.sort(countries);
-                    Formatter.setAdapter(countrySpinner, getContext(), countries);
-                } catch (SQLException exception) {
-                    Toast.makeText(getContext(), "Istnieje już państwo o takim kodzie.", Toast.LENGTH_SHORT).show();
-                }
+                countries = Database.getAllCountries();
+                Collections.sort(countries);
+                Formatter.setAdapter(countrySpinner, getContext(), countries);
+            } catch (SQLException exception) {
+                Toast.makeText(getContext(), "Istnieje już państwo o takim kodzie.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        deleteCountryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-                alertBuilder.setMessage("Czy na pewno chcesz usunąć wybrane państwo?");
-                alertBuilder.setCancelable(true);
-                alertBuilder.setPositiveButton("Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Country selectedCountry = (Country) countrySpinner.getSelectedItem();
+        deleteCountryButton.setOnClickListener(deleteCountryView -> {
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+            alertBuilder.setMessage("Czy na pewno chcesz usunąć wybrane państwo?");
+            alertBuilder.setCancelable(true);
+            alertBuilder.setPositiveButton("Ok",
+                    (dialog, id) -> {
+                        Country selectedCountry = (Country) countrySpinner.getSelectedItem();
 
-                                try {
-                                    Database.deleteCountry(selectedCountry.getCode());
-                                    Toast.makeText(getContext(), "Pomyślnie usunięto państwo.", Toast.LENGTH_SHORT).show();
+                        try {
+                            Database.deleteCountry(selectedCountry.getCode());
+                            Toast.makeText(getContext(), "Pomyślnie usunięto państwo.", Toast.LENGTH_SHORT).show();
 
-                                    countries = Database.getAllCountries();
-                                    Collections.sort(countries);
-                                    Formatter.setAdapter(countrySpinner, getContext(), countries);
-                                } catch (SQLException exception) {
-                                    Toast.makeText(getContext(), "Usunięcie niemożliwe. Wybrane państwo jest w użyciu.", Toast.LENGTH_SHORT).show();
-                                }
+                            countries = Database.getAllCountries();
+                            Collections.sort(countries);
+                            Formatter.setAdapter(countrySpinner, getContext(), countries);
+                        } catch (SQLException exception) {
+                            Toast.makeText(getContext(), "Usunięcie niemożliwe. Wybrane państwo jest w użyciu.", Toast.LENGTH_SHORT).show();
+                        }
 
-                                countries = Database.getAllCountries();
-                                Collections.sort(countries);
-                                Formatter.setAdapter(countrySpinner, getContext(), countries);
-                            }
-                        });
-                alertBuilder.setNegativeButton("Anuluj",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                        countries = Database.getAllCountries();
+                        Collections.sort(countries);
+                        Formatter.setAdapter(countrySpinner, getContext(), countries);
+                    });
+            alertBuilder.setNegativeButton("Anuluj",
+                    (dialog, id) -> dialog.cancel());
 
-                AlertDialog countryAlert = alertBuilder.create();
-                countryAlert.show();
-            }
+            AlertDialog countryAlert = alertBuilder.create();
+            countryAlert.show();
         });
 
         return view;

@@ -22,11 +22,11 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
-        android:layout_marginTop="32dp"
-        android:text="Wybierz liczbę gwiazdek"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="75dp"
+        android:text="Liczba gwiazdek"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hHotelNameEditText" />
 
     <Spinner
@@ -98,7 +98,7 @@
         android:id="@+id/adAddHotelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:minWidth="140dp"
         android:minHeight="60dp"
         android:onClick="addHotel"
@@ -112,8 +112,8 @@
         android:id="@+id/hStarsRadioGroup"
         android:layout_width="70dp"
         android:layout_height="100dp"
-        android:layout_marginStart="230dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="110dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
         <RadioButton
@@ -121,35 +121,35 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="*"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
         <RadioButton
             android:id="@+id/hTwoStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="**"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
         <RadioButton
             android:id="@+id/hThreeStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="***"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
         <RadioButton
             android:id="@+id/hFourStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="****"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
         <RadioButton
             android:id="@+id/hFiveStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="*****"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
     </RadioGroup>
 
@@ -182,7 +182,7 @@
         android:id="@+id/descriptionEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Wprowadź opis hotelu"
         android:inputType="textMultiLine"
@@ -202,7 +202,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"

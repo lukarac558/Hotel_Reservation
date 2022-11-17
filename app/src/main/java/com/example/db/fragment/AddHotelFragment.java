@@ -107,54 +107,32 @@ public class AddHotelFragment extends Fragment {
         });
 
         view.findViewById(R.id.hOneStarRadioButton).setSelected(true);
-        hStarsRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (radioGroup.getCheckedRadioButtonId() == R.id.hOneStarRadioButton) {
-                    starsCount = 1;
-                }
-                if (radioGroup.getCheckedRadioButtonId() == R.id.hTwoStarsRadioButton) {
-                    starsCount = 2;
-                } else if (radioGroup.getCheckedRadioButtonId() == R.id.hThreeStarsRadioButton) {
-                    starsCount = 3;
-                } else if (radioGroup.getCheckedRadioButtonId() == R.id.hFourStarsRadioButton) {
-                    starsCount = 4;
-                } else if (radioGroup.getCheckedRadioButtonId() == R.id.hFiveStarsRadioButton) {
-                    starsCount = 5;
-                }
+        hStarsRadioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
+            if (radioGroup.getCheckedRadioButtonId() == R.id.hOneStarRadioButton) {
+                starsCount = 1;
+            } else if (radioGroup.getCheckedRadioButtonId() == R.id.hTwoStarsRadioButton) {
+                starsCount = 2;
+            } else if (radioGroup.getCheckedRadioButtonId() == R.id.hThreeStarsRadioButton) {
+                starsCount = 3;
+            } else if (radioGroup.getCheckedRadioButtonId() == R.id.hFourStarsRadioButton) {
+                starsCount = 4;
+            } else if (radioGroup.getCheckedRadioButtonId() == R.id.hFiveStarsRadioButton) {
+                starsCount = 5;
             }
         });
 
-        selectImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent gallery = new Intent();
-                gallery.setType("image/*");
-                gallery.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(gallery, "Wybierz zdjęcie"), 1);
-            }
+        selectImageButton.setOnClickListener(selectImageView -> {
+            Intent gallery = new Intent();
+            gallery.setType("image/*");
+            gallery.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(gallery, "Wybierz zdjęcie"), 1);
         });
 
-        addHotelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addHotel();
-            }
-        });
+        addHotelButton.setOnClickListener(addHotelView -> addHotel());
 
-        addCountryImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToConfiguration();
-            }
-        });
+        addCountryImageButton.setOnClickListener(addCountryView -> goToConfiguration());
 
-        addCityImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToConfiguration();
-            }
-        });
+        addCityImageButton.setOnClickListener(addCityView -> goToConfiguration());
 
         return view;
     }

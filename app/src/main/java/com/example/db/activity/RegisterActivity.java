@@ -50,6 +50,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (login.isEmpty() || password.isEmpty() || password2.isEmpty() || email.isEmpty()) {
             errorTextView.setText("Należy wypełnić wszystkie wymagane pola");
+        } else if (login.length() < 5 || password.length() < 5) {
+            errorTextView.setText("Minimalna długość loginu i hasła to 5 znaków");
         } else if (!password.equalsIgnoreCase(password2)) {
             errorTextView.setText("Hasła nie zgadzają się");
         } else if (!Validator.validateEmail(email)) {

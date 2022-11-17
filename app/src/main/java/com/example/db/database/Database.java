@@ -337,20 +337,15 @@ public class Database {
         return -1;
     }
 
-    public static void addFoodType(String foodType) {
+    public static void addFoodType(String foodType) throws SQLException {
         Optional<Connection> connection = connectionHelper.getConnection();
 
         if (connection.isPresent()) {
             String query = "INSERT INTO food(type) VALUES(?);";
-            try {
                 PreparedStatement ps = connection.get().prepareStatement(query);
                 ps.setString(1, foodType);
                 ps.executeUpdate();
                 Log.d("Food type added", "Pomyślnie dodano typ wyżywienia");
-
-            } catch (SQLException sqlE) {
-                Log.d("Add food type error", "Wystąpił problem przy dodawaniu państwa");
-            }
         }
     }
 

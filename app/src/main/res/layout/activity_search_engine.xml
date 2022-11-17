@@ -49,8 +49,7 @@
         android:id="@+id/peopleCountNumberPicker"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
-        app:layout_constraintEnd_toStartOf="@+id/starsRadioGroup"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginStart="80dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
@@ -69,10 +68,8 @@
         android:id="@+id/starsRadioGroup"
         android:layout_width="90dp"
         android:layout_height="120dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginEnd="80dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/peopleCountNumberPicker"
         app:layout_constraintTop_toBottomOf="@+id/textView13">
 
         <RadioButton
@@ -80,28 +77,28 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="Od **"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
         <RadioButton
             android:id="@+id/threeStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="Od ***"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
         <RadioButton
             android:id="@+id/fourStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="Od ****"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
         <RadioButton
             android:id="@+id/fiveStarsRadioButton"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="Od *****"
-            app:buttonTint="#FF403233" />
+            app:buttonTint="#FF218380" />
 
     </RadioGroup>
 
@@ -111,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="28dp"
-        android:text="Wybierz początek"
+        android:text="Data początkowa"
         app:layout_constraintStart_toEndOf="@+id/imageView29"
         app:layout_constraintTop_toBottomOf="@+id/priceRangeSlider" />
 
@@ -121,7 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="28dp"
-        android:text="Wybierz koniec"
+        android:text="Data końcowa"
         app:layout_constraintStart_toEndOf="@+id/imageView30"
         app:layout_constraintTop_toBottomOf="@+id/priceRangeSlider" />
 
@@ -143,22 +140,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Wybierz liczbę gwiazdek"
+        android:layout_marginEnd="64dp"
+        android:text="Liczba gwiazdek"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView14"
         app:layout_constraintTop_toBottomOf="@+id/foodSpinner" />
 
     <TextView
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="24dp"
-        android:text="Wybierz liczbę uczestników"
+        android:text="Liczba uczestników"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/textView13"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/foodSpinner" />
 
@@ -167,7 +162,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Wybierz przedział cenowy [zł]"
+        android:text="Przedział cenowy [zł]"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
