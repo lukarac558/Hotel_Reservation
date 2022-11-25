@@ -128,7 +128,7 @@
         android:layout_height="wrap_content"
         android:minWidth="120dp"
         android:minHeight="48dp"
-        android:text="Dodaj ofertę"
+        android:text="Dodaj"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"

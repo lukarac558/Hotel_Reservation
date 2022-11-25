@@ -14,7 +14,7 @@ public class ConnectionHelper {
             port = "1433",
             database = "TrivagoDB";
 
-    public Optional<Connection> getConnection(){
+    public Optional<Connection> getConnection() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -26,8 +26,7 @@ public class ConnectionHelper {
             connectionURL = "jdbc:jtds:sqlserver://" + ip + ":" + port + ";" + "databasename=" + database + ";user=" + username +
                     ";password=" + password + ";";
             connection = Optional.of(DriverManager.getConnection(connectionURL));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.d("Connection error", "Problem połączenia z bazą danych: " + e.getMessage());
         }
 

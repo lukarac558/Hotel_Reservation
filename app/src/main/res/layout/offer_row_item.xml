@@ -18,7 +18,6 @@
             android:layout_height="match_parent">
 
 
-
             <Button
                 android:id="@+id/ofrDeleteButton"
                 android:layout_width="wrap_content"
@@ -27,7 +26,7 @@
                 android:layout_marginBottom="6dp"
                 android:minWidth="120dp"
                 android:minHeight="40dp"
-                android:text="Usuń ofertę"
+                android:text="Usuń"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

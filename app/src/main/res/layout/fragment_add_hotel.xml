@@ -102,7 +102,7 @@
         android:minWidth="140dp"
         android:minHeight="60dp"
         android:onClick="addHotel"
-        android:text="Dodaj hotel"
+        android:text="Dodaj"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"

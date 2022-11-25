@@ -60,7 +60,7 @@ public class AddCityFragment extends Fragment {
         citiesSpinner = view.findViewById(R.id.acCitiesSpinner);
         cityEditText = view.findViewById(R.id.acCityEditText);
 
-        List<Country> countries = Database.getCountriesInOffer();
+        List<Country> countries = Database.getAllCountries();
         Collections.sort(countries);
         Formatter.setAdapter(countriesSpinner, configurationActivity.getApplicationContext(), countries);
 
